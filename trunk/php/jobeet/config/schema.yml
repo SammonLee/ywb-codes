@@ -1,0 +1,36 @@
+# config/schema.yml
+propel:
+  jobeet_category:
+    id:           ~
+    name:         { type: varchar(255), required: true, index: unique }
+ 
+  jobeet_job:
+    id:           ~
+    category_id:  { type: integer, foreignTable: jobeet_category, foreignReference: id, required: true }
+    type:         { type: varchar(255) }
+    company:      { type: varchar(255), required: true }
+    logo:         { type: varchar(255) }
+    url:          { type: varchar(255) }
+    position:     { type: varchar(255), required: true }
+    location:     { type: varchar(255), required: true }
+    description:  { type: longvarchar, required: true }
+    how_to_apply: { type: longvarchar, required: true }
+    token:        { type: varchar(255), required: true, index: unique }
+    is_public:    { type: boolean, required: true, default: 1 }
+    is_activated: { type: boolean, required: true, default: 0 }
+    email:        { type: varchar(255), required: true }
+    expires_at:   { type: timestamp, required: true }
+    created_at:   ~
+    updated_at:   ~
+ 
+  jobeet_affiliate:
+    id:           ~
+    url:          { type: varchar(255), required: true }
+    email:        { type: varchar(255), required: true, index: unique }
+    token:        { type: varchar(255), required: true }
+    is_active:    { type: boolean, required: true, default: 0 }
+    created_at:   ~
+ 
+  jobeet_category_affiliate:
+    category_id:  { type: integer, foreignTable: jobeet_category, foreignReference: id, required: true, primaryKey: true, onDelete: cascade }
+    affiliate_id: { type: integer, foreignTable: jobeet_affiliate, foreignReference: id, required: true, primaryKey: true, onDelete: cascade }
