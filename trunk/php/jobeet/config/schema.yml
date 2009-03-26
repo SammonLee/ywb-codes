@@ -2,7 +2,8 @@
 propel:
   jobeet_category:
     id:           ~
-    name:         { type: varchar(255), required: true, index: unique }
+    name:         { type: varchar(255), required: true }
+    slug:         { type: varchar(255), required: true, index: unique }
  
   jobeet_job:
     id:           ~
