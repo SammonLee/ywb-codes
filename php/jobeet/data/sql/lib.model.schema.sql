@@ -14,8 +14,9 @@ CREATE TABLE `jobeet_category`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255)  NOT NULL,
+	`slug` VARCHAR(255)  NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `jobeet_category_U_1` (`name`)
+	UNIQUE KEY `jobeet_category_U_1` (`slug`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
