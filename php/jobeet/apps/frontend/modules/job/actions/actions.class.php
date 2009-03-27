@@ -12,7 +12,7 @@ class jobActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-      $this->categories = JobeetCategoryPeer::getWithJobs();
+    $this->categories = JobeetCategoryPeer::getWithJobs();
   }
 
   public function executeShow(sfWebRequest $request)
@@ -57,15 +57,18 @@ class jobActions extends sfActions
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     $form->bind(
-        $request->getParameter($form->getName()),
-        $request->getFiles($form->getName())
-        );
+      $request->getParameter($form->getName()),
+      $request->getFiles($form->getName())
+    );
+
     if ($form->isValid())
     {
       $job = $form->save();
-      $this->redirect('job_show', $job);
+
+      $this->redirect($this->generateUrl('job_show', $job));
     }
   }
+
   
   public function executePublish(sfWebRequest $request)
   {
@@ -78,4 +81,5 @@ class jobActions extends sfActions
 
     $this->redirect($this->generateUrl('job_show_user', $job));
   }
+
 }

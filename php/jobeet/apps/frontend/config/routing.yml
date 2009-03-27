@@ -1,8 +1,8 @@
 category:
-  url:      /category/:slug
-  class:    sfPropelRoute
-  param:    { module: category, action: show }
-  options:  { model: JobeetCategory, type: object }
+  url:   /category/:slug
+  class:   sfPropelRoute
+  param: { module: category, action: show }
+  options: { model: JobeetCategory, type: object }
 
 job:
   class:   sfPropelRouteCollection
@@ -13,24 +13,26 @@ job:
   requirements:
     token: \w+
 
+
 job_show_user:
-  url:   /job/:company_slug/:location_slug/:id/:position_slug
-  class: sfPropelRoute
-  options:
+  url:     /job/:company_slug/:location_slug/:id/:position_slug
+  class:   sfPropelRoute
+  options: 
     model: JobeetJob
     type: object
     method_for_criteria: doSelectActive
-  param: { module: job, action: show }
-  requirements: { id: \d+, sf_method: [get] }
+  param:   { module: job, action: show }
+  requirements:
+    id: \d+
 
 # default rules
 homepage:
   url:   /
   param: { module: job, action: index }
 
-default_index:
-  url:   /:module
-  param: { action: index }
-
-default:
-  url:   /:module/:action/*
+#default_index:
+#  url:   /:module
+#  param: { action: index }
+#
+#default:
+#  url:   /:module/:action/*
