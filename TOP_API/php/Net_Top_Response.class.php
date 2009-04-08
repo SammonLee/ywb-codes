@@ -1,5 +1,5 @@
 <?php
-class Apps_Api_Response 
+class Net_Top_Response 
 {
     protected $_data;
     protected $_metadata;
@@ -66,7 +66,7 @@ class Apps_Api_Response
         return $this->_result;
     }
     
-    public function message()
+    public function getMessage()
     {
         if ( $this->isHttpError() ) {
             $msg = "HTTP request error with code {$this->_metadata['http_code']}";
