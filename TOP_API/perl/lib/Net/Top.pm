@@ -1,4 +1,4 @@
-package Net::TopSip;
+package Net::Top;
 
 use strict; 
 use warnings;
@@ -13,7 +13,7 @@ use Data::Dumper qw(Dumper);
 use POSIX qw/strftime/;
 
 __PACKAGE__->mk_accessors(qw/
-top_url top_appkey top_secret
+top_url top_appkey top_secret_key
                             /);
 
 my $TOP_URL = 'http://sip.alisoft.com/sip/rest';
@@ -50,7 +50,7 @@ sub request {
         croak "Use post method if want to upload file!\n" if $form_data;
         $u->query_form( $query );
         DEBUG($u);
-        $res = $self->{ua}->get($u);
+        # $res = $self->{ua}->get($u);
     }
     return $req->_response($res);
 }
@@ -60,12 +60,13 @@ sub query_param {
     my %query = $req->query_param;
     $query{sip_apiname} = $req->_api_method;
     $query{sip_appkey} = $self->top_appkey;
-    $query{sip_timestamp} = strftime('%Y-%m-%d %H:%M:%S.000', localtime);
+    # $query{sip_timestamp} = strftime('%Y-%m-%d %H:%M:%S.000', localtime);
+    $query{sip_timestamp} = '2009-04-08 23:50:00.000';
     if ( exists $query{session} ) {
         $query{sip_sessionid} = delete $query{session};
     }
     $query{v} = '1.0';
-    my $str = $self->top_secret . join('', map { $_.$query{$_} } sort grep {!ref $query{$_}} keys %query);
+    my $str = $self->top_secret_key . join('', map { $_.$query{$_} } sort grep {!ref $query{$_}} keys %query);
     DEBUG($str);
     $query{sip_sign} = uc(md5_hex( $str ));
     DEBUG(Dumper(\%query));
