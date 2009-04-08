@@ -1,5 +1,5 @@
 <?php
-abstract class Apps_Api_Request 
+abstract class Net_Top_Request
 {
     static $meta_data = array(
         'http_method' => 'get',
@@ -210,7 +210,7 @@ abstract class Apps_Api_Request
 
     function parseResponse($res) 
     {
-        return new Apps_Api_Response($res, $this);
+        return new Net_Top_Response($res, $this);
     }
 }
 

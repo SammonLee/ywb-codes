@@ -3,17 +3,44 @@ class Net_Top
 {
     protected $top_url;
     protected $top_appkey;
-    protected $top_secret;
-    const TOP_URL = '';
-    const TOP_APPKEY = '';
-    const TOP_SECRET = '';
+    protected $top_secretkey;
+    const TOP_URL = 'http://sip.alisoft.com/sip/rest';
     const TOP_VERSION = '1.0';
     
-    function __construct($top_url=null, $top_appkey=null, $top_secret=null) 
+    function __construct($top_appkey, $top_secretkey, $top_url=null) 
     {
         $this->top_url = (is_null($top_url) ? self::TOP_URL : $top_url);
-        $this->top_appkey = (is_null($top_appkey) ? self::TOP_APPKEY : $top_appkey);
-        $this->top_secret = (is_null($top_appkey) ? self::TOP_SECRET : $top_secret);
+        $this->top_appkey = $top_appkey;
+        $this->top_secretkey = $top_secretkey;
+    }
+
+    function getTopUrl ()
+    {
+        return $this->top_url;
+    }
+
+    function setTopUrl($top_url) 
+    {
+        return $this->top_url = $top_url;
+    }
+
+    function getTopAppkey ()
+    {
+        return $this->top_appkey;
+    }
+
+    function setTopAppkey($top_appkey) 
+    {
+        return $this->top_appkey = $top_appkey;
+    }
+    function getTopSecretkey ()
+    {
+        return $this->top_secretkey;
+    }
+
+    function setTopSecretkey($top_secretkey) 
+    {
+        return $this->top_secretkey = $top_secretkey;
     }
 
     function request ($req) 
@@ -37,7 +64,7 @@ class Net_Top
     function get($url) 
     {
         $ch = curl_init();
-        // var_dump($url);
+        var_dump($url);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, TRUE);
@@ -72,11 +99,15 @@ class Net_Top
     function queryParam($req) 
     {
         $query = $req->queryParams();
-        $query['method'] = $req->apiMethod();
-        $query['api_key'] = $this->top_appkey;
-        $query['timestamp'] = date('Y-m-d H:i:s.000');
+        $query['sip_apiname'] = $req->apiMethod();
+        $query['sip_appkey'] = $this->top_appkey;
+        $query['sip_timestamp'] = date('Y-m-d H:i:s.000');
         $query['v'] = self::TOP_VERSION;
-        $str = $this->top_secret;
+        if ( array_key_exists('session', $query) ) {
+            $query['sip_sessionid'] = $query['session'];
+            unset($query['session']);
+        }
+        $str = $this->top_secretkey;
         $files = array();
         ksort($query);
         foreach ( $query as $key => $val ) {
@@ -88,7 +119,7 @@ class Net_Top
                 $str .= $key.$val;
             }
         }
-        $query['sign'] = strtoupper(md5($str));
+        $query['sip_sign'] = strtoupper(md5($str));
         return array($query, $files);
     }
 }
