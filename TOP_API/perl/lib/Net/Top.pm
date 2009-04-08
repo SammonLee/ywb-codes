@@ -17,23 +17,16 @@ top_url top_appkey top_secret
                             /);
 
 my $TOP_URL = 'http://sip.alisoft.com/sip/rest';
-my $TOP_APPKEY = '';
-my $TOP_SECRET = '';
 
 sub new {
     my $_class = shift;
     my $class = ref $_class || $_class;
     my $self = $class->SUPER::new(@_);
-    my $def = {
-        top_url => $TOP_URL,
-        top_appkey => $TOP_APPKEY,
-        top_secret => $TOP_SECRET,
-    };
-    for ( keys %$def ) {
-        $self->{$_} ||= $def->{$_};
+    bless $self, $class;
+    if ( !$self->top_url ) {
+        $self->top_url($TOP_URL);
     }
     $self->{ua} = LWP::UserAgent->new();
-    bless $self, $class;
     return $self;
 }
 
