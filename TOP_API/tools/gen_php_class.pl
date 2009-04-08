@@ -13,18 +13,15 @@ use Data::Dumper qw(Dumper);
 use Path::Class;
 use File::Temp qw/tempfile/;
 
-# my $api = decode_json(file('api_metadata.json')->slurp());
-my $api = YAML::LoadFile('api_metadata.json');
+my $dir = 'api_meta';
+
 my %classes;
-my $phpcb = "/home/yewenb/local/bin/phpCB";
-
-foreach ( keys %$api ) {
-    my $class = $api->{$_}{class};
+while ( <$dir/*.json> ) {
+    my $api = decode_json(file($_)->slurp());
+    my $class = $api->{class};
     my ($factory, $method) = ($class =~ /(.*)_(\w+)$/);
-    $classes{$factory}{$method} = $api->{$_};
+    $classes{$factory}{$method} = $api;
 }
-
-my $dir = "/home/yewenb/temp/test_api/";
 
 foreach my $factory ( keys %classes ) {
     # my ($fh, $filename) = tempfile();

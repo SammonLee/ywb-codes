@@ -12,25 +12,23 @@ use Data::Dumper qw(Dumper);
 use Path::Class;
 use File::Temp qw/tempfile/;
 
-my $api = decode_json(file('all_api_metadata.json')->slurp());
+my $dir = 'api_meta';
+
 my %classes;
-
-foreach ( keys %$api ) {
-    my $class = $api->{$_}{class};
+while ( <$dir/*.json> ) {
+    my $api = decode_json(file($_)->slurp());
+    my $class = $api->{class};
     my ($factory, $method) = ($class =~ /(.*)_(\w+)$/);
-    $classes{$factory}{$method} = $api->{$_};
+    $classes{$factory}{$method} = $api;
 }
-
-my $dir = "Net/Top/gen";
-chdir($dir);
 
 foreach my $factory ( keys %classes ) {
     my @r = split /_/, $factory;
     my $pkg = pop(@r);
     my $class_name = 'Net::Top::Request::' . $pkg;
     my $file = $pkg . ".pm";
-    open(my $fh, ">", $file) or die "Can't create file $file: $!";
-    select($fh);
+    # open(my $fh, ">", $file) or die "Can't create file $file: $!";
+    # select($fh);
     my $subclass = $classes{$factory};
     print <<EOC;
 package $class_name;
@@ -51,7 +49,7 @@ EOC
         my $class = "${class_name}::${name}";
         my $api = $subclass->{$name};
         delete $api->{class};
-        if ( $api->{http_method} eq 'get' ) {
+        if ( $api->{http_method} && $api->{http_method} eq 'get' ) {
             delete $api->{http_method};
         }
         my $var = Data::Dumper->new([$api])->Terse(1)->Indent(1)->Dump();
