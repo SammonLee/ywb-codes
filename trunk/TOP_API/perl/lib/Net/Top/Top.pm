@@ -1,90 +1,75 @@
-package Net::Top;
+package Net::TopSip;
 
 use strict; 
 use warnings;
 
 use Carp;
-
-use base 'Net::TopSip';
+use LWP::UserAgent;
+use base 'Class::Accessor';
+use URI;
 use Digest::MD5 qw(md5_hex);
+use Log::Log4perl qw(:easy);
+use Data::Dumper qw(Dumper);
 use POSIX qw/strftime/;
-my $TOP_URL = '';
-my $TOP_APPKEY = '';
-my $TOP_SECRET = '';
+
+__PACKAGE__->mk_accessors(qw/
+top_url top_appkey top_secret
+                            /);
+
+my $TOP_URL = 'http://sip.alisoft.com/sip/rest';
 
 sub new {
     my $_class = shift;
     my $class = ref $_class || $_class;
-    my $opt = {
-        top_url => $TOP_URL,
-        top_appkey => $TOP_APPKEY,
-        top_secret => $TOP_SECRET,
-        @_
-    };
-    my $self = $class->SUPER::new($opt);
+    my $self = $class->SUPER::new(@_);
     bless $self, $class;
+    if ( !$self->top_url ) {
+        $self->top_url($TOP_URL);
+    }
+    $self->{ua} = LWP::UserAgent->new();
     return $self;
+}
+
+sub request {
+    my ($self, $req) = @_;
+    unless ( my $ret = $req->check() ) {
+        croak "Bad request: $ret!\n";
+    }
+    my $u = URI->new($self->top_url);
+    my $query = $self->query_param($req);
+    my $form_data = grep { ref $query->{$_} } keys %$query;
+    my $res;
+    if ( $req->_http_method eq 'post' ) {
+        my @args;
+        if ($form_data) {
+            push @args, 'Content_Type' => 'form-data';
+        }
+        DEBUG(Dumper([ "$u", $query, @args]));
+        $res = $self->{ua}->post("$u", $query, @args);
+    } else {
+        croak "Use post method if want to upload file!\n" if $form_data;
+        $u->query_form( $query );
+        DEBUG($u);
+        $res = $self->{ua}->get($u);
+    }
+    return $req->_response($res);
 }
 
 sub query_param {
     my ($self, $req) = @_;
     my %query = $req->query_param;
-    $query{method} = $req->_api_method;
-    $query{api_key} = $self->top_appkey;
-    $query{timestamp} = strftime('%Y-%m-%d %H:%M:%S.000', localtime);
+    $query{sip_apiname} = $req->_api_method;
+    $query{sip_appkey} = $self->top_appkey;
+    $query{sip_timestamp} = strftime('%Y-%m-%d %H:%M:%S.000', localtime);
+    if ( exists $query{session} ) {
+        $query{sip_sessionid} = delete $query{session};
+    }
     $query{v} = '1.0';
-    my $query_string = join('', map { $_.$query{$_} } sort grep {!ref $query{$_}} keys %query);
-    $query{sign} = uc(md5_hex( $self->top_secret . $query_string ));
+    my $str = $self->top_secret . join('', map { $_.$query{$_} } sort grep {!ref $query{$_}} keys %query);
+    DEBUG($str);
+    $query{sip_sign} = uc(md5_hex( $str ));
+    DEBUG(Dumper(\%query));
     return \%query;
 }
 
 1;
-__END__
-
-=head1 NAME
-
-Net::Top2 - Perl extension for blah blah blah
-
-=head1 SYNOPSIS
-
-   use Net::Top2;
-   blah blah blah
-
-=head1 DESCRIPTION
-
-Stub documentation for Net::Top2, 
-
-Blah blah blah.
-
-=head2 EXPORT
-
-None by default.
-
-=head1 SEE ALSO
-
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
-
-=head1 AUTHOR
-
-Ye Wenbin, E<lt>wenbin.ye@alibaba-inc.comE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2009 by Ye Wenbin
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.2 or,
-at your option, any later version of Perl 5 you may have available.
-
-=head1 BUGS
-
-None reported... yet.
-
-=cut
