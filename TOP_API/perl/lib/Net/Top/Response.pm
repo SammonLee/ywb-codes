@@ -6,6 +6,7 @@ use warnings;
 use Carp;
 use XML::Simple;
 use XML::Parser;
+use JSON::XS;
 
 ## Don't use default parser XML::SAX::PurePerl, it has a bug for decoding
 $XML::Simple::PREFERRED_PARSER = "XML::Parser";
@@ -21,7 +22,11 @@ sub new {
         _message => '',
     }, $class;
     if ( $res->is_success ) {
-        $self->parse_xml();
+        my $method = 'parse_xml';
+        if ( $req->format ) {
+            $method = 'parse_' . $req->format;
+        }
+        $self->$method();
     } else {
         $self->{_message} = $res->status_line();
     }
@@ -29,38 +34,61 @@ sub new {
 }
 
 sub is_success {
-    my $self = shift;
-    return $self->{_status} == 0;
+    return shift->{_status} == 0;
 }
 
 sub message {
+    return shift->{_message};
+}
+
+sub request {
+    return shift->{_request};
+}
+
+sub response {
+    return shift->{_response};
+}
+
+sub result {
+    return shift->{_result};
+}
+
+sub parse_json {
     my $self = shift;
-    return $self->{_message};
+    my $res = $self->response;
+    my $ref = decode_json($res->content);
+    if ( exists $ref->{rsp} ) {
+        $self->set_result( $ref->{rsp} );
+    } else {
+        $self->set_result( $ref );
+    }
 }
 
 sub parse_xml {
     my $self = shift;
     my ($req, $res) = ($self->{_request}, $self->{_response});
     my $xs = XML::Simple->new();
-    my @force_array_fields;
-    if ( $req->can('_fields') ) {
-        @force_array_fields = $req->_fields(':array');
+    my $force_array_fields = [];
+    if ( $req->can('_list_tags') ) {
+        $force_array_fields = $req->_list_tags();
     }
-    my $ref = $xs->XMLin($res->content, ForceArray=> \@force_array_fields, KeyAttr => []);
+    $self->set_result(
+        $xs->XMLin($res->content, ForceArray=> $force_array_fields, KeyAttr => [])
+    );
+}
+
+sub set_result {
+    my $self = shift;
+    my $ref = shift;
     if ( exists $ref->{code} ) {
         $self->{_status} = $ref->{code};
         $self->{_message} = $ref->{msg};
     } else {
-        $self->{_xmlobj} = $ref;
+        $self->{_result} = $ref;
         for ( keys %$ref ) {
             $self->{$_} = $ref->{$_};
         }
     }
-}
-
-sub result {
-    my $self = shift;
-    return $self->{_xmlobj};
 }
 
 sub fields {
