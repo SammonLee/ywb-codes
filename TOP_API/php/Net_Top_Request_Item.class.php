@@ -69,6 +69,7 @@ class Net_Top_Request_Item_Get extends Net_Top_Request
             'nick',
             'iid',
             ),
+        'list_tags' => array( 'sku', 'itemimg', 'propimg' ),
         );
 }
 Net_Top_Request::cookData(Net_Top_Request_Item_Get::$meta_data);

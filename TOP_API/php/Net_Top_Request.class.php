@@ -4,6 +4,7 @@ abstract class Net_Top_Request
     static $meta_data = array(
         'http_method' => 'get',
         );
+    static $COMMON_PARAMS = array('format');
     protected $_check_error;
     protected $_query_params;
     protected $_params;
@@ -162,14 +163,15 @@ abstract class Net_Top_Request
         if ( !empty($data['require_params']) ) {
             $query_params = array_merge($query_params, $data['require_params']);
         }
-        if ( !empty($data['optional_params']) ) {
-            $query_params = array_merge($query_params, $data['optional_params']);
-        }
+        if ( !isset($data['optional_params']) )
+            $data['optional_params'] = array();
+        $data['optional_params'] = array_merge($data['optional_params'], self::$COMMON_PARAMS);
+        $query_params = array_merge($query_params, $data['optional_params']);
         if ( !empty($data['file_params']) ) {
             $query_params = array_merge($query_params, $data['file_params']);
         }
         $data['query_params'] = array_flip($query_params);
-        ## location.city => $query_params['location']['city'] = 1
+        // location.city => $query_params['location']['city'] = 1
         foreach ( $data['query_params'] as $name => $v ) {
             if ( ($pos = strpos($name, '.')) !== FALSE ) {
                 $first = substr($name, 0, $pos);
