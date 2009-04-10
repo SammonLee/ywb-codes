@@ -9,11 +9,17 @@ use Log::Log4perl qw(:easy);
 use Data::Dumper qw(Dumper);
 use Carp;
 
+my @COMMON_PARAMS = qw( format );
+
 sub new {
     my $_class = shift;
     my $class = ref $_class || $_class;
     my $self = {};
     bless $self, $class;
+    my %params = @_;
+    for ( keys %params ) {
+        $self->set($_, $params{$_});
+    }
     return $self;
 }
 
@@ -131,6 +137,7 @@ sub make_request {
             }
         }
     }
+    push @query_params, @COMMON_PARAMS;
     %query_params = map { $_ => 1 } @query_params;
     *{$class.'::_query_params'} = sub {
         if ( wantarray ) {
@@ -196,6 +203,10 @@ EOC
             return ();
         };
     }
+    ## sub _list_paths
+    *{$class.'::_list_tags'} = sub {
+        return $args{list_tags};
+    };
 }
 
 sub get {

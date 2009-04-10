@@ -50,7 +50,7 @@ sub request {
         croak "Use post method if want to upload file!\n" if $form_data;
         $u->query_form( $query );
         DEBUG($u);
-        # $res = $self->{ua}->get($u);
+        $res = $self->{ua}->get($u);
     }
     return $req->_response($res);
 }

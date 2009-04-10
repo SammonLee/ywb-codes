@@ -12,11 +12,12 @@ isa_ok($req, 'Net::Top::Request');
 
 is($req->_api_method, 'taobao.item.get', '_api_method');
 is($req->_http_method, 'get', '_http_method');
+is_deeply($req->_array_fields, ['sku', 'itemimg', 'propimg']);
 
-is_deeply([$req->_query_params],
-          [ 'fields', 'nick', 'iid' ]);
+is_deeply([$req->_query_params], [ 'format', 'fields', 'nick', 'iid']);
 is_deeply(scalar($req->_query_params),
           {
+              'format' => 1,
               'fields' => 1,
               'nick' => 1,
               'iid' => 1
@@ -24,7 +25,6 @@ is_deeply(scalar($req->_query_params),
 
 is_deeply({ $req->query_param }, { }, 'query_param');
 ok(!$req->check(), 'check');
-
 $req->fields('iid')
     ->nick('me')
     ->iid('xxx');
@@ -39,10 +39,12 @@ ok($req->check(), 'check');
 $req = Net::Top::Request::Item->get(
     fields => 'iid',
     nick => 'me',
-    iid => 'xxx'
+    iid => 'xxx',
+    format => 'json'
 );
 is_deeply({$req->query_param},
           {
+              format => 'json',
               'fields' => 'iid',
               'nick' => 'me',
               'iid' => 'xxx'
@@ -56,11 +58,11 @@ is($param{'fields'}, 'pic_path,itemimg,propimg');
 
 $req->fields([':image', ':small']);
 %param = $req->query_param();
-is($param{'fields'}, 'pic_path,itemimg,propimg,iid,title,type,cid,num,price');
+is($param{'fields'}, 'pic_path,itemimg,propimg,iid,title,nick,type,cid,num,price');
 
 $req->fields([':image', ':small', 'price', 'location']);
 %param = $req->query_param();
-is($param{'fields'}, 'price,location,pic_path,itemimg,propimg,iid,title,type,cid,num');
+is($param{'fields'}, 'price,location,pic_path,itemimg,propimg,iid,title,nick,type,cid,num');
 
 $req->fields(':image,:small,price,location');
 %param = $req->query_param();
