@@ -1,0 +1,32 @@
+*taobao.itemcats.get 功能描述
+
+此接口方法以实现得到后台供卖家发布商品的标准商品类目。
+
+*taobao.itemcats.get 调用级别
+
+apiType=2，调用时需要ISV签名和认证，同时需要用户授权确认
+
+*taobao.itemcats.get 调用参数
+
+   * 系统级参数
+
+名称           类型        是否必须        描述
+sip_appkey     string      必须            ISV应用的appkey为软件互联平台分配给ISV应用的唯一编号。
+sip_apiname    string      必须            服务名。
+sip_timestamp  string      必须            服务请求时间戳(yyyy-mm-dd hh:mm:ss.xxx)，支持毫秒。
+sip_sign       string      必须            请求签名（包括了对前面三个必选参数和所有业务参数按签名规则
+                                           做签名）。
+sip_sessionid  string      必须            在ISV应用中用户会话唯一标识。
+  * 应用级参数
+
+名称           类型        是否必须        描述
+parent_cid     string      可选            父商品类目id，0表示根节点, 传输该参数返回所有子类目。 cids
+                                           和parent_cid至少传一个。
+v              string      必须            接口版本号
+cids           string      可选            类目id里列表，传输该参数返回类目列表。 cids和parent_cid至少
+                                           传一个。
+format         string      可选            响应格式,详见通用约定部分.
+*taobao.itemcats.get 调用返回信息
+
+返回信息                                    返回信息说明
+ItemCat[]                                   子类目列表

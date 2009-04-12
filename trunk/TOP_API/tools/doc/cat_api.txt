@@ -1,0 +1,54 @@
+类目属性API
+类目属性数据结构描述
+类目属性接口提供的数据可以实现淘宝搜索页面的类目属性展示和商品发布类目属性
+的选择。
+ItemCat 商品类目
+        名称             类型       是否必须                            描述
+cid                  String       必须         类目id
+parent_cid           String       必须         父类目id
+name                 String       必须         类目名
+is_parent            boolean      必须         是否为父类目，大多数类目为子类目
+status               String       必须         状态:normal正常 deleted已经删除
+sort_order           int          必须         序号
+ItemProp 商品属性
+        名称             类型       是否必须                            描述
+pid                  String       必须         属性id
+name                 String       必须         属性名
+is_key_prop          boolean      可选         是否关键属性
+is_sale_prop         boolean      可选         是否销售属性
+is_color_prop        boolean      可选         是否颜色属性
+is_enum_prop         boolean      可选         是否可枚举属性
+is_input_prop        boolean      可选         是否卖家可以自行输入的属性
+child_template       boolean      可选         子属性的模板（卖家自行输入属性时需要用到）
+must                 boolean      可选         发布商品时是否必选子属性
+multi                boolean      可选         发布商品时是否可以多选子属性
+parent_pid           String       必须         上级属性ID
+parent_vid           String       必须         上级属性值ID
+status               String       必须         状态:normal正常 deleted已经删除
+sort_order           int          必须         序号
+PropValue 商品属性值
+        名称             类型       是否必须                            描述
+cid                  String       必须         类目ID
+
+pid                  String       必须         属性ID
+
+prop_name            String       必须         属性名
+
+vid                  String       必须         属性值id
+name                 String       必须         属性名
+is_parent            boolean      可选         是否为父类目属性
+status               String       必须         状态:normal正常 deleted已经删除
+sort_order           int          必须         序号
+API列表
+taobao.itemcats.get        获取后台商品类
+taobao.itemcats.list.get   得到前台商品类目
+taobao.shopcats.list.get   得到前台展示的店铺类目
+taobao.sellercats.list.get 得到前台展示的店铺内卖家自定义商品类目
+taobao.itemprops.get       得到后台供卖家发布商品用的商品标准属性和属性值列表
+taobao.itemprops.list.get  得到前台展示的供买家浏览的商品属性
+taobao.spu.get             得到spu
+taobao.itemprop.get        得到后台供卖家发布商品用的单个商品属性。
+taobao.itemprop.list.get   得到前台展示的供买家浏览的商品属性。
+taobao.itemcats.get.v2     获取后台供卖家发布商品的标准商品类目
+taobao.itemprops.get.v2    获取标准商品类目属性
+taobao.itempropvalues.get  获取标准类目属性值
