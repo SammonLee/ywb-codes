@@ -14,5 +14,6 @@
                "has_warranty", "has_showcase", "auto_repost", "auction_point"]
   },
   "require_params" : ["fields", "nick", "iid"],
-  "optional_params" : ["format"]
+  "optional_params" : ["format"],
+  "list_tags" : ["sku", "itemimg", "propimg"]
 }
