@@ -1,0 +1,52 @@
+*taobao.items.get 功能描述
+
+此接口方法用以搜索商品信息。支持分页和排序。目前该接口得到的数据和真实的商
+品数据会有１０分钟左右的延迟。
+
+*taobao.items.get 调用级别
+
+apiType=1，调用时需要ISV签名和认证
+
+*taobao.items.get 调用参数
+
+   * 系统级参数
+
+名称           类型        是否必须        描述
+sip_appkey     string      必须            ISV应用的appkey为软件互联平台分配给ISV应用的唯一编号。
+sip_apiname    string      必须            服务名。
+sip_timestamp  string      必须            服务请求时间戳(yyyy-mm-dd hh:mm:ss.xxx)，支持毫秒。
+sip_sign       string      必须            请求签名（包括了对前面三个必选参数和所有业务参数按签名规则
+                                           做签名）。
+sip_sessionid  string      可选            在ISV应用中用户会话唯一标识。
+  * 应用级参数
+
+名称           类型        是否必须        描述
+q              string      可选            搜索字段.q,cid,nicks,props,product_id中至少要一个
+start_price    string      可选            商品最低价格
+v              string      必须            接口版本号
+page_no        int         可选            页码
+page_size      int         可选            每页条数
+                                           排序方式.格式为column:asc/desc,column可选值为: price, delist_time,
+order_by       string      可选            seller_credit.如price:asc表示按价格升序排列. 没有这个参数表示按默认排序方
+                                           式.
+fields         string      必须            商品数据结构字段列表,目前支持：
+                                           iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee
+nicks          string      可选            卖家昵称列表,逗号分隔(目前最多支持5个卖家昵称，格式为nick1,nick2,nick3…).
+                                           q,cid,nicks,props,product_id中至少要一个.
+end_price      string      可选            商品最高价格.
+cid            string      可选            商品所属类目Id. q,cid,nicks,props,product_id中至少要一个(其中cid指的是商
+                                           品标准类目，即发布商品时用的类目)
+format         string      可选            响应格式,详见通用约定部分.
+props          string      可选            商品属性.可以搜到拥有和输入属性一样的属性的商品的列表.
+product_id     string      可选            可以根据产品Id搜索属于这个产品的商品
+ww_status      boolean     可选            旺旺在线状态（不设置结果包含所有状态，设置为true结果只有旺旺在线卖家的商
+                                           品）不能单独使用，要和其他条件一起用才行。
+post_free      boolean     可选            免运费（不设置包含所有邮费状态，设置为true结果只有卖家包邮的商品）不能单
+                                           独使用，要和其他条件一起用才行。
+location.state string      可选            所在省
+location.city  string      可选            所在市
+*taobao.items.get 调用返回信息
+
+返回信息            返回信息说明
+Item[]              搜索到的商品列表，具体字段根据权限和设定的fields决定
+totalResults        搜索到符合条件的结果总数

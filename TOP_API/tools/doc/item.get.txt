@@ -1,0 +1,37 @@
+*taobao.item.get 功能描述
+
+此接口方法用以得到单个商品信息。
+
+注意该api的调用级别,如果需要获取隐私信息(包括商品的隐私字段和仓库内商品),
+则需附上sip_sessionid.
+
+注：因为业务规则的原因，部分用户的少量商品，无法通过此接口获取
+
+*taobao.item.get 调用级别
+
+apiType=3，调用时需要ISV签名和认证,可选用户授权确认（授权后可获取相关用户
+隐私信息）
+
+*taobao.item.get 调用参数
+
+   * 系统级参数
+
+名称           类型        是否必须        描述
+sip_appkey     string      必须            ISV应用的appkey为软件互联平台分配给ISV应用的唯一编号。
+sip_apiname    string      必须            服务名。
+sip_timestamp  string      必须            服务请求时间戳(yyyy-mm-dd hh:mm:ss.xxx)，支持毫秒。
+sip_sign       string      必须            请求签名（包括了对前面三个必选参数和所有业务参数按签名规则
+                                           做签名）。
+sip_sessionid  string      可选            在ISV应用中用户会话唯一标识。
+  * 应用级参数
+
+名称           类型        是否必须        描述
+fields         string      必须            需要返回的商品对象字段
+nick           string      必须            卖家昵称
+iid            string      必须            商品ID
+v              string      必须            接口版本号
+format         string      可选            响应格式,详见通用约定部分.
+*taobao.item.get 调用返回信息
+
+返回信息                                 返回信息说明
+Item                                     获取的商品

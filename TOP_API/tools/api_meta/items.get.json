@@ -1,0 +1,10 @@
+{
+    "class" : "Net_Top_Request_Items_Get",
+    "api_method" : "taobao.items.get",
+    "fields" : {
+        ":small" : ["iid", "title", "pic_path", "price", "delist_type"],
+        ":all" : ["iid", "title", "nick", "pic_path", "cid", "price", "type", "location.city", "delist_time", "post_fee"]
+    },
+    "require_params" : ["fields"],
+    "optional_params" : ["q", "start_price", "page_no", "page_size", "order_by", "nicks", "end_price", "cid","format","props","product_id","ww_status", "post_free","location.city", "location.state"]
+}
