@@ -16,7 +16,7 @@ class Json_Encoder
     public static function encode($value, $cycleCheck = false, $options = array())
     {
         if ( isset($options['indent']) && is_integer($options['indent']) ) {
-            $options['indent'] = implode(' ', array_fill(0, $options['indent'], ''));
+            $options['indent'] = self::makeString(' ', $options['indent']);
         }
         $encoder = new self(($cycleCheck) ? true : false, $options);
         return $encoder->_encodeValue($value, 0);
@@ -50,7 +50,7 @@ class Json_Encoder
         }
 
         if ( isset($this->_options['indent']) ) {
-            $indent0 = ($level > 0 ? implode($this->_options['indent'], array_fill(0, $level, '')) : '');
+            $indent0 = self::makeString($this->_options['indent'], $level);
             $indent1 = $indent0 . $this->_options['indent'];
         }
         $props = '';
@@ -84,12 +84,12 @@ class Json_Encoder
 
         return false;
     }
-
+    
     protected function _encodeArray(&$array, $level)
     {
         $tmpArray = array();
         if ( isset($this->_options['indent']) ) {
-            $indent0 = ($level > 0 ? implode($this->_options['indent'], array_fill(0, $level, '')) : '');
+            $indent0 = self::makeString($this->_options['indent'], $level);
             $indent1 = $indent0 . $this->_options['indent'];
         }
         // Check for associative array
@@ -156,6 +156,15 @@ class Json_Encoder
         $string = str_replace(array(chr(0x08), chr(0x0C)), array('\b', '\f'), $string);
 
         return '"' . $string . '"';
+    }
+
+    public static function makeString($str, $count)
+    {
+        if ( $count > 0 ) {
+            return implode('', array_fill(0, $count, $str));
+        } else {
+            return '';
+        }
     }
 }
 
