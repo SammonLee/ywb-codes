@@ -1,5 +1,5 @@
 {
-    "class" : "Net_Top_Request_Items_Get",
+    "class" : "Net_Top_Request_Item_ItemsGet",
     "api_method" : "taobao.items.get",
     "fields" : {
         ":small" : ["iid", "title", "pic_path", "price", "delist_type"],
