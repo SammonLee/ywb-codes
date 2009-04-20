@@ -12,7 +12,7 @@ isa_ok($req, 'Net::Top::Request');
 
 is($req->_api_method, 'taobao.item.get', '_api_method');
 is($req->_http_method, 'get', '_http_method');
-is_deeply($req->_array_fields, ['sku', 'itemimg', 'propimg']);
+is_deeply($req->_list_tags, ['sku', 'itemimg', 'propimg']);
 
 is_deeply([$req->_query_params], [ 'format', 'fields', 'nick', 'iid']);
 is_deeply(scalar($req->_query_params),
