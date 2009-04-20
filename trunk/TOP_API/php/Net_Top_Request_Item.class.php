@@ -1,75 +1,19 @@
 <?php
-class Net_Top_Request_Item
+class Net_Top_Request_Item extends Net_Top_Request_Base_Item
 {
     static function get ( $args = null ) {
-        return new Net_Top_Request_Item_Get($args);
+         return new Net_Top_Request_Item_Get($args);
+    }
+
+    static function itemsGet ( $args = null ) {
+         return new Net_Top_Request_Item_ItemsGet($args);
     }
 }
 
-class Net_Top_Request_Item_Get extends Net_Top_Request
+class Net_Top_Request_Item_Get extends Net_Top_Request_Base_Item_Get 
 {
-    static $meta_data = array(
-        'fields' => array(
-            ':small' => array(
-                'iid',
-                'title',
-                'nick',
-                'type',
-                'cid',
-                'num',
-                'price',
-                ),
-            ':image' => array(
-                'pic_path',
-                'itemimg',
-                'propimg',
-                ),
-            ':all' => array(
-                ':large',
-                ':image',
-                'increment',
-                'has_discount',
-                'has_invoice',
-                'has_warranty',
-                'has_showcase',
-                'auto_repost',
-                'auction_point',
-                ),
-            ':large' => array(
-                ':small',
-                ':postage',
-                'props',
-                'property_alias',
-                'desc',
-                'seller_cids',
-                'valid_thru',
-                'list_time',
-                'delist_time',
-                'stuff_status',
-                'location',
-                'modified',
-                'sku',
-                'approve_status',
-                'product_id',
-                ),
-            ':postage' => array(
-                'post_fee',
-                'express_fee',
-                'ems_fee',
-                'postage_id',
-                'freight_payer',
-                ),
-            ),
-        'optional_params' => array(
-            'format',
-            ),
-        'api_method' => 'taobao.item.get',
-        'require_params' => array(
-            'fields',
-            'nick',
-            'iid',
-            ),
-        'list_tags' => array( 'sku', 'itemimg', 'propimg' ),
-        );
 }
-Net_Top_Request::cookData(Net_Top_Request_Item_Get::$meta_data);
+
+class Net_Top_Request_Item_ItemsGet extends Net_Top_Request_Base_Item_ItemsGet 
+{
+}
