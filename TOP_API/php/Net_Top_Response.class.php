@@ -5,6 +5,7 @@ class Net_Top_Response
     protected $_metadata;
     protected $_request;
     protected $_result;
+    const SERVER_ERR = 1000;
     
     function __construct($res, $req) 
     {
@@ -21,6 +22,16 @@ class Net_Top_Response
         }
     }
 
+    private static function isValidXML($str)
+    {
+        return substr($str, 0, 5) == '<?xml';
+    }
+
+    private static function isValidJSON($str)
+    {
+        return substr($str, 0, 1) == '{';
+    }
+    
     private static function xmlobjToArray($obj, $force_array_fields) 
     {
         if ( is_object($obj) ) {
@@ -38,23 +49,28 @@ class Net_Top_Response
     
     private function parseXML () 
     {
-        if ( substr($this->_data, 0, 5) == '<?xml' ) {
+        if ( self::isValidXML($this->_data) ) {
             $xml = simplexml_load_string($this->_data,'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOERROR);
             $list_tag = array_flip($this->_request->getMetaData('list_tags'));
             $xml = self::xmlobjToArray($xml, $list_tag);
             $this->_result = $xml;
         }
         else {
-            $this->_result = array(
-                'code' => '999',
-                'msg' => 'Server return malformed xml string',
-                );
+            $this->serverError();
         }
     }
 
+    private function serverError()
+    {
+        $this->_result = array(
+            'code' => self::SERVER_ERR,
+            'msg' => "Server return malformed data:\n".$this->_data,
+            );
+    }
+    
     private function parseJSON ()
     {
-        if ( substr($this->_data, 0, 1) == '{' ) {
+        if ( self::isValidJSON($this->_data) ) {
             $json = json_decode($this->_data, true);
             if ( isset($json['rsp']) ) {
                 $this->_result = $json['rsp'];
@@ -64,10 +80,7 @@ class Net_Top_Response
             }
         }
         else {
-            $this->_result = array(
-                'code' => '999',
-                'msg' => 'Server return malformed json string',
-                );
+            $this->serverError();
         }
     }
     

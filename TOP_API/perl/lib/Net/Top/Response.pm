@@ -31,6 +31,7 @@ sub new {
         }
         $self->$method();
     } else {
+        $self->{_status} = $res->code();
         $self->{_message} = $res->status_line();
     }
     return $self;
@@ -50,6 +51,10 @@ sub request {
 
 sub response {
     return shift->{_response};
+}
+
+sub content {
+    return shift->{_response}->content;
 }
 
 sub result {
@@ -116,15 +121,7 @@ sub set_result {
         $self->{_message} = $ref->{msg};
     } else {
         $self->{_result} = $ref;
-        for ( keys %$ref ) {
-            $self->{$_} = $ref->{$_};
-        }
     }
-}
-
-sub fields {
-    my $self = shift;
-    return grep { !/^_/ } keys %$self;
 }
 
 1;
@@ -132,18 +129,14 @@ __END__
 
 =head1 NAME
 
-Net::Top::Response - Perl extension for blah blah blah
+Net::Top::Response - 
 
 =head1 SYNOPSIS
 
    use Net::Top::Response;
-   blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for Net::Top::Response, 
-
-Blah blah blah.
 
 =head2 EXPORT
 

@@ -81,7 +81,8 @@ abstract class Net_Top_Request
     
     function get($name) 
     {
-        return $this->_params[$name];
+        if ( isset($this->_params[$name]) )
+            return $this->_params[$name];
     }
 
     function set($name, $val) 

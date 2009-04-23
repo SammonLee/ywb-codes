@@ -27,15 +27,7 @@ my %params;
 
 my $prompt = "top> ";
 
-# my $top = Net::Top2->new;
 my $top = Net::Top->new;
-
-## daily
-# my $top = Net::Top2->new(
-#     top_url => 'http://192.168.208.110/router/rest',
-#     top_secret => 'hhhhh',
-#     top_appkey => 'yyyy',
-# );
 
 my %commands = (
     bind => \&bind_param,
