@@ -1,0 +1,23 @@
+关于调用淘宝接口的用户绑定问题
+在看API文档中会看到API调用级别有3种：apiType=1，需要签名校验(不需用户绑定)；apiType=2， 所有的服务调用，需要签名校验和用户绑定；apiType=3， 部份服务调用，需要签名校验(用户绑定可选)。其中的用户绑定，如调用淘宝接口，者指的是用户要登录淘宝网。所以淘宝接口中apiType=2的接口，在调用时想要获得接口返回值，必需用户登录淘宝。例如，通过Taobao搜索当前会话用户（该用户必须为卖家）的库存商品，调用：taobao.items.instock.get，则需要用户首先进行登录，生成token并与之绑定。 
+处理步骤如下： 
+1、应用接收到：1004、1005错误编码时，引导用户进入阿里软件SIP平台应用统一登录页面。 
+在调用接口时，如果用户未登录淘宝，接口会返回1004或1005，并还会返回一个URL信息，如：
+Copy code
+<url>[url]http://sipdev.alisoft.com/sip/login?sip_apiname=taobao.trades.sold.get&sip_appkey=10294&sip_sessionid=aRzmY4FFAv29AGTnrP[/url]</url> 
+</error_rsp>
+ISV用户需要引导用户进入该URL登录页面，如需要平台通知用户登录验证是否通过，还需要在这URL后面拼上sip_redirecturl。需要的参数具体说明如下： 
+参数名称 可选 描述 
+sip_appkey 必须 用于ISV应用身份标识 
+sip_apiname 必须 被调用的服务名的唯一标识，根据它可找到ISP并发出相应登录请求 
+sip_redirecturl 必须 此有参数时，ASSP在用户登录成功之后，自动将页面redirect到指定的url地址。 
+sip_sessionid 必须 Isv应用中用户的httpsession id 
+
+完整的URL为：
+Copy code
+http://sipdev.alisoft.com/sip/login?sip_apiname=taobao.trades.sold.get&sip_appkey=10294&sip_sessionid=aRzmY4FFAv29AGTnrP&sip_redirecturl=http://ISV.com
+2、用户输入用户名、口令、检验码，并提交。 
+3、SIP验证，如果有必要，将用户名与口令作为参数调用ISP相关认证接口，进行用户登录操作。如果验证失败，则让用户重新输入，如验证成功，SIP将作如下处理： 
+a)根据sip_appkey、ispid、sip_sessionid、timestamp生成用户token。 
+b)ISP登录页面中含有sip_redirecturl参数，则将页面重定向到sip_redirecturl。注意，如果ISP支持返回用户名，那么将在redirecturl后面增加isp_username作为登录用户的用户名返回。 
+4、以后ISV发起请求，带上sip_sessionid=用户的sessionid，由SIP维护用户session与token的对应关系。

@@ -2,7 +2,7 @@
     "class" : "Net_Top_Request_Item_ItemsGet",
     "api_method" : "taobao.items.get",
     "fields" : {
-        ":small" : ["iid", "title", "pic_path", "price", "delist_type"],
+        ":small" : ["iid", "title", "pic_path", "price", "delist_time"],
         ":all" : ["iid", "title", "nick", "pic_path", "cid", "price", "type", "location.city", "delist_time", "post_fee"]
     },
     "require_params" : ["fields"],

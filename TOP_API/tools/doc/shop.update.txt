@@ -1,0 +1,45 @@
+Location: http://isp.alisoft.com/apidoc/api/isp_taobao/181/taobao.shop.update.html
+*taobao.shop.update 功能描述
+
+更新店铺的标题、公告及介绍
+
+*taobao.shop.update 调用级别
+
+apiType=2，调用时需要ISV签名和认证，同时需要用户授权确认
+
+*taobao.shop.update 调用参数
+
+   * 系统级参数
+
+名称          类型       是否必须      描述
+sip_appkey    string     必须          ISV应用的appkey为软件互联平台分配给ISV应用的唯一编号
+                                       。
+sip_apiname   string     必须          服务名。
+sip_timestamp string     必须          服务请求时间戳(yyyy-mm-dd hh:mm:ss.xxx)，支持毫秒。
+sip_sign      string     必须          请求签名（包括了对前面三个必选参数和所有业务参数按签
+                                       名规则做签名）。
+sip_sessionid string     必须          在ISV应用中用户会话唯一标识。
+  * 应用级参数
+
+名称          类型       是否必须      描述
+v             string     必须          接口版本号
+title         string     可选          店铺标题注：标题、公告和介绍至少传一个
+bulletin      string     可选          店铺公告
+desc          string     可选          店铺介绍
+format        string     可选          响应格式,详见通用约定部分.
+*taobao.shop.update 调用返回信息
+
+返回信息                            返回信息说明
+modified                            修改时间
+
+*taobao.shop.update 调用范例
+
+*taobao.shop.update 访问地址
+
+http://isp.alisoft.com/isp/portal/api/browse!showHtml.jspa?
+ispapi=isp_taobao-181-261
+
+*taobao.shop.update 发布时间
+
+2009-01-15 21:19:26
+

@@ -75,6 +75,59 @@ class Net_Top_Request_Base_Item_Get extends Net_Top_Request
 }
 Net_Top_Request::cookData(Net_Top_Request_Base_Item_Get::$meta_data);
 
+class Net_Top_Request_Base_Item_InstockGet extends Net_Top_Request
+{
+    static $meta_data = array(
+        'fields' => array(
+            ':small' => array(
+                'iid',
+                'title',
+                'pic_path',
+                'price',
+                'delist_time',
+                'list_time',
+            ),
+            ':all' => array(
+                'approve_status',
+                'iid',
+                'title',
+                'nick',
+                'type',
+                'cid',
+                'pic_path',
+                'num',
+                'props',
+                'valid_thru',
+                'list_time',
+                'price',
+                'has_discount',
+                'has_invoice',
+                'has_warranty',
+                'has_showcase',
+                'modified',
+                'delist_time',
+                'postage_id',
+            ),
+        ),
+        'optional_params' => array(
+            'q',
+            'page_no',
+            'page_size',
+            'order_by',
+            'cid',
+            'has_discount',
+            'has_showcase',
+            'seller_cids',
+        ),
+        'api_method' => 'taobao.items.instock.get',
+        'require_params' => array(
+            'fields',
+            'session',
+        ),
+    );
+}
+Net_Top_Request::cookData(Net_Top_Request_Base_Item_InstockGet::$meta_data);
+
 class Net_Top_Request_Base_Item_ItemsGet extends Net_Top_Request
 {
     static $meta_data = array(
@@ -84,7 +137,7 @@ class Net_Top_Request_Base_Item_ItemsGet extends Net_Top_Request
                 'title',
                 'pic_path',
                 'price',
-                'delist_type',
+                'delist_time',
             ),
             ':all' => array(
                 'iid',
@@ -123,4 +176,58 @@ class Net_Top_Request_Base_Item_ItemsGet extends Net_Top_Request
     );
 }
 Net_Top_Request::cookData(Net_Top_Request_Base_Item_ItemsGet::$meta_data);
+
+class Net_Top_Request_Base_Item_OnsaleGet extends Net_Top_Request
+{
+    static $meta_data = array(
+        'fields' => array(
+            ':small' => array(
+                'iid',
+                'title',
+                'pic_path',
+                'price',
+                'delist_time',
+                'list_time',
+            ),
+            ':all' => array(
+                'approve_status',
+                'iid',
+                'title',
+                'nick',
+                'type',
+                'cid',
+                'pic_path',
+                'num',
+                'props',
+                'valid_thru',
+                'list_time',
+                'price',
+                'has_discount',
+                'has_invoice',
+                'has_warranty',
+                'has_showcase',
+                'modified',
+                'delist_time',
+                'postage_id',
+                'seller_cids',
+            ),
+        ),
+        'optional_params' => array(
+            'q',
+            'page_no',
+            'page_size',
+            'order_by',
+            'cid',
+            'has_discount',
+            'has_showcase',
+            'seller_cids',
+        ),
+        'api_method' => 'taobao.items.onsale.get',
+        'require_params' => array(
+            'fields',
+            'session',
+        ),
+    );
+}
+Net_Top_Request::cookData(Net_Top_Request_Base_Item_OnsaleGet::$meta_data);
 

@@ -1,0 +1,9 @@
+{
+  "class" : "Net_Top_Request_Product_Search",
+  "api_method" : "taobao.products.search",
+  "fields" : {
+    ":all" : ["product_id", "cid", "name", "props", "price", "pic_path"]
+  },
+  "require_params" : ["fields"],
+  "optional_params" : ["q", "cid", "props", "page_size", "page_no"]
+}

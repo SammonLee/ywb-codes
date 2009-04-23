@@ -69,6 +69,58 @@ __PACKAGE__->make_request(
   ]
 );
 
+package Net::Top::Request::Base::Item::InstockGet;
+use base 'Net::Top::Request';
+
+__PACKAGE__->make_request(
+  'fields' => {
+    ':small' => [
+      'iid',
+      'title',
+      'pic_path',
+      'price',
+      'delist_time',
+      'list_time'
+    ],
+    ':all' => [
+      'approve_status',
+      'iid',
+      'title',
+      'nick',
+      'type',
+      'cid',
+      'pic_path',
+      'num',
+      'props',
+      'valid_thru',
+      'list_time',
+      'price',
+      'has_discount',
+      'has_invoice',
+      'has_warranty',
+      'has_showcase',
+      'modified',
+      'delist_time',
+      'postage_id'
+    ]
+  },
+  'optional_params' => [
+    'q',
+    'page_no',
+    'page_size',
+    'order_by',
+    'cid',
+    'has_discount',
+    'has_showcase',
+    'seller_cids'
+  ],
+  'api_method' => 'taobao.items.instock.get',
+  'require_params' => [
+    'fields',
+    'session'
+  ]
+);
+
 package Net::Top::Request::Base::Item::ItemsGet;
 use base 'Net::Top::Request';
 
@@ -79,7 +131,7 @@ __PACKAGE__->make_request(
       'title',
       'pic_path',
       'price',
-      'delist_type'
+      'delist_time'
     ],
     ':all' => [
       'iid',
@@ -114,6 +166,59 @@ __PACKAGE__->make_request(
   'api_method' => 'taobao.items.get',
   'require_params' => [
     'fields'
+  ]
+);
+
+package Net::Top::Request::Base::Item::OnsaleGet;
+use base 'Net::Top::Request';
+
+__PACKAGE__->make_request(
+  'fields' => {
+    ':small' => [
+      'iid',
+      'title',
+      'pic_path',
+      'price',
+      'delist_time',
+      'list_time'
+    ],
+    ':all' => [
+      'approve_status',
+      'iid',
+      'title',
+      'nick',
+      'type',
+      'cid',
+      'pic_path',
+      'num',
+      'props',
+      'valid_thru',
+      'list_time',
+      'price',
+      'has_discount',
+      'has_invoice',
+      'has_warranty',
+      'has_showcase',
+      'modified',
+      'delist_time',
+      'postage_id',
+      'seller_cids'
+    ]
+  },
+  'optional_params' => [
+    'q',
+    'page_no',
+    'page_size',
+    'order_by',
+    'cid',
+    'has_discount',
+    'has_showcase',
+    'seller_cids'
+  ],
+  'api_method' => 'taobao.items.onsale.get',
+  'require_params' => [
+    'fields',
+    'session'
   ]
 );
 
