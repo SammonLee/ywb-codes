@@ -10,13 +10,12 @@ use URI;
 use Digest::MD5 qw(md5_hex);
 use Log::Log4perl qw(:easy);
 use Data::Dumper qw(Dumper);
+use Readonly;
 use POSIX qw/strftime/;
 
-__PACKAGE__->mk_accessors(qw/
-top_url top_appkey top_secret_key
-                            /);
+__PACKAGE__->mk_accessors(qw/top_url top_appkey top_secret_key/);
 
-my $TOP_URL = 'http://sip.alisoft.com/sip/rest';
+Readonly our $TOP_URL => 'http://sip.alisoft.com/sip/rest';
 
 sub new {
     my $_class = shift;
@@ -44,12 +43,17 @@ sub request {
         if ($form_data) {
             push @args, 'Content_Type' => 'form-data';
         }
-        DEBUG(Dumper([ "$u", $query, @args]));
+        DEBUG({
+            filter => \&Data::Dumper::Dumper,
+            value => {
+                url => "$u",
+                query => $query,
+            }});
         $res = $self->{ua}->post("$u", $query, @args);
     } else {
         croak "Use post method if want to upload file!\n" if $form_data;
         $u->query_form( $query );
-        DEBUG($u);
+        DEBUG("GET $u");
         $res = $self->{ua}->get($u);
     }
     return $req->_response($res);
@@ -67,9 +71,7 @@ sub query_param {
     }
     $query{v} = '1.0';
     my $str = $self->top_secret_key . join('', map { $_.$query{$_} } sort grep {!ref $query{$_}} keys %query);
-    DEBUG($str);
     $query{sip_sign} = uc(md5_hex( $str ));
-    DEBUG(Dumper(\%query));
     return \%query;
 }
 

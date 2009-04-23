@@ -1,4 +1,6 @@
 <?php
+define('TOP_APPKEY', '');
+define('TOP_SECRET_KEY', '');
 define('TOP_DIR', dirname(__FILE__).'/../');
 
 function net_top_autoload($name)
