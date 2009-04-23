@@ -7,6 +7,9 @@ use Carp;
 use XML::Simple;
 use XML::Parser;
 use JSON::XS;
+use Readonly;
+
+Readonly our $SERVER_ERR => 1000;
 
 ## Don't use default parser XML::SAX::PurePerl, it has a bug for decoding
 $XML::Simple::PREFERRED_PARSER = "XML::Parser";
@@ -56,12 +59,22 @@ sub result {
 sub parse_json {
     my $self = shift;
     my $res = $self->response;
-    my $ref = decode_json($res->content);
-    if ( exists $ref->{rsp} ) {
-        $self->set_result( $ref->{rsp} );
-    } else {
-        $self->set_result( $ref );
+    my $content = $res->content;
+    if ( is_valid_json(\$content) ) {
+        my $ref = decode_json($content);
+        if ( exists $ref->{rsp} ) {
+            $self->set_result( $ref->{rsp} );
+        } else {
+            $self->set_result( $ref );
+        }
+    }else {
+        $self->server_error();
     }
+}
+
+sub is_valid_json {
+    my $content = shift;
+    return substr($$content, 0, 1) eq '{';
 }
 
 sub parse_xml {
@@ -72,9 +85,27 @@ sub parse_xml {
     if ( $req->can('_list_tags') ) {
         $force_array_fields = $req->_list_tags();
     }
-    $self->set_result(
-        $xs->XMLin($res->content, ForceArray=> $force_array_fields, KeyAttr => [])
-    );
+    my $content = $res->content;
+    if ( is_valid_xml(\$content) ) {
+        $self->set_result(
+            $xs->XMLin(\$content, ForceArray=> $force_array_fields, KeyAttr => [])
+        );
+    } else {
+        $self->server_error();
+    }
+}
+
+sub is_valid_xml {
+    my $content = shift;
+    return substr($$content, 0, 5) eq '<?xml'; 
+}
+
+sub server_error {
+    my $self = shift;
+    $self->set_result({
+        code => $SERVER_ERR,
+        msg => "Server return malformed data:\n" . $self->response->content
+    });
 }
 
 sub set_result {
