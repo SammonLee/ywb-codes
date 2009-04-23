@@ -1,0 +1,74 @@
+#title Symfony - The definitely guide
+
+frontend controller 指的是 web 目录里的 php 前端脚本。
+
+ - sfController 解码请求，转交给 action
+ - sfRequest 包含所有请求的元素：参数、cookies、header
+ - sfResponse 响应头，内容等。将直接转换成 HTML 内容，发送给用户。
+ - content 使用 sfContext::getInstance 得到，包含所有核心对象和配置。可以
+在任何地方访问。
+
+ - 项目 是同一域名下的一组服务和操作，共享相同的对象模型
+ - 应用 操作按逻辑分成不同的应用。一般包括frontend 和backend 应用，它们使用相同的数据库
+ - 模块 不同的操作还可以分组成为一个模块。
+ - action
+
+项目目录结构：
+<example>
+    apps/
+      frontend/
+      backend/
+    cache/
+    config/
+    data/
+      sql/
+    doc/
+    lib/
+      model/
+    log/
+    plugins/
+    test/
+      bootstrap/
+      unit/
+      functional/
+    web/
+      css/
+      images/
+      js/
+      uploads/
+</example>
+
+应用目录结构：
+<example>
+    apps/
+      [application name]/
+        config/
+        i18n/
+        lib/
+        modules/
+        templates/
+          layout.php
+</example>
+
+模块目录结构：
+<example>
+    apps/
+      [application name]/
+        modules/
+          [module name]/
+              actions/
+                actions.class.php
+              config/
+              lib/
+              templates/
+                indexSuccess.php
+</example>
+
+web 目录结构：
+<example>
+    web/
+      css/
+      images/
+      js/
+      uploads/
+</example>
