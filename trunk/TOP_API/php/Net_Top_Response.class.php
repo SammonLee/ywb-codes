@@ -51,7 +51,11 @@ class Net_Top_Response
     {
         if ( self::isValidXML($this->_data) ) {
             $xml = simplexml_load_string($this->_data,'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOERROR);
-            $list_tag = array_flip($this->_request->getMetaData('list_tags'));
+            $list_tag = $this->_request->getMetaData('list_tags');
+            if ( !empty($list_tag) )
+                $list_tag = array_flip($list_tag);
+            else
+                $list_tag = array();
             $xml = self::xmlobjToArray($xml, $list_tag);
             $this->_result = $xml;
         }

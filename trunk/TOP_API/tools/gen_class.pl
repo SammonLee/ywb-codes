@@ -1,5 +1,5 @@
 #!/home/y/bin/perl -w
-# gen_perl_class.pl --- 
+# gen_class.pl --- 
 # Author: Ye Wenbin <wenbin.ye@alibaba-inc.com>
 # Created: 09 Mar 2009
 # Version: 0.01
@@ -57,7 +57,7 @@ my $gen = "Net::Top::Gen::${lang}";
 foreach my $factory ( keys %classes ) {
     my @r = split /_/, $factory;
     my $pkg = pop(@r);
-    if ( $for_class && !exists $for_class{$pkg} ) {
+    if ( $for_class && !exists $for_class{$factory} ) {
         next;
     }
 
