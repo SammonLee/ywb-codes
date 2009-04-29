@@ -1,0 +1,107 @@
+#title Pig 笔记
+
+* 安装
+
+svn 代码：
+<example>
+$ svn co http://svn.apache.org/repos/asf/hadoop/pig/trunk
+</example>
+
+发布版本下载 http://www.apache.org/dyn/closer.cgi/hadoop/pig
+
+* 运行
+
+需要设置环境变量：
+<example>
+export HADOOP_HOME=/path/to/hadoop-version
+export PIGDIR=/path/to/pig
+export PIG_CLASSPATH=$PIGDIR/pig.jar:$HADOOP_HOME/conf
+</example>
+
+运行 grunt shell：
+<example>
+$PIGDIR/bin/pig -x local
+</example>
+
+运行本地脚本：
+<example>
+$PIGDIR/bin/pig -x local local.pig
+</example>
+
+运行 hadoop 脚本：
+<example>
+java -cp $PIG_CLASSPATH org.apache.pig.Main hadoop.pig
+</example>
+
+* Pig Cookbook
+** 使用最新的代码
+** 使用类型
+默认数字类型是double。如果不需要高精度，可以使用 integer 或 long 类型。
+这通加快算术运算，也能在早期发现错误。
+
+** 使用需要的字段
+如果一些字段没有用，可以在早期去除这些字段。
+<example>
+A = load 'myfile' as (t, u, v);
+A1 = foreach A generate t, u;
+</example>
+** 尽早过滤
+** 减少不必要的管道操作
+** 使用算术类型 UDF
+** Join 前去除 NULL
+** 使用 Join 优化
+join 表格的最后一个是从 stream 导入而不是加载到内存，所以把大表格放到
+最后一个导入。
+<example>
+small = load 'small_file' as (t, u, v);
+large = load 'large_file' as (x, y, z);
+C = join small by t, large by x;
+</example>
+** 使用 replicate join
+** 使用 PARALLEL
+** 使用 LIMIT
+** 使用 DISTINCT 而不是 GROUP BY - GENERATE
+
+* Pig UDF (用户自定义函数)
+** 简单的 Eval 函数
+
+<example>
+-- myscript.pig
+REGISTER myudfs.jar;
+A = LOAD 'student_data' AS (name: chararray, age: int, gpa: float);
+B = FOREACH A GENERATE myudfs.UPPER(name);
+DUMP B;
+</example>
+
+第一行 REGISTER 注册 UDF 定义的 jar 文件。这个文件需要能在 classpath
+中找到，或者是绝对路径的文件，或者是相对 pig 启动时的相对路径。如果未
+找到 jar 文件将报错 =java.io.IOException: Can't read jar file:
+myudfs.jar= 。
+
+可以注册多个文件，如果有相同的函数，根据 java 规则是使用第一次出现的函
+数。
+
+UDF 必须使用带 package 的全称，否则会报函数找不到的错误
+=java.io.IOException: Cannot instantiate:UPPER= 。
+
+<src lang="java">
+package myudfs;
+import java.io.IOException;
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.impl.util.WrappedIOException;
+
+public class UPPER extends EvalFunc (String)
+{
+    public String exec(Tuple input) throws IOException {
+        if (input == null || input.size() == 0)
+            return null;
+        try{
+            String str = (String)input.get(0);
+            return str.toUpperCase();
+        }catch(Exception e){
+            throw WrappedIOException.wrap("Caught exception processing input row ", e);
+        }
+    }
+}
+</src>
