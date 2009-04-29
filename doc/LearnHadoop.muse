@@ -28,3 +28,18 @@ tail
 test 
 text 
 touchz
+
+* Quick Start
+
+安装包：
+ - sun-java6-jdk
+ - openssh-server
+ - ant
+
+下载 hadoop-0.20.0.tar.gz, 解压缩后，在 .profile 中加入：
+<example>
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+export HADOOP_HOME=/home/ywb/proj/hadoop-0.20.0
+export PATH=$HADOOP_HOME/bin:$PATH
+</example>
+

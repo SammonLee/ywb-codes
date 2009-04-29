@@ -4,7 +4,7 @@
 
 svn 代码：
 <example>
-$ svn co http://svn.apache.org/repos/asf/hadoop/pig/trunk
+$ svn co http://svn.apache.org/repos/asf/hadoop/pig/trunk pig
 </example>
 
 发布版本下载 http://www.apache.org/dyn/closer.cgi/hadoop/pig
@@ -13,8 +13,7 @@ $ svn co http://svn.apache.org/repos/asf/hadoop/pig/trunk
 
 需要设置环境变量：
 <example>
-export HADOOP_HOME=/path/to/hadoop-version
-export PIGDIR=/path/to/pig
+export PIGDIR=/path/to/src/pig
 export PIG_CLASSPATH=$PIGDIR/pig.jar:$HADOOP_HOME/conf
 </example>
 
@@ -84,6 +83,7 @@ myudfs.jar= 。
 UDF 必须使用带 package 的全称，否则会报函数找不到的错误
 =java.io.IOException: Cannot instantiate:UPPER= 。
 
+下面是 UPPER 函数的实现：
 <src lang="java">
 package myudfs;
 import java.io.IOException;
@@ -91,7 +91,7 @@ import org.apache.pig.EvalFunc;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.util.WrappedIOException;
 
-public class UPPER extends EvalFunc (String)
+public class UPPER extends EvalFunc<String>
 {
     public String exec(Tuple input) throws IOException {
         if (input == null || input.size() == 0)
@@ -103,6 +103,70 @@ public class UPPER extends EvalFunc (String)
             throw WrappedIOException.wrap("Caught exception processing input row ", e);
         }
     }
+}
+</src>
+
+UDF 扩展了 EvalFunc 类。它的参数是函数的返回值。
+这个类实现一个 exec 函数，这个函数将操作于每一个 tuple 。它的顺序与
+pig 脚本中传入值一致。首先需要对传入值做检查。如果数据格式与要求不符，
+将得到一个 NULL 值。如果输入数据是另一种类型，说明数据已经发生了一次转
+换，这里我们抛出一个异常。
+
+编译：
+<example>
+$ javac -cp $PIG_CLASSPATH UPPER.java
+$ cd ..
+$ jar -cf myudfs.jar myudfs
+</example>
+
+** 聚集函数
+聚集函数是接受一个 bag 参数，返回 scalar 值的函数。聚集函数的一个特性
+是能分布计算中增量计算，这样的函数称为是算术 (algebraic) 的函数。
+
+<src lang="java">
+public class COUNT extends EvalFunc<Long> implements Algebraic{
+    public Long exec(Tuple input) throws IOException {return count(input);}
+    public String getInitial() {return Initial.class.getName();}
+    public String getIntermed() {return Intermed.class.getName();}
+    public String getFinal() {return Final.class.getName();}
+    static public class Initial extends EvalFunc<Tuple> {
+        public Tuple exec(Tuple input) throws IOException {
+            return TupleFactory.getInstance().newTuple(count(input));
+        }
+    }
+    static public class Intermed extends EvalFunc<Tuple> {
+        public Tuple exec(Tuple input) throws IOException {
+            return TupleFactory.getInstance().newTuple(sum(input));
+        }
+    }
+    static public class Final extends EvalFunc<Long> {
+        public Tuple exec(Tuple input) throws IOException {
+            return sum(input);
+        }
+    }
+    static protected Long count(Tuple input) throws ExecException {
+        Object values = input.get(0);
+        if (values instanceof DataBag) return ((DataBag)values).size();
+        else if (values instanceof Map) return new Long(((Map)values).size());
+    }
+    static protected Long sum(Tuple input) throws ExecException, NumberFormatException {
+        DataBag values = (DataBag)input.get(0);
+        long sum = 0;
+        for (Iterator (Tuple) it = values.iterator(); it.hasNext();) {
+            Tuple t = it.next();
+            sum += (Long)t.get(0);
+        }
+        return sum;
+    }
+}
+</src>
+
+Algebraic 的接口如下：
+<src lang="java">
+public interface Algebraic{
+    public String getInitial();
+    public String getIntermed();
+    public String getFinal();
 }
 </src>
 
@@ -244,7 +308,7 @@ B = FOREACH A GENERATE name + gpa;
 ** COGROUP
 COGROUP 将两组或多组关系按相同的字段合并成这新的结构 (join_field, A, B)。语法如下：
 <example>
-alias = COGROUP alias BY field_alias [INNER|OUTER], alias BY field_alias[INNER|OUTER] [PARALLEL n]; 
+alias = COGROUP alias BY field_alias [INNER|OUTER], alias BY field_alias[INNER|OUTER] [PARALLEL n];
 </example>
  - alias 是关系名。
  - field_alias 是关系中的一个或多个字段。当使用多个字段时，两个关系中的字段数必须一致。
@@ -308,9 +372,9 @@ alias = DISTINCT alias [PARALLEL n];
 A = LOAD 'data' AS (a1:int,a2:int,a3:int);
 DUMP A;
 (8,3,4)
-(1,2,3)        
-(4,3,3)        
-(4,3,3)        
+(1,2,3)
+(4,3,3)
+(4,3,3)
 (1,2,3)
 X = DISTINCT A;
 DUMP X;
@@ -322,7 +386,7 @@ DUMP X;
 ** FILTER
 
 <example>
-alias = FILTER alias BY expression; 
+alias = FILTER alias BY expression;
 </example>
 
 <example>
@@ -358,9 +422,260 @@ FOREACH nested_alias {
    GENERATE expression [ expression ... ]
 };
 </example>
-nested_op 是
+nested_op 包括 FILTER, ORDER, DISTINCT。
+schema 如果使用 FLATTEN 关键字，则 schema 要用括号括起，否则不要用括号。
+
+使用示例：
+<example>
+A = LOAD 'data1' AS (a1:int,a2:int,a3:int);
+DUMP A;
+(1,2,3)
+(4,2,1)
+(8,3,4)
+(4,3,3)
+(7,2,5)
+(8,4,3)
+B = LOAD 'data2' AS (b1:int,b2:int);
+DUMP B;
+(2,4)
+(8,9)
+(1,3)
+(2,7)
+(2,9)
+(4,6)
+(4,9)
+C = COGROUP A BY a1 inner, B BY b1 inner;
+DUMP C;
+(1,{(1,2,3)},{(1,3)})
+(4,{(4,2,1),(4,3,3)},{(4,6),(4,9)})
+(8,{(8,3,4),(8,4,3)},{(8,9)})
+ILLUSTRATE C;
+--------------------------------------------------------------------------------------
+| C     | group: int | A: bag({a1: int,a2: int,a3: int}) | B: bag({b1: int,b2: int}) |
+--------------------------------------------------------------------------------------
+|       | 1          | {(1, 2, 3)}                       | {(1, 3)}                  |
+--------------------------------------------------------------------------------------
+(1,{(1,2,3)},{(1,3)})
+(4,{(4,2,1),(4,3,3)},{(4,6),(4,9)})
+(8,{(8,3,4),(8,4,3)},{(8,9)})
+</example>
+
+简单的 project：
+<example>
+X = FOREACH A GENERATE *;
+X = FOREACH A GENERATE a1, a2;
+</example>
+
+nested project:
+<example>
+X = FOREACH C GENERATE group, B.b2;
+(1,{(3)})
+(4,{(6),(9)})
+(8,{(9)})
+X = FOREACH C GENERATE group, A.(a1, a2);
+(1,{(1,2)})
+(4,{(4,2),(4,3)})
+(8,{(8,3),(8,4)})
+</example>
+
+Schema:
+<example>
+X = FOREACH A GENERATE a1+a2 AS f1:int;
+</example>
+
+使用函数：
+<example>
+X = FOREACH C GENERATE group, SUM (A.a1);
+(1,1L)
+(4,8L)
+(8,16L)
+</example>
+
+FLATTEN：
+<example>
+X = FOREACH C GENERATE group, FLATTEN(A);
+(1,1,2,3)
+(4,4,2,1)
+(4,4,3,3)
+(8,8,3,4)
+(8,8,4,3)
+X = FOREACH C GENERATE GROUP, FLATTEN(A.a3);
+(1,3)
+(4,1)
+(4,3)
+(8,4)
+(8,3)
+</example>
+在 C 的 group '4' 中，A 和 B 都有两个 tuple，在使用 flatten 时将产生
+cross ：
+<example>
+X = FOREACH C GENERATE FLATTEN(A.(a1, a2)), FLATTEN(B.$1);
+(1,2,3)
+(4,2,6)
+(4,2,9)
+(4,3,6)
+(4,3,9)
+(8,3,9)
+(8,4,9)
+</example>
+
+nested block：
+<example>
+A = LOAD 'data' AS (url:chararray,outlink:chararray);
+(www.ccc.com,www.hjk.com)
+(www.ddd.com,www.xyz.org)
+(www.aaa.com,www.cvn.org)
+(www.www.com,www.kpt.net)
+(www.www.com,www.xyz.org)
+(www.ddd.com,www.xyz.org)
+B = GROUP A BY url;
+(www.aaa.com,{(www.aaa.com,www.cvn.org)})
+(www.ccc.com,{(www.ccc.com,www.hjk.com)})
+(www.ddd.com,{(www.ddd.com,www.xyz.org),(www.ddd.com,www.xyz.org)})
+(www.www.com,{(www.www.com,www.kpt.net),(www.www.com,www.xyz.org)})
+X = foreach B {
+       FA= FILTER A BY outlink == 'www.xyz.org';
+       PA = FA.outlink;
+       DA = DISTINCT PA;
+       GENERATE group, COUNT(DA);
+};
+(www.aaa.com,0L)
+(www.ccc.com,0L)
+(www.ddd.com,1L)
+(www.www.com,1L)
+</example>
+
+** GROUP
+
+<example>
+alias = GROUP alias [BY {[field_alias [, field_alias]] | * | [expression] } [ALL] [PARALLEL n];
+</example>
+
+field_alias 可以是一个或者多个。
+<literal>*</literal>  表示按所有字段。
+ALL 表示所有 touple 分到一个 group 中。
+
+** JOIN
+<example>
+alias = JOIN alias BY field_alias, alias BY field_alias [, alias BY field_alias ..] [USING "replicated"] [PARALLEL n];
+</example>
+replicated 当数据量小时直接将关系存储到内存中。
+
+** LIMIT
+
+<example>
+alias = LIMIT alias n;
+</example>
 
 ** DUMP
 <example>
 DUMP alias;
 </example>
+
+** LOAD
+<example>
+alias = LOAD 'data' [USING function] [AS schema];
+</example>
+
+** ORDER
+<example>
+alias = ORDER alias BY { * [ASC|DESC] | field_alias [ASC|DESC] [, field_alias [ASC|DESC] …] } [PARALLEL n];
+</example>
+在 pig 中关系都是没有顺序的。如果用 ORDER 对关系 A 产生 X，X 和 A 实际
+上还是一样，但是从 X 中取数据时保证是有顺序的。如果对 X 作操作不能保证
+是有顺序的，比如 FILTER X BY $0>1。
+
+** SPLIT
+<example>
+SPLIT alias INTO alias IF expression, alias IF expression [, alias IF expression ...]
+</example>
+SPLIT 应该是增强的 FILTER。
+
+<example>
+A = LOAD 'data' AS (f1:int,f2:int,f3:int);
+DUMP A;
+(1,2,3)
+(4,5,6)
+(7,8,9)
+SPLIT A INTO X IF f1< 7, Y IF f2==5, Z IF (f3<6 OR f3>6);
+DUMP X;
+(1,2,3)
+(4,5,6)
+DUMP Y;
+(4,5,6)
+DUMP Z;
+(1,2,3)
+(7,8,9)
+</example>
+
+** STREAM
+<example>
+alias = STREAM alias [, alias ...] THROUGH { `command` | cmd_alias } [ AS schema ];
+</example>
+STREAM 操作用于向外界脚本输出数据。
+
+** UNION
+是 SPLIT 反操作。
+<example>
+alias = UNION alias, alias [, alias …];
+</example>
+
+** EXPLAIN
+<example>
+EXPLAIN alias;
+</example>
+
+** ILLUSTRATE
+<example>
+ILLUSTRATE alias;
+</example>
+
+** DEFINE
+
+<example>
+DEFINE alias { function | [`command` [input] [output] [ship] [cache]] }
+</example>
+
+** 函数
+
+*** AVG
+参数是一个 bag，返回平均值。
+<example>
+A = LOAD 'student.txt' AS (name:chararray, term:chararray, gpa:float);
+DUMP A;
+(John,fl,3.9F)
+(John,wt,3.7F)
+(John,sp,4.0F)
+(John,sm,3.8F)
+(Mary,fl,3.8F)
+(Mary,wt,3.9F)
+(Mary,sp,4.0F)
+(Mary,sm,4.0F)
+B = GROUP A BY name;
+DUMP B;
+(John,{(John,fl,3.9F),(John,wt,3.7F),(John,sp,4.0F),(John,sm,3.8F)})
+(Mary,{(Mary,fl,3.8F),(Mary,wt,3.9F),(Mary,sp,4.0F),(Mary,sm,4.0F)})
+C = FOREACH B GENERATE A.name, AVG(A.gpa);
+DUMP C;
+({(John),(John),(John),(John)},3.850000023841858)
+({(Mary),(Mary),(Mary),(Mary)},3.925000011920929)
+</example>
+
+*** COUNT
+参数是一个 bag。计算 bag 内的 tuple 数。
+
+*** SUM
+参数是一个 bag，计算 bag 内所有数据之和。
+
+*** CONCAT
+连接两个 chararray。
+
+*** DIFF
+
+A = LOAD 'bag_data' AS (B1:bag{T1:tuple(t1:int,t2:int)},B2:bag {T2:tuple(f1:int,f2:int)});
+
+*** MAX
+*** MIN
+*** SIZE
+*** TOKENIZE
+
