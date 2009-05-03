@@ -1,6 +1,6 @@
 ;;; w3m-hist.el --- the history management system for emacs-w3m
 
-;; Copyright (C) 2001, 2002, 2003, 2004
+;; Copyright (C) 2001, 2002, 2003, 2004, 2005
 ;; TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Author: Katsumi Yamaoka <yamaoka@jpl.org>
@@ -21,7 +21,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -35,17 +35,6 @@
 
 (eval-when-compile
   (require 'cl))
-
-(eval-and-compile
-  (dont-compile
-    (condition-case nil
-	:symbol-for-testing-whether-colon-keyword-is-available-or-not
-      (void-variable
-       (let (w3m-colon-keywords)
-	 (load "w3m-kwds.el" nil t t)
-	 (while w3m-colon-keywords
-	   (set (car w3m-colon-keywords) (car w3m-colon-keywords))
-	   (setq w3m-colon-keywords (cdr w3m-colon-keywords))))))))
 
 (defcustom w3m-history-reuse-history-elements nil
   "Non-nil means reuse the history element when re-visiting the page.

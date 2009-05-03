@@ -21,7 +21,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 ;;; Commentary:
@@ -128,6 +128,15 @@ that consists of:
   :group 'w3m-antenna
   :type '(file :size 0))
 
+(defcustom w3m-antenna-refresh-interval nil
+  "Interval time to update (to refresh) the antenna page automatically.
+The value should be a positive integer in seconds, or nil which means
+not to update the page."
+  :group 'w3m-antenna
+  :type '(choice
+	  (const :tag "Not reload." nil)
+	  (integer :tag "Interval second.")))
+
 (defcustom w3m-antenna-sites
   (unless noninteractive
     (mapcar (lambda (site)
@@ -173,7 +182,7 @@ that consists of:
 (defcustom w3m-antenna-html-skelton
   (eval-when-compile
     (concat "<!doctype html public \"-//W3C//DTD HTML 3.2//EN\">\n"
-	    "<html>\n<head>\n<title>Antenna</title>\n</head>\n<body>\n"
+	    "<html>\n<head>\n<title>Antenna</title>\n%R</head>\n<body>\n"
 	    "<h1>Antenna</h1>\n<p align=\"right\">Checked at %D.</p>\n"
 	    "<h2>Updated</h2>\n<ul>\n%C</ul>\n"
 	    "<h2>Visited</h2>\n<ul>\n%U</ul>\n"
@@ -413,11 +422,10 @@ a list of the results."
 	    (incf index)
 	    (funcall function
 		     element
-		     (let ((var (make-symbol "tmpvar")))
-		       (cons `(lambda (x)
-				(aset ,table ,index x)
-				(w3m-antenna-mapcar-after ,table ,buffer))
-			     handler)))))
+		     (cons `(lambda (x)
+			      (aset ,table ,index x)
+			      (w3m-antenna-mapcar-after ,table ,buffer))
+			   handler))))
     (w3m-antenna-mapcar-after (symbol-value table) (symbol-value buffer))))
 
 (defun w3m-antenna-mapcar-after (result buffer)
@@ -514,7 +522,16 @@ asynchronous process that has not finished yet."
 	(insert (let ((time (nth 5 (file-attributes w3m-antenna-file))))
 		  (if time
 		      (current-time-string time)
-		    "(unknown)"))))))))
+		    "(unknown)"))))
+       ((eq c '?R)
+	(save-restriction
+	  (narrow-to-region (match-beginning 0) (match-end 0))
+	  (delete-region (point-min) (point-max))
+	  (when (and w3m-antenna-refresh-interval
+		     (integerp w3m-antenna-refresh-interval)
+		     (< 0 w3m-antenna-refresh-interval))
+	    (insert (format "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"%d\">\n"
+			    w3m-antenna-refresh-interval)))))))))
 
 ;;;###autoload
 (defun w3m-about-antenna (url &optional no-decode no-cache

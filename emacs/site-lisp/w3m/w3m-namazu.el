@@ -21,7 +21,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 ;;; Commentary:
@@ -168,10 +168,10 @@ argument."
   (let (index query (whence "0"))
     (when (string-match "\\`about://namazu/\\?" url)
       (dolist (s (split-string (substring url (match-end 0)) "&"))
-	(when (string-match "\\`\\(index\\|\\(query\\)\\|\\(whence\\)\\)=" s)
+	(when (string-match "\\`\\(?:index\\|\\(query\\)\\|\\(whence\\)\\)=" s)
 	  (set (cond
-		((match-beginning 2) 'query)
-		((match-beginning 3) 'whence)
+		((match-beginning 1) 'query)
+		((match-beginning 2) 'whence)
 		(t 'index))
 	       (substring s (match-end 0)))))
       (when (zerop (w3m-namazu-call-process (w3m-url-decode-string index)
@@ -205,7 +205,7 @@ argument."
 	    (forward-char -1)
 	    (insert "file://"))
 	  (goto-char (point-min))
-	  (while (re-search-forward "<a href=\"\\(\\?\\)&\\(amp;\\)?whence="
+	  (while (re-search-forward "<a href=\"\\(\\?\\)&\\(?:amp;\\)?whence="
 				    nil t)
 	    (goto-char (match-beginning 1))
 	    (delete-char 1)
@@ -274,4 +274,5 @@ argument."
 		reload))
 
 (provide 'w3m-namazu)
+
 ;;; w3m-namazu.el ends here

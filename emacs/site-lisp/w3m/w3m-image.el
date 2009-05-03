@@ -1,6 +1,7 @@
 ;;; w3m-image.el --- Image conversion routines.
 
-;; Copyright (C) 2001, 2002, 2003 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
+;; Copyright (C) 2001, 2002, 2003, 2005
+;; TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Authors: Yuuichi Teranishi  <teranisi@gohome.org>
 ;; Keywords: w3m, WWW, hypermedia
@@ -20,7 +21,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 ;;; Commentary:
@@ -72,7 +73,6 @@
   (when w3m-imagick-convert-program
     (let* ((in-file (make-temp-name
 		     (expand-file-name "w3mel" w3m-profile-directory)))
-	   (file-coding-system 'binary)
 	   (buffer-file-coding-system 'binary)
 	   (coding-system-for-read 'binary)
 	   (coding-system-for-write 'binary)
@@ -127,11 +127,9 @@
 			  (expand-file-name "w3mel" w3m-profile-directory)))
 		(out-buffer (current-buffer)))
     (setq w3m-current-url "non-existent")
-    (let ((file-coding-system 'binary)
-	  (coding-system-for-write 'binary)
+    (let ((coding-system-for-write 'binary)
 	  (buffer-file-coding-system 'binary)
 	  jka-compr-compression-info-list
-	  jam-zcat-filename-list
 	  format-alist)
       (write-region (point-min) (point-max) in-file nil 'nomsg))
     (w3m-process-do

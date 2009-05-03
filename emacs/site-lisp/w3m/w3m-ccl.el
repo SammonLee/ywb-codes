@@ -1,6 +1,6 @@
 ;;; w3m-ccl.el --- CCL programs to process Unicode and internal characters.
 
-;; Copyright (C) 2001, 2003, 2004, 2005
+;; Copyright (C) 2001, 2003, 2004, 2005, 2006
 ;; TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Authors: TSUCHIYA Masatoshi <tsuchiya@namazu.org>,
@@ -22,7 +22,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -42,10 +42,6 @@
   (cond
    ((featurep 'xemacs)
     (require 'pccl))
-   ((boundp 'MULE)
-    (let ((features (cons 'w3m-ccl features)))
-      (require 'w3m-om)) ;; for `charset-id'
-    (require 'pccl))
    (t
     (require 'ccl))))
 
@@ -54,7 +50,9 @@
 (eval-when-compile
   (when (and (not (fboundp 'charset-id))
 	     (fboundp 'charset-id-internal))
-    (defalias 'charset-id 'charset-id-internal)))
+    (defmacro charset-id (charset)
+      "Return charset identification number of CHARSET."
+      `(charset-id-internal ,charset))))
 
 (eval-and-compile
   (defconst w3m-internal-characters-alist

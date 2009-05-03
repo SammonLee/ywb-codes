@@ -1,6 +1,6 @@
 ;;; w3m-proc.el --- Functions and macros to control sub-processes
 
-;; Copyright (C) 2001, 2002, 2003, 2004, 2005
+;; Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007
 ;; TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Authors: TSUCHIYA Masatoshi <tsuchiya@namazu.org>,
@@ -28,7 +28,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -49,15 +49,6 @@
 	  (delq 'gensym byte-compile-cl-functions))))
 
 (require 'w3m-util)
-
-(eval-and-compile
-  (cond ((boundp 'MULE)
-	 (autoload 'read-passwd "w3m-om"))
-	((= emacs-major-version 19)
-	 (autoload 'read-passwd "w3m-19"))
-	((boundp 'header-line-format)
-	 (autoload 'w3m-force-window-update
-	   (format "w3m-e%d" emacs-major-version)))))
 
 (eval-when-compile
   ;; Variable(s) which are used in the following inline functions.
@@ -104,7 +95,8 @@
 
 (defvar w3m-process-proxy-user nil "User name of the proxy server.")
 (defvar w3m-process-proxy-passwd nil "Password of the proxy server.")
-
+(defvar w3m-process-ssl-passphrase nil
+  "Passphrase for the client certificate.")
 
 (defmacro w3m-process-with-coding-system (&rest body)
   "Set coding systems for `w3m-command', and evaluate BODY."
@@ -314,15 +306,7 @@ which have no handler."
     (with-current-buffer buffer
       (setq w3m-current-process nil)))
   (w3m-process-start-queued-processes)
-  (w3m-static-when (boundp 'header-line-format)
-    ;; Redisplay the header-line.
-    (run-at-time 0.5 nil
-		 (lambda (buffer)
-		   (if (and (buffer-live-p buffer)
-			    (eq (get-buffer-window buffer t)
-				(selected-window)))
-		       (w3m-force-window-update)))
-		 buffer)))
+  (w3m-force-window-update-later buffer))
 
 (defun w3m-process-shutdown ()
   (let ((list w3m-process-queue))
@@ -545,10 +529,14 @@ evaluated in a temporary buffer."
 	  (string-as-multibyte (format "%s" exit-status)))
     nil)))
 
+(defvar w3m-process-background nil
+  "Non-nil means that an after handler is being evaluated.")
+
 (defun w3m-process-sentinel (process event &optional ignore-queue)
   ;; Ensure that this function will be never called repeatedly.
   (set-process-sentinel process 'ignore)
-  (let ((inhibit-quit w3m-process-inhibit-quit))
+  (let ((inhibit-quit w3m-process-inhibit-quit)
+	(w3m-process-background t))
     (unwind-protect
 	(if (buffer-name (process-buffer process))
 	    (with-current-buffer (process-buffer process)
@@ -565,7 +553,7 @@ evaluated in a temporary buffer."
 		  (when (buffer-name (w3m-process-handler-buffer x))
 		    (set-buffer (w3m-process-handler-buffer x))
 		    (unless (eq buffer (current-buffer))
-		      (insert-buffer buffer))))
+		      (insert-buffer-substring buffer))))
 		(dolist (x (w3m-process-handlers obj))
 		  (when (buffer-name (w3m-process-handler-buffer x))
 		    (set-buffer (w3m-process-handler-buffer x))
@@ -605,16 +593,20 @@ evaluated in a temporary buffer."
 	(unless (string= "" string)
 	  (goto-char (point-min))
 	  (cond
-	   ((and (looking-at "\\(Accept [^\n]+\n\\)*\\([^\n]+: accept\\? \\)(y/n)")
+	   ((and (looking-at
+		  "\\(?:Accept [^\n]+\n\\)*\\([^\n]+: accept\\? \\)(y/n)")
 		 (= (match-end 0) (point-max)))
 	    ;; SSL certificate
 	    (message "")
-	    (let ((yn (w3m-process-y-or-n-p w3m-current-url (match-string 2))))
+	    (let ((yn (w3m-process-y-or-n-p w3m-current-url (match-string 1))))
 	      (ignore-errors
 		(process-send-string process (if yn "y\n" "n\n"))
 		(delete-region (point-min) (point-max)))))
-	   ((and (looking-at
-		  "\\(\n?Wrong username or password\n\\)?Proxy Username for \\(.*\\): Proxy Password: ")
+	   ((and (looking-at "\n?Accept unsecure SSL session:.*\n")
+		 (= (match-end 0) (point-max)))
+	    (delete-region (point-min) (point-max)))
+	   ((and (looking-at "\\(\n?Wrong username or password\n\\)?\
+Proxy Username for \\(?:.*\\): Proxy Password: ")
 		 (= (match-end 0) (point-max)))
 	    (when (or (match-beginning 1)
 		      (not (stringp w3m-process-proxy-passwd)))
@@ -624,8 +616,8 @@ evaluated in a temporary buffer."
 	      (process-send-string process
 				   (concat w3m-process-proxy-passwd "\n"))
 	      (delete-region (point-min) (point-max))))
-	   ((and (looking-at
-		  "\\(\n?Wrong username or password\n\\)?Proxy Username for \\(.*\\): ")
+	   ((and (looking-at "\\(\n?Wrong username or password\n\\)?\
+Proxy Username for \\(.*\\): ")
 		 (= (match-end 0) (point-max)))
 	    (when (or (match-beginning 1)
 		      (not (stringp w3m-process-proxy-user)))
@@ -636,8 +628,8 @@ evaluated in a temporary buffer."
 	    (ignore-errors
 	      (process-send-string process
 				   (concat w3m-process-proxy-user "\n"))))
-	   ((and (looking-at
-		  "\\(\n?Wrong username or password\n\\)?Username for [^\n]*\n?: Password: ")
+	   ((and (looking-at "\\(\n?Wrong username or password\n\\)?\
+Username for [^\n]*\n?: Password: ")
 		 (= (match-end 0) (point-max)))
 	    (when (or (match-beginning 1)
 		      (not (stringp w3m-process-passwd)))
@@ -650,8 +642,8 @@ evaluated in a temporary buffer."
 	      (process-send-string process
 				   (concat w3m-process-passwd "\n"))
 	      (delete-region (point-min) (point-max))))
-	   ((and (looking-at
-		  "\\(\n?Wrong username or password\n\\)?Username for \\(.*\\)\n?: ")
+	   ((and (looking-at "\\(\n?Wrong username or password\n\\)?\
+Username for \\(.*\\)\n?: ")
 		 (= (match-end 0) (point-max)))
 	    (setq w3m-process-realm (match-string 2))
 	    (when (or (match-beginning 1)
@@ -663,13 +655,22 @@ evaluated in a temporary buffer."
 	    (ignore-errors
 	      (process-send-string process
 				   (concat w3m-process-user "\n"))))
+	   ((and (looking-at "Enter PEM pass phrase:")
+		 (= (match-end 0) (point-max)))
+	    (unless (stringp w3m-process-ssl-passphrase)
+	      (setq w3m-process-ssl-passphrase
+		    (read-passwd "PEM pass phrase: ")))
+	    (ignore-errors
+	      (process-send-string process
+				   (concat w3m-process-ssl-passphrase "\n"))
+	      (delete-region (point-min) (point-max))))
 	   ((progn
 	      (or (search-forward "\nW3m-current-url:" nil t)
 		  (goto-char (process-mark process)))
 	      (re-search-backward
-	       "^W3m-\\(in-\\)?progress: \\([.0-9]+/[.0-9]+[a-zA-Z]?b\\)$"
+	       "^W3m-\\(?:in-\\)?progress: \\([.0-9]+/[.0-9]+[a-zA-Z]?b\\)$"
 	       nil t))
-	    (let ((str (w3m-process-modeline-format (match-string 2)))
+	    (let ((str (w3m-process-modeline-format (match-string 1)))
 		  (buf))
 	      (save-current-buffer
 		(dolist (handler (w3m-process-handlers w3m-process-object))

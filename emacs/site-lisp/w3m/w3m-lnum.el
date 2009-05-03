@@ -1,6 +1,6 @@
 ;;; w3m-lnum.el --- Operations using link numbers
 
-;; Copyright (C) 2004, 2005 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
+;; Copyright (C) 2004, 2005, 2006 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Authors: TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 ;; Keywords: w3m, WWW, hypermedia
@@ -20,7 +20,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -103,12 +103,8 @@
 		    (overlay-put overlay 'before-string num)
 		    (set-glyph-face (extent-begin-glyph overlay)
 				    'w3m-link-numbering-face))
-		(when (featurep 'w3m-e20)
-		  (overlay-put overlay
-			       'face (get-text-property (point) 'face)))
-		(put-text-property 0 (length num)
-				   'face 'w3m-link-numbering-face
-				   num)
+		(w3m-add-face-property 0 (length num)
+				       'w3m-link-numbering-face num)
 		(overlay-put overlay 'before-string num)
 		(overlay-put overlay 'evaporate t))
 	      (overlay-put overlay 'w3m-link-numbering-overlay i))))))))
