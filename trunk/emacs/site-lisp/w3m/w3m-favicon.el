@@ -23,7 +23,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -98,7 +98,7 @@ If this variable is nil, never expired."
   :type '(integer :size 0))
 
 (defcustom w3m-favicon-type
-  (let ((types '(pbm png gif xpm bmp))
+  (let ((types '(png gif pbm xpm bmp))
 	type)
     (catch 'det
       (while types
@@ -200,7 +200,7 @@ favicon is ready."
 	   (w3m-favicon-convert
 	    (base64-decode-string (symbol-value icon)) 'ico))))
        ((or (string-match "\\`https?://" url)
-	    (and (string-match "\\`about://\\(header\\|source\\)/https?://"
+	    (and (string-match "\\`about://\\(?:header\\|source\\)/https?://"
 			       url)
 		 (setq url (substring url 15))))
 	(if w3m-icon-data
@@ -265,15 +265,8 @@ stored in the `w3m-favicon-image' buffer-local variable."
 	      (w3m-favicon-set-image image)
 	      (push (list url idata (current-time) w3m-favicon-image)
 		    w3m-favicon-cache-data)))))))
-  (w3m-static-when (boundp 'header-line-format)
-    ;; Emacs frame needs to be redisplayed to make favicon come out.
-    (run-at-time 1 nil
-		 (lambda (buffer)
-		   (if (and (buffer-live-p buffer)
-			    (eq (get-buffer-window buffer t)
-				(selected-window)))
-		       (w3m-force-window-update)))
-		 target)))
+  ;; Emacs frame needs to be redisplayed to make favicon come out.
+  (w3m-force-window-update-later target 1))
 
 (defun w3m-favicon-save-cache-file ()
   "Save the cached favicon data into the local file."

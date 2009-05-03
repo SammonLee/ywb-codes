@@ -48,10 +48,11 @@
                     (setq ok nil))))))
     (and ok str)))
 
-(defun vc-git--run-command (file &rest args)
+(defun vc-git--run-command (files &rest args)
   "Run a git command on FILE, discarding any output."
-  (let ((name (file-relative-name file)))
-    (eq 0 (apply #'call-process "git" nil (get-buffer "*Messages") nil (append args (list name))))))
+  (dolist (file files)
+    (let ((name (file-relative-name file)))
+      (eq 0 (apply #'call-process "git" nil (get-buffer "*Messages") nil (append args (list name)))))))
 
 (defun vc-git-registered (file)
   "Check whether FILE is registered with git."

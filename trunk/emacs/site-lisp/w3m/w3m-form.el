@@ -1,6 +1,6 @@
 ;;; w3m-form.el --- Stuffs to handle <form> tag
 
-;; Copyright (C) 2001, 2002, 2003, 2004, 2005
+;; Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006
 ;; TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Authors: TSUCHIYA Masatoshi <tsuchiya@namazu.org>,
@@ -25,7 +25,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, you can either send email to this
 ;; program's maintainer or write to: The Free Software Foundation,
-;; Inc.; 59 Temple Place, Suite 330; Boston, MA 02111-1307, USA.
+;; Inc.; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 ;;; Commentary:
@@ -149,6 +149,10 @@ Files to save text are stored in the directory specified by the
 (make-variable-buffer-local 'w3m-form-input-map-point)
 (make-variable-buffer-local 'w3m-form-input-map-urlname)
 
+(defvar w3m-form-new-session nil
+  "Specify non-nil value to create a new session after sending form.
+It is useful to bind this variable with `let', but do not set it globally.")
+
 ;;; w3m-form structure:
 
 (defsubst w3m-form-normalize-action (action url)
@@ -156,10 +160,10 @@ Files to save text are stored in the directory specified by the
   ;; "!CURRENT_URL!" is magic string of w3m.
   (if (and action (not (string= action "!CURRENT_URL!")))
       (w3m-expand-url action url)
-    (and url
-	 (string-match w3m-url-components-regexp url)
-	 (substring url 0 (or (match-beginning 6)
-			      (match-beginning 8))))))
+    (when url
+      (w3m-string-match-url-components url)
+      (substring url 0 (or (match-beginning 6)
+			   (match-beginning 8))))))
 
 (defun w3m-form-new (method action &optional baseurl charlst enctype)
   "Return new form object."
@@ -428,8 +432,7 @@ fid=\\([^/]+\\)/type=\\([^/]+\\)/name=\\([^/]+\\)/id=\\(.*\\)$"
   (unless (fboundp 'w3m-form-make-button)
     (defun w3m-form-make-button (start end properties)
       "Make button on the region from START to END."
-      (add-text-properties start end (append '(face w3m-form-face)
-					     properties)))))
+      (w3m-add-face-property start end 'w3m-form-face))))
 
 ;;; w3mmee
 ;;
@@ -551,14 +554,15 @@ fid=\\([^/]+\\)/type=\\([^/]+\\)/name=\\([^/]+\\)/id=\\(.*\\)$"
 		    (delete-char 1)
 		    (setq end (point))
 		    (insert "]"))
+		  (w3m-add-face-property start end 'w3m-form-face)
 		  (add-text-properties
 		   start end
 		   `(w3m-form-field-id
 		     ,(format "fid=%s/type=%s/name=%s/id=%d" fid type name id)
-		     face w3m-form-face
 		     w3m-action (w3m-form-input-textarea ,form ,hseq)
 		     w3m-submit (w3m-form-submit ,form ,id ,name
-						 (w3m-form-get ,form ,id))
+						 (w3m-form-get ,form ,id)
+						 w3m-form-new-session)
 		     w3m-form-hseq ,hseq
 		     w3m-anchor-sequence ,abs-hseq
 		     w3m-form-id ,id
@@ -651,10 +655,10 @@ If optional REUSE-FORMS is non-nil, reuse it as `w3m-current-form'."
 	    (unless maps (setq maps (w3m-form-new "map" ".")))
 	    (unless usemap (setq usemap mapval))
 	    (when mapval (setq mapval nil))
+	    (w3m-add-face-property start end 'w3m-form-face)
 	    (add-text-properties
 	     start (match-beginning 0)
-	     `(face w3m-form-face
-		    w3m-action (w3m-form-input-map ,maps ,usemap))))))
+	     `(w3m-action (w3m-form-input-map ,maps ,usemap))))))
        ((string= tag "/input_alt")
 	(replace-match ""))
        ((string= tag "input_alt")
@@ -698,9 +702,11 @@ If optional REUSE-FORMS is non-nil, reuse it as `w3m-current-form'."
 		 start end
 		 `(w3m-form-field-id
 		   ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		   w3m-action (w3m-form-submit ,form ,id ,name ,value)
+		   w3m-action (w3m-form-submit ,form ,id ,name ,value
+					       w3m-form-new-session)
 		   w3m-submit (w3m-form-submit ,form ,id ,name
-					       (w3m-form-get ,form ,id))
+					       (w3m-form-get ,form ,id)
+					       w3m-form-new-session)
 		   w3m-anchor-sequence ,abs-hseq))))
 	     ((string= type "reset")
 	      (w3m-form-make-button
@@ -723,18 +729,20 @@ If optional REUSE-FORMS is non-nil, reuse it as `w3m-current-form'."
 		(setq filename (expand-file-name
 				(w3m-form-input-textarea-filename
 				 w3m-current-url
-				 (format "fid=%d/type=%s/name=%s/id=%d" fid type name id))
+				 (format "fid=%d/type=%s/name=%s/id=%d"
+					 fid type name id))
 				w3m-form-textarea-directory))
 		(setq w3m-form-textarea-files
 		      (cons filename w3m-form-textarea-files)))
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input-textarea ,form ,hseq)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get ,form ,id))
+					     (w3m-form-get ,form ,id)
+					     w3m-form-new-session)
 		 w3m-textarea-rows ,rows
 		 w3m-form-hseq ,hseq
 		 w3m-anchor-sequence ,abs-hseq
@@ -749,24 +757,26 @@ If optional REUSE-FORMS is non-nil, reuse it as `w3m-current-form'."
 			  t)
 		      (setq selects (cons (list selectnumber form id name)
 					  selects)))
+		(w3m-add-face-property start end 'w3m-form-face)
 		(add-text-properties
 		 start end
 		 `(w3m-form-field-id
 		   ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		   face w3m-form-face
 		   w3m-action (w3m-form-input-select ,form ,id ,name)
 		   w3m-submit (w3m-form-submit ,form ,id ,name
-					       (w3m-form-get ,form ,id))
+					       (w3m-form-get ,form ,id)
+					       w3m-form-new-session)
 		   w3m-anchor-sequence ,abs-hseq))))
 	     ((string= type "password")
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input-password ,form ,id ,name)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get ,form ,id))
+					     (w3m-form-get ,form ,id)
+					     w3m-form-new-session)
 		 w3m-anchor-sequence ,abs-hseq)))
 	     ((string= type "checkbox")
 	      (let ((cvalue (w3m-form-get form id)))
@@ -774,53 +784,56 @@ If optional REUSE-FORMS is non-nil, reuse it as `w3m-current-form'."
 			      (if checked
 				  (cons value cvalue)
 				cvalue)))
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input-checkbox ,form ,id ,name ,value)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get ,form ,id))
+					     (w3m-form-get ,form ,id)
+					     w3m-form-new-session)
 		 w3m-anchor-sequence ,abs-hseq)))
 	     ((string= type "radio")
 	      ;; Radio button input, one name has one value
 	      (if checked
 		  (w3m-form-put-by-name form id name value))
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input-radio ,form ,id ,name ,value)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get-by-name
-					      ,form ,name))
+					     (w3m-form-get-by-name ,form ,name)
+					     w3m-form-new-session)
 		 w3m-anchor-sequence ,abs-hseq)))
 	     ((string= type "file")
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input-file ,form ,id ,name ,value)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get ,form ,id))
+					     (w3m-form-get ,form ,id)
+					     w3m-form-new-session)
 		 w3m-anchor-sequence ,abs-hseq)))
 	     (t
 	      (w3m-form-put form
 			    id
 			    name
 			    (or value (w3m-form-get form id)))
+	      (w3m-add-face-property start end 'w3m-form-face)
 	      (add-text-properties
 	       start end
 	       `(w3m-form-field-id
 		 ,(format "fid=%d/type=%s/name=%s/id=%d" fid type name id)
-		 face w3m-form-face
 		 w3m-action (w3m-form-input ,form ,id ,name ,type
 					    ,width ,maxlength ,value)
 		 w3m-submit (w3m-form-submit ,form ,id ,name
-					     (w3m-form-get ,form ,id))
+					     (w3m-form-get ,form ,id)
+					     w3m-form-new-session)
 		 w3m-anchor-sequence ,abs-hseq)))))))))
     ;; Process <internal> tag.
     (when (search-forward "<internal>" nil t)
@@ -1076,9 +1089,10 @@ character."
 	(when (or w3m-form-use-textarea-backup-p
 		  (and (eq this-command 'w3m-form-input-textarea-save)
 		       (y-or-n-p "Really save this buffer? ")))
-	  (let ((buffer-file-coding-system w3m-form-input-textarea-coding-system)
-		(file-coding-system w3m-form-input-textarea-coding-system)
-		(coding-system-for-write w3m-form-input-textarea-coding-system))
+	  (let ((buffer-file-coding-system
+		 w3m-form-input-textarea-coding-system)
+		(coding-system-for-write
+		 w3m-form-input-textarea-coding-system))
 	    (write-region (point-min) (point-max) file nil 'nomsg)))
       (when w3m-form-use-textarea-backup-p
 	(when (file-exists-p file)
@@ -1219,7 +1233,6 @@ textarea")))
       (when (and backup-p (file-exists-p file) (file-readable-p file))
 	(with-temp-buffer
 	  (let ((buffer-file-coding-system coding)
-		(file-coding-system coding)
 		(coding-system-for-read coding))
 	    (insert-file-contents file))
 	  (let ((before (buffer-string)))
@@ -1471,7 +1484,7 @@ textarea")))
 	major-mode 'w3m-form-input-select-mode)
   (setq buffer-read-only t)
   (use-local-map w3m-form-input-select-keymap)
-  (run-hooks 'w3m-form-input-select-mode-hook))
+  (w3m-run-mode-hooks 'w3m-form-input-select-mode-hook))
 
 (defun w3m-form-input-select (form id name)
   (let* ((value (w3m-form-get form id))
@@ -1521,8 +1534,9 @@ textarea")))
 	    (insert "\n")))
 	(goto-char (point-min))
 	(while (and (not (eobp))
-		    (not (equal cur (get-text-property (point)
-						       'w3m-form-select-value))))
+		    (not (equal cur
+				(get-text-property (point)
+						   'w3m-form-select-value))))
 	  (goto-char (next-single-property-change (point)
 						  'w3m-form-select-value)))
 	(set-buffer-modified-p nil)
@@ -1636,7 +1650,7 @@ textarea")))
 	major-mode 'w3m-form-input-map-mode)
   (setq buffer-read-only t)
   (use-local-map w3m-form-input-map-keymap)
-  (run-hooks 'w3m-form-input-map-mode-hook))
+  (w3m-run-mode-hooks 'w3m-form-input-map-mode-hook))
 
 (defun w3m-form-input-map (form name)
   (let* ((value (w3m-form-get-by-name form name))
@@ -1710,33 +1724,46 @@ textarea")))
 	  (setq files (cons file files))))
       files)))
 
-(defun w3m-form-submit (form &optional id name value)
-  (when (and id name
-	     (> (length name) 0))
-    (w3m-form-put form id name value))
-  (let* ((orig-url w3m-current-url)
-	 (url (or (w3m-form-action form)
-		  (if (string-match "\\?" w3m-current-url)
-		      (substring w3m-current-url 0 (match-beginning 0))
-		    w3m-current-url))))
-    (setq w3m-form-textarea-post-files
-	  (w3m-form-submit-get-textarea-files form))
-    (cond ((and (not (string= url orig-url))
-		(string-match "^https://" orig-url)
-		(string-match "^http://" url)
-		(not (y-or-n-p (format "Send POST data to '%s'?" url))))
-	   (ding))
-	  ((eq 'get (w3m-form-method form))
-	   (w3m-goto-url
-	    (concat url "?" (w3m-form-make-form-data form))))
-	  ((eq 'post (w3m-form-method form))
-	   (w3m-goto-url url 'reload nil
-			 (w3m-form-make-form-data form)
-			 w3m-current-url))
-	  (t
-	   (w3m-message "This form's method has not been supported: %s"
-			(let (print-level print-length)
-			  (prin1-to-string (w3m-form-method form))))))))
+(defun w3m-form-submit (form &optional id name value new-session)
+  (if (w3m-anchor (point))
+      ;; cf SA17565
+      (w3m-goto-url (w3m-anchor (point)))
+    (when (and id name
+	       (> (length name) 0))
+      (w3m-form-put form id name value))
+    (let* ((orig-url w3m-current-url)
+	   (url (or (w3m-form-action form)
+		    (if (string-match "\\?" w3m-current-url)
+			(substring w3m-current-url 0 (match-beginning 0))
+		      w3m-current-url))))
+      (setq w3m-form-textarea-post-files
+	    (w3m-form-submit-get-textarea-files form))
+      (cond ((and (not (string= url orig-url))
+		  (string-match "^https://" orig-url)
+		  (string-match "^http://" url)
+		  (not (y-or-n-p (format "Send POST data to '%s'?" url))))
+	     (ding))
+	    ((or (eq 'post (w3m-form-method form))
+		 ;; While some sites, e.g., emacswiki.org, specify the
+		 ;; `get' method for the enctype `multipart/form-data',
+		 ;; we use the `post' method according to the proposal
+		 ;; of RFC2070.
+		 (eq 'multipart/form-data (w3m-form-enctype form)))
+	     (funcall (if new-session
+			  'w3m-goto-url-new-session
+			'w3m-goto-url)
+		      url 'reload nil
+		      (w3m-form-make-form-data form)
+		      w3m-current-url))
+	    ((eq 'get (w3m-form-method form))
+	     (funcall (if new-session
+			  'w3m-goto-url-new-session
+			'w3m-goto-url)
+		      (concat url "?" (w3m-form-make-form-data form))))
+	    (t
+	     (w3m-message "This form's method has not been supported: %s"
+			  (let (print-level print-length)
+			    (prin1-to-string (w3m-form-method form)))))))))
 
 (defsubst w3m-form-real-reset (form sexp)
   (and (eq 'w3m-form-input (car sexp))
