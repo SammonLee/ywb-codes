@@ -65,15 +65,16 @@
 
 (defun shell-completion-read-options (file)
   (interactive "fRead option file: ")
-  (with-temp-buffer
-    (insert-file-contents file)
-    (goto-char (point-min))
-    (while (not (eobp))
-      (add-to-list 'shell-completion-options-alist
-                   (split-string (buffer-substring-no-properties
-                                  (line-beginning-position)
-                                  (line-end-position))))
-      (forward-line 1))))
+  (when (file-exists-p file)
+    (with-temp-buffer
+      (insert-file-contents file)
+      (goto-char (point-min))
+      (while (not (eobp))
+        (add-to-list 'shell-completion-options-alist
+                     (split-string (buffer-substring-no-properties
+                                    (line-beginning-position)
+                                    (line-end-position))))
+        (forward-line 1)))))
 
 ;;; Completion functions
 (defun shell-completion-prog-command ()
