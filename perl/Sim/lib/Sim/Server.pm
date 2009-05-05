@@ -13,10 +13,22 @@ use base qw(Class::Accessor);
 use Readonly;
 use Log::Log4perl qw/:easy/;
 
-__PACKAGE__->mk_accessors(qw/time cookie request/);
+__PACKAGE__->mk_accessors(qw/time cookie request auto_time/);
 
 Readonly my $COOKIE_NAME => 'B';
 Readonly my $SECRET_KEY => '49ff105cca19b';
+
+sub time {
+    my $self = shift;
+    if ( $self->auto_time ) {
+        return CORE::time();
+    } else {
+        if ( @_ ) {
+            $self->{time} = shift;
+        }
+        return $self->{time};
+    }
+}
 
 sub response {
     my ($self, $req) = @_;
@@ -34,9 +46,7 @@ sub response {
 sub write_log {
     my $self = shift;
     my $pixel = $self->request->uri;
-    
     my $shop = Sim::Config->get_shop_by_pixel($pixel);
-    
     my %log = (
         'B' => $self->cookie->{'b'},
         'i' => '',
@@ -49,9 +59,9 @@ sub write_log {
         'a' => '',
         'p' => '',
     );
-    print join("\x01", map { $_.$log{$_} }
+    INFO(join("\x01", map { $_.$log{$_} }
                     grep { defined($log{$_}) && $log{$_} ne '' }
-                       keys %log), "\n";
+                        keys %log));
 }
 
 sub gen_content {
@@ -61,7 +71,7 @@ sub gen_content {
 sub gen_cookie {
     my $self = shift;
     my $prefix = $COOKIE_NAME. '=';
-    my $bcookie = pack('I', int(rand(~0))) . pack('I', time());
+    my $bcookie = pack('I', int(rand(~0))) . pack('I', CORE::time());
     my %cookies = (
         'b' => MIME::Base32::encode($bcookie),
         's' => substr(md5_hex($bcookie.$SECRET_KEY), -2),
