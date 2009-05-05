@@ -12,7 +12,7 @@ sub add_rand_pages {
     my $shop = $self->shop;
     my @pages = keys %{$shop->{pages}};
     for ( 1..$num ) {
-        $self->add( $pages[rand(@pages)], rand(3) );
+        $self->add( $pages[rand(@pages)], rand(10) );
     }
 }
 
