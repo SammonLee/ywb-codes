@@ -1,7 +1,7 @@
-John	fl	3.9
-John	wt	3.7
-John	sp	4.0
-John	sm	3.8
+John Smith	fl	3.9
+John Smith	wt	3.7
+John Smith	sp	4.0
+John Smith	sm	3.8
 Mary	fl	3.8
 Mary	wt	3.9
 Mary	sp	4.0

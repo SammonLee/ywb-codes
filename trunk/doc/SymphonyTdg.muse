@@ -159,7 +159,7 @@ Symfony 配置文件分成：project, application, module 三个层次。
  - ProjectConfiguration.class.php 任何请求和命令都需要包含的第一个文件。
  - databases.yml 数据库配置。可以在 application 层覆盖。
  - properties.ini 包含一些在命令行使用的参数，比如项目名，远端连接
- - rsync_exclude.txt 
+ - rsync_exclude.txt
  - schema.yml, propel.ini 是 Propel 配置。propel.ini 是自动生成的，不
 应被修改。
 
@@ -241,7 +241,7 @@ sfConfig::set($name, $value)
 控制层分成几个组件：
  - front controller 应用的入口
  - action 应用逻辑
- - request, response, session 
+ - request, response, session
  - filters 每次请求在 action 之前或之后执行的代码
 
 Front controller 的工作：
@@ -575,9 +575,153 @@ $absolute	return absolute path?
   - boolean
   - integer
   - float
-  - date 
+  - date
   - varchar(size)
   - longvarchar
  - required
  - default
  - phpName
+
+* Form
+
+<src lang="php">
+// lib/form/ContactForm.class.php
+class ContactForm extends sfForm
+{
+  public function configure()
+  {
+    $this->setWidgets(array(
+      'name'    => new sfWidgetFormInput(),
+      'email'   => new sfWidgetFormInput(),
+      'message' => new sfWidgetFormTextarea(),
+    ));
+  }
+}
+</src>
+
+<src lang="php">
+// apps/frontend/modules/contact/actions/actions.class.php
+class contactActions extends sfActions
+{
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->form = new ContactForm();
+  }
+}
+</src>
+
+<src lang="html">
+<!-- apps/frontend/modules/contact/templates/indexSuccess.php -->
+<form action="<?php echo url_for('contact/submit') ?>" method="POST">
+  <table>
+    <?php echo $form ?>
+    <tr>
+      <td colspan="2">
+        <input type="submit" />
+      </td>
+    </tr>
+  </table>
+</form>
+</src>
+
+默认的标签名由字段名产生，可以通过 setLables 或 setLabel 方法设置标签名：
+<src lang="php">
+$this->widgetSchema->setLabels(array(
+  'name'    => 'Your name',
+  'email'   => 'Your email address',
+  'message' => 'Your message',
+));
+$this->widgetSchema->setLabel('email', 'Your email address');
+</src>
+
+默认的 form 结构是用 table 产生 (sfWidgetFormSchemaFormatter)，可以通过 setFormFormatterName 修改：
+<src lang="php">
+    $this->widgetSchema->setFormFormatterName('list');
+</src>
+
+在用户使用 POST 提交数据之后使用 redirect 好处：
+ - 防止刷新时重新提交表单
+ - 用户使用后退按钮时不会提示将提交表单
+
+如果需要数据保存在数组中，可以使用 setNameFormat 函数：
+<src lang="php">
+// lib/form/ContactForm.class.php
+    $this->widgetSchema->setNameFormat('contact[%s]');
+</src>
+
+在 html 里将使用 contact[name] 作为 name 属性，contact_name 作为 input
+的 id。
+| Name    | Attribute name   | Attribute id    |
+|---------+------------------+-----------------|
+| name    | contact[name]    | contact_name    |
+| email   | contact[email]   | contact_email   |
+| message | contact[message] | contact_message |
+
+由于 index 是 GET 方法，而 submit 是 POST 方法，所以可以把这两个
+action 合成一个：
+<src lang="php">
+class contactActions extends sfActions
+{
+  public function executeIndex($request)
+  {
+    $this->form = new ContactForm();
+
+    if ($request->isMethod('post'))
+    {
+      $this->redirect('contact/thankyou?'.http_build_query($request->getParameter('contact')));
+    }
+  }
+}
+</src>
+
+<src>
+// apps/frontend/modules/contact/templates/indexSuccess.php
+<form action="<?php echo url_for('contact/index') ?>" method="POST">
+</src>
+
+sfWidgetFormSelect 参数：
+ - choices
+ - multiple
+<src lang="php">
+class ContactForm extends sfForm
+{
+  protected static $subjects = array('Subject A', 'Subject B', 'Subject C');
+  public function configure()
+  {
+    $this->setWidgets(array(
+      'name'    => new sfWidgetFormInput(),
+      'email'   => new sfWidgetFormInput(),
+      'subject' => new sfWidgetFormSelect(array('choices' => self::$subjects)),
+      'message' => new sfWidgetFormTextarea(),
+    ));
+  }
+}
+</src>
+sfWidgetFormInput 参数：
+ - type 
+ - is_hidden
+
+widget html 属性可能通过第二个参数设置。
+
+widget 的默认值可以通过 setDefaults 和 setDefault 设置。
+
+sfValidator ：
+ - sfValidatorString
+ - sfValidatorEmail
+ - sfValidatorChoice
+
+参数：
+ - required 默认为 true
+ - time 默认为 false
+
+sfValidatorString 参数：
+ - max_length
+ - min_length
+
+sfValidatorEmail 参数：
+ - pattern
+
+sfValidatorChoice 参数：
+ - choices
+
+

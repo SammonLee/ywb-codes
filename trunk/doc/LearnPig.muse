@@ -124,8 +124,24 @@ $ jar -cf myudfs.jar myudfs
 是能分布计算中增量计算，这样的函数称为是算术 (algebraic) 的函数。
 
 <src lang="java">
+package myudfs;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.apache.pig.Algebraic;
+import org.apache.pig.EvalFunc;
+import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataBag;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.util.WrappedIOException;
+
 public class COUNT extends EvalFunc<Long> implements Algebraic{
-    public Long exec(Tuple input) throws IOException {return count(input);}
+    public Long exec(Tuple input) throws IOException {
+        return count(input);
+    }
     public String getInitial() {return Initial.class.getName();}
     public String getIntermed() {return Intermed.class.getName();}
     public String getFinal() {return Final.class.getName();}
@@ -140,19 +156,23 @@ public class COUNT extends EvalFunc<Long> implements Algebraic{
         }
     }
     static public class Final extends EvalFunc<Long> {
-        public Tuple exec(Tuple input) throws IOException {
+        public Long exec(Tuple input) throws IOException {
             return sum(input);
         }
     }
     static protected Long count(Tuple input) throws ExecException {
         Object values = input.get(0);
-        if (values instanceof DataBag) return ((DataBag)values).size();
-        else if (values instanceof Map) return new Long(((Map)values).size());
+        if (values instanceof DataBag)
+            return ((DataBag)values).size();
+        else if (values instanceof Map)
+            return new Long(((Map)values).size());
+        else
+            return null;
     }
     static protected Long sum(Tuple input) throws ExecException, NumberFormatException {
         DataBag values = (DataBag)input.get(0);
         long sum = 0;
-        for (Iterator (Tuple) it = values.iterator(); it.hasNext();) {
+        for (Iterator<Tuple> it = values.iterator(); it.hasNext();) {
             Tuple t = it.next();
             sum += (Long)t.get(0);
         }
@@ -169,6 +189,180 @@ public interface Algebraic{
     public String getFinal();
 }
 </src>
+
+Algebraic 由三个 EvalFunc 类构成。Initial 类中的 exec 函数只调用一次，
+它接受的是原始的输入 tuple。输出是包含部分结果的 tuple。Intermed 函数
+调用 0 或者多次，输入是由 Initial 输出的部分结果的 tuple。输出还是部分
+结果的 tuple。最终调用 Final 类，输出 scalar 结果。
+
+Hadoop 中是这样的：Initial 类在 map 过程中调用，产生部分结果。Intermed
+类由 combiner 调用，也是产生部分的结果。Final 类由 reducer 调用产生最
+终的结果。
+
+** Filter 函数
+
+Filter 函数是返回 bool 值的函数。
+
+<src lang="java">
+package myudfs;
+import java.io.IOException;
+import java.util.Map;
+import org.apache.pig.FilterFunc;
+import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataBag;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.DataType;
+import org.apache.pig.impl.util.WrappedIOException;
+
+public class IsEmpty extends FilterFunc {
+    public Boolean exec(Tuple input) throws IOException {
+        if (input == null || input.size() == 0)
+            return null;
+        try {
+            Object values = input.get(0);
+            if (values instanceof DataBag)
+                return ((DataBag)values).size() == 0;
+            else if (values instanceof Map)
+                return ((Map)values).size() == 0;
+            else{
+                throw new IOException("Cannot test a " +
+                    DataType.findTypeName(values) + " for emptiness.");
+            }
+        } catch (ExecException ee) {
+            throw WrappedIOException.wrap("Caught exception processing input row ", ee);
+        }
+    }
+}
+</src>
+
+** 数据类型
+
+| Pig Type  | Java Class          |
+|-----------+---------------------|
+| bytearray | DataByteArray       |
+| chararray | String              |
+| int       | Integer             |
+| long      | Long                |
+| float     | Float               |
+| double    | Double              |
+| tuple     | Tuple               |
+| bag       | DataBag             |
+| map       | Map<Object, Object> |
+
+Tuple 和 DataBag 不是实际的类，而是 interface，所有不能直接初始化 bag
+或 tuple，而需要使用 TupleFactory 和 BagFactory 来创建。
+
+<src lang="java">
+package org.apache.pig.builtin;
+
+import java.io.IOException;
+import java.util.StringTokenizer;
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.BagFactory;
+import org.apache.pig.data.DataBag;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
+
+public class TOKENIZE extends EvalFunc<DataBag> {
+    TupleFactory mTupleFactory = TupleFactory.getInstance();
+    BagFactory mBagFactory = BagFactory.getInstance();
+
+    public DataBag exec(Tuple input) throws IOException
+        try {
+            DataBag output = mBagFactory.newDefaultBag();
+            Object o = input.get(0);
+            if (!(o instanceof String)) {
+                throw new IOException("Expected input to be chararray, but  got " + o.getClass().getName());
+            }
+            StringTokenizer tok = new StringTokenizer((String)o, " \",()*", false);
+            while (tok.hasMoreTokens()) output.add(mTupleFactory.newTuple(tok.nextToken()));
+            return output;
+        } catch (ExecException ee) {
+            // error handling goes here
+        }
+    }
+}
+</src>
+
+** Schema
+如果 UDF 返回值是 scalar 或 map 可以不用处理，但是如果返回 tuple 或
+bag，需要指定 tuple 内的数据类型。如果不指定，Pig 将把 tuple 内的数据
+当作 bytearray 对待。
+
+下面这个 Swap 函数，如果没有指定 tuple 的 schema，在生成 C 时会出错，
+因为 pig 会认为 B 只有两个 field。
+<example>
+REGISTER myudfs.jar;
+A = LOAD 'data/student.txt' AS (name: chararray, sub, gpa: float);
+B = foreach A generate flatten(myudfs.Swap(name, sub)), gpa;
+C = foreach B generate $2;
+D = limit B 20;
+dump D;
+</example>
+正确的 swap 函数如下：
+<src lang="java">
+package myudfs;
+import java.io.IOException;
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.apache.pig.data.DataType;
+
+public class Swap extends EvalFunc<Tuple> {
+    public Tuple exec(Tuple input) throws IOException {
+        if (input == null || input.size() < 2 )
+            return null;
+        try{
+            Tuple output = TupleFactory.getInstance().newTuple(2);
+            output.set(0, input.get(1));
+            output.set(1, input.get(0));
+            return output;
+        } catch(Exception e){
+            System.err.println("Failed to process input; error - " + e.getMessage());
+            return null;
+        }
+    }
+    public Schema outputSchema(Schema input) {
+        try{
+            Schema tupleSchema = new Schema();
+            tupleSchema.add(input.getField(1));
+            tupleSchema.add(input.getField(0));
+            return new Schema(new Schema.FieldSchema(getSchemaName(this.getClass().getName().toLowerCase(), input),tupleSchema, DataType.TUPLE));
+        }catch (Exception e){
+                return null;
+        }
+    }
+}
+</src>
+
+** Load/Store 函数
+LoadFunc 类接口如下:
+<src lang="java">
+public interface LoadFunc {
+    public void bindTo(String fileName, BufferedPositionedInputStream is, long offset, long end) throws IOException;
+    public Tuple getNext() throws IOException;
+    // conversion functions
+    public Integer bytesToInteger(byte[] b) throws IOException;
+    public Long bytesToLong(byte[] b) throws IOException;
+    ......
+    public void fieldsToRead(Schema schema);
+    public Schema determineSchema(String fileName, ExecType execType, DataStorage storage) throws IOException;
+}
+</src>
+
+bindTo 在处理数据前调用一次,用于连接到输入。
+ - fileName 输入文件名，大多数时候是没有用的。
+ - is 输入流 (input stream)。
+ - offset 
+ - end
+
+在 Hadoop 中，输入数据是连续的字节流，slicer 用于将数据分割成块，每一
+块作单独的任务。它不保证 tuple 是完整的。一种方法是跳过第一个部分的
+tuple，如果结束于部分的 tuple 时，继续读取这个 tuple。
+
+getNext 函数用于读入输入流，返回下一个 tuple。如果结束时返回 null。如
+果出错时抛出 IOException。
 
 * Pig Latin
 
