@@ -27,7 +27,7 @@ CONF
 Log::Log4perl->init(\$log4perl_conf);
 
 Readonly my $MAX_USER => 10;
-Readonly my $MAX_SESSION => 1;
+Readonly my $MAX_SESSION => 2;
 my $user_counts = 0;
 
 sub handler_user_start {
