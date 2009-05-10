@@ -11,8 +11,8 @@ __PACKAGE__->mk_accessors(qw/server cookie/);
 
 sub request {
     my ($self, $url)  = @_;
-    my $pixel = Sim::Config->get_pixel_by_url($url);
-    my $req = HTTP::Request->new(GET => $pixel);
+    my $beacon = Sim::Config->get_beacon_by_url($url);
+    my $req = HTTP::Request->new(GET => $beacon);
     $req->header('Cookie', $self->cookie);
     $req->header('Referer', $url);
     my $res = $self->server->response($req);
