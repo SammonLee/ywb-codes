@@ -8,7 +8,7 @@ use URI::Escape;
 use MIME::Base32 qw/RFC/;
 use Digest::MD5 qw/md5_hex/;
 use Carp;
-
+use POSIX qw/strftime/;
 use base qw(Class::Accessor);
 use Readonly;
 use Log::Log4perl qw/:easy/;
@@ -45,23 +45,31 @@ sub response {
 
 sub write_log {
     my $self = shift;
-    my $pixel = $self->request->uri;
-    my $shop = Sim::Config->get_shop_by_pixel($pixel);
+    my $beacon = $self->request->uri;
+    my $url = $self->request->header('Referer');
+    my $shop = Sim::Config->get_shop_by_beacon($beacon);
     my %log = (
         'B' => $self->cookie->{'b'},
         'i' => '',
-        't' => $self->time,
-        'u' => $pixel,
-        'r' => $self->request->header('Referer') || '',
+        't' => strftime('%Y-%m-%d %T', localtime($self->time)),
+        # 'u' => $beacon,
+        'r' => $url,
         'f' => '',
         's' => $shop->{id},
-        'e' => '',
+        'e' => extract_item_id($url),
         'a' => '',
         'p' => '',
     );
-    INFO(join("\x01", map { $_.$log{$_} }
+    DEBUG({filter => \&Data::Dumper::Dumper, value => \%log});
+    INFO("\x01".join("\x01", map { $_.$log{$_} }
                     grep { defined($log{$_}) && $log{$_} ne '' }
                         keys %log));
+}
+
+sub extract_item_id {
+    my $u = URI->new(shift);
+    my %query = $u->query_form;
+    return $query{'itemid'};
 }
 
 sub gen_content {
