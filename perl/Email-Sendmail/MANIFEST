@@ -1,0 +1,7 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/Email-Sendmail.t
+lib/Email/Sendmail.pm
+META.yml                                 Module meta-data (added by MakeMaker)
