@@ -1,0 +1,98 @@
+#!/usr/bin/php
+<?php
+require_once 'Console/Getopt.php';
+define('EXIT_FAILURE', -1);
+define('EXIT_SUCCESS', 0);
+define('SPIKECOVER_INI', 'spikecover.ini');
+
+global $spike_config;
+$spike_config = array(
+    'phpcoverage_home' => getenv('PHPCOVERAGE_HOME') ? getenv('PHPCOVERAGE_HOME') : 'spikephpcoverage',
+    'report_path' => '/tmp/report',
+    'include_path' => '.',
+    'exclude_path' => 'tests',
+    'test_suite_name' => 'My Test',
+    'report_name' => "Code Coverage Report",
+    );
+
+if ( file_exists(SPIKECOVER_INI) )
+    load_config(SPIKECOVER_INI);
+$options = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), "p:d:i:c:e:h", array("help"));
+if ( empty($options[1]) )
+    usage("No test file or suite!", EXIT_FAILURE);
+else
+    $test_file = $options[1][0];
+
+foreach ( $options[0] as $o ) {
+    switch ( $o[0] ) {
+    case 'c':
+        load_config($o[1]);
+        break;
+    case 'p':
+        $spike_config['cmd_options']['phpcoverage_home'] = $o[1];
+        break;
+    case 'd':
+        $spike_config['cmd_options']['report_path'] = $o[1];
+        break;
+    case 'i':
+        $spike_config['cmd_options']['include_path'] = $o[1];
+        break;
+    case 'e':
+        $spike_config['cmd_options']['exclude_path'] = $o[1];
+        break;
+    case 'h':
+    case '--help':
+        usage();
+    }
+}
+if ( isset($spike_config['cmd_options']) )
+    $spike_config = array_merge($spike_config, $spike_config['cmd_options']);
+
+if ( !isset($spike_config['phpcoverage_home']) )
+    usage("PHPCOVERAGE_HOME is not set!", EXIT_FAILURE);
+$spike_config['include_path'] = explode(PATH_SEPARATOR, $spike_config['include_path']);
+$spike_config['exclude_path'] = explode(PATH_SEPARATOR, $spike_config['exclude_path']);
+
+define('PHPCOVERAGE_HOME', $spike_config['phpcoverage_home']);
+
+require_once PHPCOVERAGE_HOME . "/CoverageRecorder.php";
+require_once PHPCOVERAGE_HOME . "/reporter/HtmlCoverageReporter.php";
+require_once('simpletest/unit_tester.php');
+require_once('simpletest/reporter.php');
+
+$test_suite = new TestSuite($spike_config['test_suite_name']);
+$test_suite->addTestFile($test_file);
+$reporter = new HtmlCoverageReporter($spike_config['report_name'], "", $spike_config['report_path']);
+$cov = new CoverageRecorder($spike_config['include_path'], $spike_config['exclude_path'], $reporter);
+$cov->startInstrumentation();
+$test_suite->run(new TextReporter());
+$cov->stopInstrumentation();
+$cov->generateReport();
+$reporter->printTextSummary();
+
+function usage($msg='', $exit=EXIT_SUCCESS)
+{
+    if ( $msg )
+        echo $msg, "\n\n";
+    echo <<<EOF
+Usage: spikecover <options> MyTest.php
+
+    Options: 
+       -p <path>     Path to PHPCoverage home (defaults to PHPCOVERAGE_HOME environment property)
+       -d <path>     Generate PHPCoverage Report (defaults '/tmp/report')
+       -i <includes> include these directories for code coverage analysis (defaults '.')
+       -e <excludes> exclude these directories for code coverage analysis (defaults 'tests')
+       -c <config>   config file (defaults 'spikecover.ini').
+       -h --help     Show this message and exit.
+
+EOF;
+    exit($exit);
+}
+
+function load_config($file)
+{
+    global $spike_config;
+    $conf = parse_ini_file($file);
+    unset($conf['cmd_options']);
+    $spike_config = array_merge($spike_config, $conf);
+}
