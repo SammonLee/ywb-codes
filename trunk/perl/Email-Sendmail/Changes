@@ -1,0 +1,6 @@
+Revision history for Perl extension Email::Sendmail.
+
+0.01  Tue Jul 15 11:43:20 2008
+	- original version; created by h2xs 1.23 with options
+		-b 5.8.0 -X -b 5.8.0 -n Email::Sendmail
+
