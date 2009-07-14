@@ -1,0 +1,325 @@
+{
+    'product' => [
+        {
+            'props' => '10050:3239265;20000:11542',
+            'product_id' => '12870895',
+            'name' => "\x{9177}\x{6d3e}S100",
+            'price' => '99900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1AERgXbLd70MfPaZ9_102443.jpg'
+        },
+        {
+            'props' => '10050:97964;20000:11542',
+            'product_id' => '12869124',
+            'name' => "\x{9177}\x{6d3e}D21",
+            'price' => '188800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img03.taobaocdn.com/bao/uploaded/i3/T1a.VgXe2.70J787Q8_101357.jpg'
+        },
+        {
+            'props' => '10050:129250;20000:11542',
+            'product_id' => '12866634',
+            'name' => "\x{9177}\x{6d3e}S20 \x{53cc}\x{6a21}\x{53cc}\x{5f85} \x{8d85}\x{957f}\x{5f85}\x{673a} \x{7ecf}\x{6d4e}\x{5b9e}\x{60e0}",
+            'price' => '99900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T118VgXdeJ6tL7N17Z_032208.jpg'
+        },
+        {
+            'props' => '20000:22085;33875:96794',
+            'product_id' => '12289200',
+            'name' => "\x{7ebd}\x{66fc}G32",
+            'price' => '159900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/T1O90fXoKXYdMTN0o9_103051.jpg'
+        },
+        {
+            'props' => '20000:22085;33875:10191',
+            'product_id' => '12139674',
+            'name' => "\x{7ebd}\x{66fc}D10",
+            'price' => '89900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img02.taobaocdn.com/bao/uploaded/i2/T1hPFfXnMLVtLaJJoW_023116.jpg'
+        },
+        {
+            'props' => '10017:3786228;20000:10477',
+            'product_id' => '11959480',
+            'name' => 'B189',
+            'price' => '29800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1W94gXcP_60MonzDX_115653.jpg'
+        },
+        {
+            'props' => '20000:22085;33875:26453',
+            'product_id' => '11928694',
+            'name' => "\x{7ebd}\x{66fc}M2",
+            'price' => '89900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1k80gXdO56tKfRM7Z_032447.jpg'
+        },
+        {
+            'props' => '20000:10858;32203:3763390',
+            'product_id' => '11772712',
+            'name' => 'S659',
+            'price' => '175000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1QRtgXX9l6dJnRy34_053402.jpg'
+        },
+        {
+            'props' => '20000:84416;30032:11236',
+            'product_id' => '10723329',
+            'name' => "\x{5929}\x{8bed}\x{5b98}\x{65b9}\x{552f}\x{4e00}\x{6388}\x{6743} \x{5929}\x{8bed}G92\x{6b63}\x{54c1} GPS\x{5bfc}\x{822a}\x{7cfb}\x{5217} \x{8d85}\x{957f}\x{5f85}\x{673a} \x{7535}\x{5b50}\x{4e66}",
+            'price' => '189900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img05.taobaocdn.com/bao/uploaded/i5/T137dfXhs0VJKP30Z9_103129.jpg'
+        },
+        {
+            'props' => '10015:9213973;20000:10428',
+            'product_id' => '10320032',
+            'name' => 'KV500',
+            'price' => '265000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/T1k8XgXbmV50KCreYa_090712.jpg'
+        },
+        {
+            'props' => '10049:110015;20000:11531',
+            'product_id' => '10302072',
+            'name' => "\x{91d1}\x{7acb} A839",
+            'price' => '139900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/T16xdgXjK73JLZlnEW_024720.jpg'
+        },
+        {
+            'props' => '20000:84416;30032:33780',
+            'product_id' => '10148987',
+            'name' => "\x{3010}\x{5929}\x{8bed}\x{7eff}\x{68ee}\x{4e13}\x{5356}\x{5e97}\x{3011}\x{5929}\x{8bed}A610 \x{53cc}\x{5361}\x{53cc}\x{5f85} \x{6536}\x{97f3}\x{673a}\x{5916}\x{653e}",
+            'price' => '60000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img08.taobaocdn.com/bao/uploaded/i8/T1BRlgXgtN6dJVKs7Z_031639.jpg'
+        },
+        {
+            'props' => '20000:84416;30032:60277',
+            'product_id' => '10146402',
+            'name' => 'A665',
+            'price' => '84000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1xlRgXgdx6tL5ZTo._113514.jpg'
+        },
+        {
+            'props' => '10015:4012688;20000:10428',
+            'product_id' => '10116218',
+            'name' => 'KV755',
+            'price' => '350000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img03.taobaocdn.com/bao/uploaded/i3/T15OtgXdWP4dL1.Q79_104336.jpg'
+        },
+        {
+            'props' => '10030:8599339;20000:10764',
+            'product_id' => '10110736',
+            'name' => "\x{591a}\x{666e}\x{8fbe}S900C\x{5927}\x{9646}\x{884c}\x{8d27}\x{5e26}\x{53d1}\x{7968}\x{5168}\x{56fd}\x{8054}\x{4fdd}",
+            'price' => '680000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1o4NfXgzXUJM7SL_b_124105.jpg'
+        },
+        {
+            'props' => '10006:6393041;20000:10027',
+            'product_id' => '9026115',
+            'name' => "\x{8bfa}\x{57fa}\x{4e9a}6202c",
+            'price' => '183000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1tg0fXmBrUtJMK0U9_102824.jpg'
+        },
+        {
+            'props' => '10010:8797422;20000:10283',
+            'product_id' => '8755030',
+            'name' => "\x{963f}\x{5c14}\x{5361}\x{7279}OT-E227C",
+            'price' => '76500.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img08.taobaocdn.com/bao/uploaded/i8/T1wo0eXmqrQtMSkuHa_120657.jpg'
+        },
+        {
+            'props' => '10037:7179710;20000:11057',
+            'product_id' => '8685348',
+            'name' => 'CECT S80',
+            'price' => '200000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1Be8gXgL92tMumVw2_043011.jpg'
+        },
+        {
+            'props' => '20000:3278833;1957483:8813056',
+            'product_id' => '8672533',
+            'name' => "\x{7279}\x{7075}\x{901a} LT Q520 \x{91d1}\x{5c5e}\x{65cb}\x{8f6c} \x{65cb}\x{7235}\x{540d}\x{4ed5}\x{624b}\x{673a}",
+            'price' => '149900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1jNXgXdhU3JLc2zs0_035706.jpg'
+        },
+        {
+            'props' => '20000:20796;1957494:3217405',
+            'product_id' => '8650951',
+            'name' => "\x{7231}\x{56fd}\x{8005}\x{624b}\x{673a}a58",
+            'price' => '89900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1V8hgXjZW50K9IBo__110320.jpg'
+        },
+        {
+            'props' => '20000:6994349;1956371:3316917',
+            'product_id' => '8634005',
+            'name' => "LEXUE Q88 \x{5b66}\x{751f}\x{624b}\x{673a} \x{5b66}\x{4e60}\x{673a} \x{9632}\x{76d7} \x{4f4e}\x{8f90}\x{5c04} \x{624b}\x{5199} MP3",
+            'price' => '89900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1sZlfXjDQSdLKb8MU_015610.jpg'
+        },
+        {
+            'props' => '20000:6994349;1956371:99834',
+            'product_id' => '8633565',
+            'name' => "LEXUE Q8 \x{79fb}\x{52a8}\x{5b66}\x{4e60}\x{624b}\x{673a} \x{5b66}\x{751f}\x{673a} \x{667a}\x{80fd} \x{9632}\x{76d7} windowsmobile6.1",
+            'price' => '108800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img08.taobaocdn.com/bao/uploaded/i8/T13uxfXf9ZTdKEjS7._113453.jpg'
+        },
+        {
+            'props' => '20000:6994349;1956371:10823',
+            'product_id' => '8632998',
+            'name' => "LEXUE Q5 \x{79fb}\x{52a8}\x{5b66}\x{4e60}\x{624b}\x{673a} \x{4f4e}\x{8f90}\x{5c04} \x{9632}\x{76d7} MP3 \x{624b}\x{5199}",
+            'price' => '46800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1uuBfXo18TdKCS5c._112539.jpg'
+        },
+        {
+            'props' => '20000:11841;1843938:41885',
+            'product_id' => '7402810',
+            'name' => "\x{521b}\x{7ef4} K808",
+            'price' => '99900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img05.taobaocdn.com/bao/uploaded/i5/T1jU0gXkZZ70Lh3W6c_125802.jpg'
+        },
+        {
+            'props' => '20000:3858040;1879948:3858041',
+            'product_id' => '7019985',
+            'name' => "\x{8d5b}\x{6d1b}\x{7279} \x{8001}\x{4eba}\x{624b}\x{673a} \x{7231}\x{76f8}\x{4f34}9 \x{5927}\x{58f0}\x{97f3}\x{5927}\x{5b57}\x{4f53}\x{5927}\x{6309}\x{952e}\x{957f}\x{5f85}\x{673a}",
+            'price' => '89900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img05.taobaocdn.com/bao/uploaded/i5/T1DcJcXfhntkBPoHk__105428.jpg'
+        },
+        {
+            'props' => '20000:3858040;1879948:3858062',
+            'product_id' => '7019809',
+            'name' => "\x{8d5b}\x{6d1b}\x{7279}\x{4e2d}\x{8001}\x{5e74}\x{4eba}\x{624b}\x{673a} \x{7231}\x{76f8}\x{4f34}99 \x{52a9}\x{542c}\x{5668}\x{6536}\x{97f3}\x{673a}\x{8001}\x{4eba}\x{624b}\x{673a}\x{4e09}\x{5408}\x{4e00}",
+            'price' => '99900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1xtJXXcheSwyC2rDc_095849.jpg'
+        },
+        {
+            'props' => '10038:7756026;20000:11119',
+            'product_id' => '6826914',
+            'name' => "\x{8054}\x{60f3}",
+            'price' => '199900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1V9NfXgT4W0L8aNzb_123958.jpg'
+        },
+        {
+            'props' => '20000:84416;30032:33779',
+            'product_id' => '4663202',
+            'name' => "\x{5929}\x{8bed} A510",
+            'price' => '69900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img03.taobaocdn.com/bao/uploaded/i3/T1KDNfXnIvYtLeenwY_030633.jpg'
+        },
+        {
+            'props' => '20000:3271494;1798975:6380507',
+            'product_id' => '4388287',
+            'name' => "\x{6e90}\x{70b9}I\x{578b}\x{6570}\x{7801}\x{5b9d}=\x{624b}\x{673a}\x{6570}\x{636e}\x{7ebf}+\x{5145}\x{7535}\x{5668}+TF\x{5361}\x{8bfb}\x{5361}\x{5668}+\x{6765}\x{7535}\x{95ea}+U\x{76d8}+\x{624b}\x{673a}\x{94fe}",
+            'price' => '15800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img07.taobaocdn.com/bao/uploaded/i7/T1N3VfXlJaUtKv8.Da_092540.jpg'
+        },
+        {
+            'props' => '20000:4540285;1793851:10027',
+            'product_id' => '4267066',
+            'name' => "ADPO\x{963f}\x{8fea}\x{666e} \x{8bfa}\x{57fa}\x{4e9a} N93i  \x{4fdd}\x{62a4}\x{819c}",
+            'price' => '6500.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1igFfXca_UdJFgNsT_012120.jpg'
+        },
+        {
+            'props' => '20000:4540285;1793851:3949389',
+            'product_id' => '4256303',
+            'name' => "ADPO \x{963f}\x{8fea}\x{666e} \x{8bfa}\x{57fa}\x{4e9a} N958G \x{5c4f}\x{5e55}\x{4fdd}\x{62a4}\x{8d34}",
+            'price' => '6500.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1igFfXca_UdJFgNsT_012120.jpg'
+        },
+        {
+            'props' => '20000:21648;1759633:6297939',
+            'product_id' => '4256298',
+            'name' => "\x{4e07}\x{80fd}\x{901a}\x{7528}\x{8ba2}\x{5355}",
+            'price' => '100.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T1DwJfXi2jUdMvlOUT_012306.jpg'
+        },
+        {
+            'props' => '20000:21661;32209:3216754',
+            'product_id' => '2910396',
+            'name' => "\x{4e03}\x{559c} M128 \x{8dd1}\x{9a6c}\x{95ea}\x{706f}\x{97f3}\x{4e50}\x{624b}\x{673a}",
+            'price' => '78000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/051/7b1/T16j0cXjddAIBXXXXX.jpg'
+        },
+        {
+            'props' => '10017:6062965;20000:10477',
+            'product_id' => '2859793',
+            'name' => "\x{4e09}\x{661f} L708E \x{91d1}\x{5c5e}\x{76f4}\x{677f}\x{673a}\x{8eab}",
+            'price' => '96800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img01.taobaocdn.com/bao/uploaded/i1/T1PDdfXob5YdM_y5U8_071123.jpg'
+        },
+        {
+            'props' => '20000:29463;1774697:3947619',
+            'product_id' => '2250693',
+            'name' => 'ttttttttttttttttt',
+            'price' => '5000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img06.taobaocdn.com/bao/uploaded/i6/T10AtdXctHBdLciYI1_040340.jpg'
+        },
+        {
+            'props' => '10050:5925085;20000:11542',
+            'product_id' => '2229300',
+            'name' => "\x{9177}\x{6d3e}D08 \x{6b63}\x{89c4}\x{53d1}\x{7968} \x{5168}\x{56fd}\x{8054}\x{4fdd}",
+            'price' => '169900.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/T1FC8dXe3VG0KBWvM6_061544.jpg'
+        },
+        {
+            'props' => '10050:5925079;20000:11542',
+            'product_id' => '2229288',
+            'name' => 'D18',
+            'price' => '195000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img03.taobaocdn.com/bao/uploaded/i3/T1Dv4gXjdk3dLRI8U9_104436.jpg'
+        },
+        {
+            'props' => '10017:4302931;20000:10477',
+            'product_id' => '2229203',
+            'name' => "\x{4e09}\x{661f} M8800c 800\x{4e07}\x{50cf}\x{7d20}\x{5168}\x{89e6}\x{6478}\x{5c4f}\x{65d7}\x{8230}\x{624b}\x{673a}",
+            'price' => '588800.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img04.taobaocdn.com/bao/uploaded/i4/d20/f51/T1o5VeXmGxMJJXXXXX.jpg'
+        },
+        {
+            'props' => '10038:10973;20000:11119',
+            'product_id' => '2208228',
+            'name' => "\x{6dd8}\x{5b9d}\x{5546}\x{57ce} \x{5927}\x{9646}\x{884c}\x{8d27} \x{53cc}\x{5361}\x{53cc}\x{5f85} \x{8054}\x{60f3} S610 \x{5168}\x{56fd}\x{8054}\x{4fdd}",
+            'price' => '95000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img08.taobaocdn.com/bao/uploaded/i8/T13.JgXcX070Kt_GM._111308.jpg'
+        },
+        {
+            'props' => '10017:5225979;20000:10477',
+            'product_id' => '2201763',
+            'name' => "\x{4e09}\x{661f} BC01 \x{5b9e}\x{7528}\x{5f69}\x{5c4f}\x{624b}\x{673a}",
+            'price' => '65000.00',
+            'cid' => '1512',
+            'pic_path' => 'http://img03.taobaocdn.com/bao/uploaded/i3/581/fd0/T1rlXaXfBdbsBXXXXX.jpg'
+        }
+    ],
+        'totalResults' => '5583'
+    }
