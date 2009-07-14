@@ -1,0 +1,36 @@
+*taobao.shop.get 功能描述
+
+此接口用于获取卖家店铺基本信息
+
+*taobao.shop.get 调用级别
+
+apiType=3，调用时需要ISV签名和认证,可选用户授权确认（授权后可
+获取相关用户隐私信息）
+
+*taobao.shop.get 调用参数
+
+   * 系统级参数
+
+名称          类型       是否必须      描述
+sip_appkey    string     必须          ISV应用的appkey为软件互联平台分配给ISV应用的唯一编号
+                                       。
+sip_apiname   string     必须          服务名。
+sip_timestamp string     必须          服务请求时间戳(yyyy-mm-dd hh:mm:ss.xxx)，支持毫秒。
+sip_sign      string     必须          请求签名（包括了对前面三个必选参数和所有业务参数按签
+                                       名规则做签名）。
+sip_sessionid string     可选          在ISV应用中用户会话唯一标识。
+  * 应用级参数
+
+名称          类型       是否必须      描述
+v             string     必须          接口版本号
+fields        string     必须          需要获取的字段
+nick          string     必须          卖家昵称
+format        string     可选          响应格式,详见通用约定部分.
+*taobao.shop.get 调用返回信息
+
+返回信息                            返回信息说明
+Shop                                店铺对象
+
+*taobao.shop.get 调用范例
+
+*taobao.shop.get 访问地址

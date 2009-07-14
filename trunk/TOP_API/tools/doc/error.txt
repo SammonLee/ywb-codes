@@ -1,0 +1,32 @@
+1001	signatureInvalid	签名无效	原因：参数的sip_appkey、sip_appsecret错误或者不匹配。
+解决：检查参数正确性，或到assp中检查或重新申请。
+1002	reqTimeout	请求已过期	原因：访问时间过期。
+解决：检查sip_timestamp参数，检查网络延迟。
+1004	needBinduser	需要绑定用户	原因：在调用此api时，isp要求用户验证并绑定(登录)。在请求中没有带sip_usertoken参数，无法进行绑定
+1005	needAppKey	需要提供appid	原因：缺少sip_appkey参数
+1006	needApiName	需要提供服务名	原因：缺少sip_apiname参数
+1007	needSign	需要提供签名	原因：缺少sip_sign参数
+1008	needTimeStamp	需要提供时间戳	原因：缺少sip_timestamp参数
+1010	noRightCallService	无权访问服务	原因：此服务api没有被订购、订购过期、账户余额不足等。
+解决：到isv portal订购此api。
+1011	serviceNotExist	服务不存在	原因：isp无此服务
+1012	needSessionid	需要提供SessionId	原因：在需要绑定用户身份的服务请求时没有SessionId
+1013	needUsername	需要提供用户名	原因：ISP在登陆绑定后回调SIP需要传入登陆的用户名作为后续Token生成的依据
+1014	callbackApiNotExist	回调服务不存在	原因：回调服务不存在
+1015	appKeyNotExist	AppKey不存在	原因：AppKey不存在
+1016	serviceCountOrFlowOutOfLimit	服务次数超过限制	原因：ISP对于服务限定了在一定时间段内访问流量和次数，当前ISV请求已经超过了限制，只有在下一个有效时间段内才会可以重新访问
+1017	serviceAccessOutOfFrequencyLimit	服务请求过于频繁	原因：SIP平台对于ISV访问ISP服务做了频率限制，ISV应用访问频率已经超过了规定的访问频率。
+1018	loginUrlTooLong	登录请求URL过长	原因：SIP对于登录请求转发时候要求请求长度不能超过系统限制，默认是1000字节，此值会根据情况配置，在出错返回中会有说明。
+1019	ispRequestIPInvalid	ISP请求IP非法	原因：为了让SIP平台确认ISP身份，ISP向SIP注册了IP白名单，IP白名单包含了ISP注册的IP地址，多个IP地址之间以逗号分隔，只有IP白名单里的IP才能向SIP平台发起服务调用（异步服务、Token服务与Push服务），非法IP访问则返回该错误码。
+1020	requestParameterLengthOutOfLimit	请求参数值长度溢出	原因：对于apitype为0类型的api，SIP对appkey，apiname等参数没做实质性的校验。若每个请求的这些参数的长度超过了系统设置的值，当这些访问记录写到数据库将会产生异常（字段长度溢出），所以SIP平台增加了对这些参数长度的校验，校验通不过的，将会抛出该错误码。
+1021	ispHandlerRequestError	isp处理请求失败	原因：ISP服务提供商没有正常处理ISV请求而出错。
+1022	authTokenInvalid	认证Token检查无效	原因：ISP服务提供商的签名Token无效
+1023	needISPId	需要提供IspId	原因：ISP提交的URL中需要包含ISPID
+1024	needAuthtoken	需要提供AUTHTOKEN	原因：URL中需要包含authtoken参数
+1025	requestOutOfLevelScope	请求超出了Level指定的API访问范围	原因：APPID对应的应用级别无权限调用相关的API
+0000	error	未知异常	原因：不确定原因导演api调用失败。如：
+1.sip访问isp时网络故障
+2.isp提供的api因故停用
+3.其它未知原因
+8888	serviceCompensation	调用补偿	用于异步API调用时的计费补偿
+9999	success	调用成功	 

@@ -1,0 +1,10 @@
+{
+  "class" : "Net_Top_Request_Product_Get",
+  "api_method" : "taobao.product.get",
+  "fields" : {
+    ":all" : ["product_id", "cid", "cat_name", "name", "props", "props_str", "binds", "binds_str", "sale_props", "sale_props_str", "price", "desc", "pic_path", "productimg", "productpropimg", "created", "modified"]
+  },
+  "require_params" : ["fields"],
+  "optional_params" : ["cid", "props", "product_id"],
+  "list_tags" : ["productImg", "productPropImg"]
+}
