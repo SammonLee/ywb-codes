@@ -43,3 +43,7 @@ export HADOOP_HOME=/home/ywb/proj/hadoop-0.20.0
 export PATH=$HADOOP_HOME/bin:$PATH
 </example>
 
+<example>
+hadoop namenode -format
+start-all.sh
+</example>
