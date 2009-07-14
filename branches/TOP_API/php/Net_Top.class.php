@@ -1,49 +1,68 @@
 <?php
-class Net_Top 
+class Net_Top
 {
     protected $top_url;
     protected $top_appkey;
     protected $top_secretkey;
-    const TOP_URL = 'http://sip.alisoft.com/sip/rest';
+    static $params;
+    const TOP_URL = 'http://gw.api.taobao.com/router/rest';
     const TOP_VERSION = '1.0';
-    
-    function __construct($top_appkey, $top_secretkey, $top_url=null) 
+
+    function __construct($top_url, $top_appkey, $top_secretkey)
     {
         $this->top_url = (is_null($top_url) ? self::TOP_URL : $top_url);
         $this->top_appkey = $top_appkey;
         $this->top_secretkey = $top_secretkey;
     }
 
-    function getTopUrl ()
+    static function setParams($top_url, $top_appkey, $top_secretkey)
+    {
+        self::$params = array(
+            'service_url' => $top_url,
+            'appkey' => $top_appkey,
+            'secret_key' => $top_secretkey
+            );
+    }
+
+    static function factory()
+    {
+        if ( empty(self::$params) )
+            die("call setParams first!");
+        return new self(self::$params['service_url'],
+                        self::$params['appkey'],
+                        self::$params['secret_key']);
+    }
+
+    function getServiceUrl ()
     {
         return $this->top_url;
     }
 
-    function setTopUrl($top_url) 
+    function setServiceUrl($top_url)
     {
         return $this->top_url = $top_url;
     }
 
-    function getTopAppkey ()
+    function getAppkey ()
     {
         return $this->top_appkey;
     }
 
-    function setTopAppkey($top_appkey) 
+    function setAppkey($top_appkey)
     {
         return $this->top_appkey = $top_appkey;
     }
-    function getTopSecretkey ()
+    function getSecretkey ()
     {
         return $this->top_secretkey;
     }
 
-    function setTopSecretkey($top_secretkey) 
+    function setSecretkey($top_secretkey)
     {
         return $this->top_secretkey = $top_secretkey;
     }
 
-    function request ($req) 
+    function request ($req)
     {
         if ( !$req->check() ) {
             die("Bad request: " . $req->getError() );
@@ -61,7 +80,7 @@ class Net_Top
         return $req->parseResponse($res);
     }
 
-    function get($url) 
+    function get($url)
     {
         $ch = curl_init();
         var_dump($url);
@@ -75,7 +94,7 @@ class Net_Top
         return array($data, $meta);
     }
 
-    function post($url, $query, $files) 
+    function post($url, $query, $files)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -96,22 +115,19 @@ class Net_Top
         return array($data, $meta);
     }
 
-    function queryParam($req) 
+    function queryParam($req)
     {
         $query = $req->queryParams();
-        $query['sip_apiname'] = $req->apiMethod();
-        $query['sip_appkey'] = $this->top_appkey;
-        $query['sip_timestamp'] = date('Y-m-d H:i:s.000');
+        $query['method'] = $req->apiMethod();
+        $query['api_key'] = $this->top_appkey;
+		date_default_timezone_set('Asia/Chongqing');
+        $query['timestamp'] = date('Y-m-d H:i:s.000');
         $query['v'] = self::TOP_VERSION;
-        if ( array_key_exists('session', $query) ) {
-            $query['sip_sessionid'] = $query['session'];
-            unset($query['session']);
-        }
         $str = $this->top_secretkey;
         $files = array();
         ksort($query);
         foreach ( $query as $key => $val ) {
-            if ( is_array($val) ) {
+            if ( is_array($val) ) { // file fields
                 $files[$key] = $val[0];
                 unset($query[$key]);
             }
@@ -119,7 +135,7 @@ class Net_Top
                 $str .= $key.$val;
             }
         }
-        $query['sip_sign'] = strtoupper(md5($str));
+        $query['sign'] = strtoupper(md5($str));
         return array($query, $files);
     }
 }
