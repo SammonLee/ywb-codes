@@ -1,9 +1,0 @@
-{
-    "class" : "Net_Top_Request_Cats_PropsGet",
-    "api_method" : "taobao.itemprops.get.v2",
-    "fields" : {
-        ":all" : ["pid","name","is_key_prop","is_sale_prop","is_color_prop", "is_enum_prop", "is_input_prop", "child_template", "must", "multi", "parent_pid","parent_vid", "status","sort_order"]
-    },
-    "require_params" : ["fields", "cid"],
-    "optional_params" : ["pid", "parent_pid", "is_key_prop", "is_sale_prop", "is_color_prop", "is_enum_prop", "is_input_prop", "datetime"]
-}

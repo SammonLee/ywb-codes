@@ -1,6 +1,0 @@
-{
-  "class" : "Net_Top_Request_Shop_Update",
-  "api_method" : "taobao.shop.update",
-  "require_params" : ["session"],
-  "optional_params" : ["title", "bulletin", "desc"]
-}
