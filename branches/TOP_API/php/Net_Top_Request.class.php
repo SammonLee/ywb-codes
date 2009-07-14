@@ -1,20 +1,36 @@
 <?php
 abstract class Net_Top_Request
 {
-    static $factory_prefix = 'Net_Top_Request';
     static $response_class = 'Net_Top_Response';
     protected $api_name;
+    protected $paramters;
+    protected $api_parameters;
         
-    function __construct( $args = null ) 
+    function __construct( $args = null) 
     {
-        $part = explode('_', get_class($this));
-        $this->api_name = array_pop($part);
+        // infer api name. First check self::$api_name,
+        // if not set, use last word in class name
+        $class = get_class($this);
+        $static_vars = get_class_vars($class);
+        if ( isset($static_vars['api_name']) ) {
+            $this->api_name = $static_vars['api_name'];
+        } else {
+            $part = explode('_', $class);
+            $this->api_name = array_pop($part);
+        }
+        // cache api_parameters for query and check faster
+        $this->api_parameters = $this->getMetadata('parameters');
+        if ( !empty($args) ) {
+            foreach ( $args as $k => $v ) {
+                $this->set($k, $v);
+            }
+        }
     }
-
-    function factory($api, $args=null)
+    
+    function factory($api_name, $args=null)
     {
-        $class = self::$factory_prefix . '_' . $api;
-        return new $class($args);
+        $api = Net_Top_Metadata::get($api_name);
+        return new $api['class']($args);
     }
 
     function parseResponse($res) 
@@ -33,27 +49,41 @@ abstract class Net_Top_Request
         return $this->getMetadata('http_method', 'get');
     }
 
-    function has($field) 
+    function has($name) 
     {
-        return array_key_exists($field, $this->_query_params);
+        return isset($this->api_parameters['all'][$name]);
+    }
+
+    function isFile($name)
+    {
+        return isset($this->api_parameters['file'][$name]);
+    }
+
+    function isRequired($name)
+    {
+        return isset($this->api_parameters['required'][$name]);
+    }
+
+    function isOptional($name)
+    {
+        return isset($this->api_parameters['optional'][$name]);
     }
     
-    function get($name) 
+    function get($name, $default=null) 
     {
-        if ( isset($this->_params[$name]) )
-            return $this->_params[$name];
+        return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
     }
 
     function set($name, $val) 
     {
-        if ( array_key_exists($name, $this->_query_params) ) {
-            $type = $this->_query_params[$name];
-            if ( is_array($type) ) { // struct fields, such as location.city
+        if ( isset($this->api_parameters['all'][$name]) ) {
+            $type = $this->api_parameters['all'][$name];
+            if ( isset($type['struct']) ) { // struct fields, such as location.city
                 if ( is_array($val) ) {
                     foreach ( $val as $k => $v ) {
                         $k = $name.'.'.$k;
-                        if ( array_key_exists($k, $this->_query_params) ) {
-                            $this->_params[$k] = $v;
+                        if ( isset($this->api_parameters['all'][$k]) ) {
+                            $this->parameters[$k] = $v;
                         } else { // not such structed fields
                             return false;
                         }
@@ -62,7 +92,7 @@ abstract class Net_Top_Request
                     return false;
                 }
             } else {
-                $this->_params[$name] = $val;
+                $this->parameters[$name] = $val;
             }
         } else { // no such query fields
             return false;
@@ -70,39 +100,73 @@ abstract class Net_Top_Request
         return $this;
     }
 
+    function __call($name, $args)
+    {
+        if ( $this->has($name) ) {
+            if ( empty($args) ) {
+                return $this->get($name);
+            }
+            return $this->set($name, $args[0]);
+        } else {
+            throw new Exception("Unknown method '{$name}'\n");
+        }
+    }
+
     function check()
     {
+        $this->error = null;
+        if ( isset($this->api_parameters['required']) ) {
+            foreach ( $this->api_parameters['required'] as $name => $i ) {
+                if ( !isset($this->parameters[$name]) ) {
+                    $this->error = "Require parameter '{$name}'!";
+                    return false;
+                }
+            }
+        }
+        if ( isset($this->api_parameters['optional']) ) {
+            $valid = false;
+            foreach ( $this->api_parameters['optional'] as $name => $i ) {
+                if ( isset($this->parameters[$name]) ) {
+                    $valid = true;
+                }
+            }
+            if ( !$valid ) {
+                $this->error = sprintf("This parameters '%s' should given at least one.", implode(', ', array_keys($this->api_parameters['optional'])));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function getError()
+    {
+        return $this->error;
     }
     
-    function queryParams() 
+    function getParameters() 
     {
         $query = array();
-        $file_params = $this->getMetaData('pa');
-        $file_params = (empty($file_params) ? array() : array_flip($file_params));
-
-            
-            if ( isset($this->_params[$name]) ) {
-                if ( $name == 'fields' && is_array($this->_params['fields']) ) {
-                    $fields = $this->getMetaData('fields');
+        foreach ( $this->api_parameters['all'] as $name => $type ) {
+            if ( isset($this->parameters[$name]) ) {
+                if ( $name == 'fields' && is_array($this->parameters['fields']) ) {
+                    $fields = $this->getMetadata('fields');
                     $all = array();
-                    foreach ( $this->_params['fields'] as $f ) {
+                    foreach ( $this->parameters['fields'] as $f ) {
                         if ( substr($f, 0, 1) == ':' ) {
                             if ( array_key_exists($f, $fields) ) {
                                 $all = array_merge($all, $fields[$f]);
                             }
-                            else {
-                                throw new Exception("Unknown field tag '{$f}'\n");
+                            else { // ignore not exists fields
+                               // throw new Exception("Unknown field tag '{$f}'\n");
                             }
                         } else {
                             array_push($all, $f);
                         }
                     }
                     $query[$name] = implode(',', array_unique($all));
-                } elseif ( array_key_exists($name, $file_params) ) {
-                    $query[$name] = array($this->_params[$name]);
                 }
                 else {
-                    $query[$name] = (string)$this->_params[$name];
+                    $query[$name] = (string)$this->parameters[$name];
                 }
             }
         }

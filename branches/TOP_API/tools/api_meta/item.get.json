@@ -1,6 +1,7 @@
 {
-  "class" : "Net_Top_Request_Item_Get",
-  "api_method" : "taobao.item.get",
+  "class" : "Net_Top_Request_ItemGet",
+  "method" : "taobao.item.get",
+  "api_type" : "Item",
   "fields" : {
     ":small" : ["iid", "title", "nick", "type", "cid", "num", "price"],
     ":image" : ["pic_path", "itemimg", "propimg"],
@@ -13,7 +14,8 @@
      ":all" : [":large", ":image",  "increment", "has_discount", "has_invoice",
                "has_warranty", "has_showcase", "auto_repost", "auction_point"]
   },
-  "require_params" : ["fields", "nick", "iid"],
-  "optional_params" : ["format"],
+  "parameters" : {
+     "required" : ["fields", "nick", "iid"]
+  },
   "list_tags" : ["sku", "itemimg", "propimg"]
 }

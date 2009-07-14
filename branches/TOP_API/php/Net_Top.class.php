@@ -117,8 +117,8 @@ class Net_Top
 
     function queryParam($req)
     {
-        $query = $req->queryParams();
-        $query['method'] = $req->apiMethod();
+        $query = $req->getParameters();
+        $query['method'] = $req->getMethod();
         $query['api_key'] = $this->top_appkey;
 		date_default_timezone_set('Asia/Chongqing');
         $query['timestamp'] = date('Y-m-d H:i:s.000');
@@ -127,8 +127,8 @@ class Net_Top
         $files = array();
         ksort($query);
         foreach ( $query as $key => $val ) {
-            if ( is_array($val) ) { // file fields
-                $files[$key] = $val[0];
+            if ( $req->isFileParameter($key) ) { // file fields
+                $files[$key] = $val;
                 unset($query[$key]);
             }
             else {

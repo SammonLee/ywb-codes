@@ -1,85 +1,35 @@
 package Net::Top::Helper;
 
+package Net::Top::GenIf;
+use base qw/Class::Accessor/;
+
+sub get_file {
+}
+
+sub get_code {
+}
+
 package Net::Top::Gen::Php;
-use Path::Class;
-our $prefix = 'Net_Top_Request';
+use base 'Net::Top::GenIf';
+use Path::Class qw/file/;
 
-sub get_class_file {
-    my ($self, $dir, $pkg) = @_;
-    return file($dir, $self->get_class_name($pkg) . '.class.php');
+__PACKAGE__->mk_accessors(qw/class dir ancestor metadata/);
+
+sub get_file {
+    my ($self) = @_;
+    return file($self->dir, $self->class . '.class.php');
 }
 
-sub get_base_class_file {
-    my ($self, $dir, $pkg) = @_;
-    return file($dir, $self->get_base_class_name($pkg) . '.class.php');
-}
-
-sub get_class_name {
-    my ($self, $pkg) = @_;
-    return $prefix . '_'.$pkg;
-}
-
-sub get_base_class_name {
-    my ($self, $pkg) = @_;
-    return $prefix . '_Base_'. $pkg;
-}
-
-sub get_class_code {
-    my ($self, $pkg, $subclass) = @_;
-    my $class_name = $self->get_class_name($pkg);
-    my $base_name = $self->get_base_class_name($pkg);
+sub get_code {
+    my ($self) = @_;
+    my ($api_name) = ($self->class =~ /_([a-zA-Z]+)$/);
     my $code = "<?php\n"
-        . "class $class_name extends $base_name\n"
-        . "{";
-    foreach my $name ( sort {$a cmp $b} keys %$subclass) {
-        my $method = lcfirst($name);
-        $code .= <<EOC;
-
-    static function $method ( \$args = null ) {
-         return new ${class_name}_${name}(\$args);
-    }
-EOC
-    }
-    $code .= "}\n";
-    
-    foreach my $name ( sort {$a cmp $b} keys %$subclass ) {
-        $code .= <<EOC;
-
-class ${class_name}_$name extends ${base_name}_$name 
-{
-}
-EOC
-    }
-    return $code;
-}
-
-sub get_base_class_code {
-    my ($self, $pkg, $subclass) = @_;
-    my $base_name = $self->get_base_class_name($pkg);
-    my $code = <<EOC;
-<?php
-class $base_name
-{
-}
-
-EOC
-    
-    foreach my $name ( sort {$a cmp $b} keys %$subclass) {
-        my $class = "${base_name}_${name}";
-        my $api = $subclass->{$name};
-        delete $api->{class};
-        if ( $api->{http_method} && $api->{http_method} eq 'get' ) {
-            delete $api->{http_method};
-        }
-        $code .= <<EOC;
-class $class extends Net_Top_Request
-{
-    static \$meta_data = ${\( php_var_dump($api, 1) )};
-}
-Net_Top_Request::cookData(${class}::\$meta_data);
-
-EOC
-    }
+    . "class " . $self->class . " extends " . $self->ancestor . "\n"
+    . "{\n}\n\n"
+    . "Net_Top_Metadata::add(\n"
+    . "    '$api_name',\n"
+    . "    " . php_var_dump($self->metadata, 1) . "\n"
+    . ");\n";
     return $code;
 }
 
@@ -116,6 +66,7 @@ sub php_value {
 }
 
 package Net::Top::Gen::Perl;
+use base 'Net::Top::GenIf';
 use Path::Class;
 
 our $prefix = "Net::Top::Request";

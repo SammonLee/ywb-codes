@@ -6,8 +6,13 @@ class Net_Top_Request_ItemGet extends Net_Top_Request
 Net_Top_Metadata::add(
     'ItemGet',
     array(
-        'method' => 'taobao.item.get',
-        'class' => 'Net_Top_Request_ItemGet',
+        'parameters' => array(
+            'required' => array(
+                'fields',
+                'nick',
+                'iid',
+            ),
+        ),
         'list_tags' => array(
             'sku',
             'itemimg',
@@ -100,10 +105,8 @@ Net_Top_Metadata::add(
                 'freight_payer',
             ),
         ),
-        'parameters' => array(
-            'fields' => array( 'required' => true ),
-            'nick' => array( 'required' => true ),
-            'iid' => array( 'required' => true ),
-            ),
-        )
-    );
+        'api_type' => 'Item',
+        'method' => 'taobao.item.get',
+        'class' => 'Net_Top_Request_ItemGet',
+    )
+);
