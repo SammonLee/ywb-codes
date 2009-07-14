@@ -4,9 +4,6 @@ import java.util.Properties;
 import cascading.cascade.Cascades;
 import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
-import cascading.operation.Aggregator;
-import cascading.operation.Identity;
-import cascading.operation.aggregator.Count;
 import cascading.operation.regex.RegexSplitter;
 import cascading.pipe.Each;
 import cascading.pipe.Every;
@@ -21,10 +18,12 @@ import cascading.tap.Tap;
 import cascading.tuple.Fields;
 
 import com.ywb.AggField;
-import com.ywb.PvUv;
+import com.ywb.FlatMap;
 
 public class TestAggField {
 	public static class MyAssembly extends SubAssembly {
+		private static final long serialVersionUID = 1L;
+
 		public MyAssembly() {
 			// the 'head' of the pipe assembly
 			Pipe assembly = new Pipe("wordcount");
@@ -33,25 +32,14 @@ public class TestAggField {
 					"lower", "upper"));
 			Pipe table = new Each(assembly, new Fields("line"), function);
 			assembly = new GroupBy(table, new Fields("id"));
-			Aggregator count = new AggField(new Fields("map"));
-			Pipe aggPipe = new Every(assembly, new Fields("lower"), count,
-					new Fields("id", "map"));
-			Pipe mapPipe = new Each(aggPipe, new Fields("id", "map"),
-					new Identity());
-			Pipe pvuvPipe = new Each(mapPipe, new Fields("map"), new PvUv(
-					new Fields("uv", "pv")), new Fields("id", "pv", "uv"));
-			pvuvPipe = new Pipe("pvuv", pvuvPipe);
-//			Pipe flatPipe = new Each(assembly, new Fields("map"), new FlatMap(
-//					new Fields("letter", "count")), new Fields("id", "letter",
-//					"count"));
-////			flatPipe = new Pipe("flat", flatPipe);
-//			Aggregator count2 = new AggField(new Fields("map"));
-//			Pipe aggPipe = new Every(assembly, new Fields("lower"), count2,
-//					new Fields("id", "map"));
-			Pipe flatPipe = new GroupBy("flat", table, new Fields("id"));
-			flatPipe = new Every(flatPipe, new Count());
-			setTails(pvuvPipe, flatPipe);
-//			setTails(pvuvPipe);
+			assembly = new Every(assembly, new Fields("lower"), new AggField());
+			Pipe copy= new Pipe("copy", assembly);
+
+			Pipe pv1 = new Each(copy, new Fields("map"), new FlatMap(new Fields("pv", "uv")));
+
+			Pipe pv2 = new Pipe("out", assembly);
+
+			setTails(pv1, pv2);
 		}
 	}
 
