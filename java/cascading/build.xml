@@ -11,7 +11,7 @@
   <property file="${basedir}/build.properties" />
 
   <!-- these are optional, only used if you uncomment the project.class.path filesets below -->
-  <property name="hadoop.home" location="${basedir}/../hadoop"/>
+  <!-- <property name="hadoop.home" location="${basedir}/../hadoop"/> -->
   <property name="hadoop.lib" location="${hadoop.home}/lib"/>
 
   <!-- assumes Cascading shares the same parent directory, change if necessary -->
