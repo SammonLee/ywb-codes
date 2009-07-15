@@ -97,7 +97,7 @@ class Net_Top_Response
         }
     }
     
-    private function isHttpError () 
+    function isHttpError () 
     {
         return (4 == ($type = floor($this->_metadata['http_code'] / 100)) || 5 == $type);
     }
@@ -141,6 +141,6 @@ class Net_Top_Response
 
     public function getParameters()
     {
-        return $this->_request->getParameters();
+        return $this->_request->getQueryParameters();
     }
 }

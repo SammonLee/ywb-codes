@@ -4,9 +4,12 @@ abstract class Net_Top_Request
     static $factory_prefix = 'Net_Top_Request';
     static $response_class = 'Net_Top_Response';
     protected $api_name;
-    protected $paramters;
-    protected $api_parameters;
-    protected $rest_url;
+    protected $paramters;       /* parameters set by application */
+    protected $api_parameters;  /* api parameters */
+    protected $query_parameters; /* final parameters for query */
+    protected $rest_url;         /* url used for request */
+    protected $http_method;      /* GET or POST */
+    protected $error;            /* error reason for parameters settings */
         
     function __construct( $args = null) 
     {
@@ -48,9 +51,17 @@ abstract class Net_Top_Request
 
     function getHttpMethod()
     {
-        return $this->getMetadata('http_method', 'get');
+        $method = isset($this->http_method)
+            ? $this->http_method
+            : $this->getMetadata('http_method', 'get');
+        return strtolower($method);
     }
 
+    function setHttpMethod($method)
+    {
+        $this->http_method = $method;
+    }
+    
     function has($name) 
     {
         return isset($this->api_parameters['all'][$name]);
@@ -205,8 +216,18 @@ abstract class Net_Top_Request
         $this->rest_url = $url;
     }
 
-    function getRestUrl($url)
+    function getRestUrl()
     {
         return $this->rest_url;
+    }
+
+    function setQueryParameters($params)
+    {
+        $this->query_parameters = $params;
+    }
+
+    function getQueryParameters()
+    {
+        return $this->query_parameters;
     }
 }

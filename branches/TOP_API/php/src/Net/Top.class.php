@@ -106,7 +106,6 @@ class Net_Top
             $query[$name] = '@' . $file;
             curl_setopt($ch, CURLOPT_INFILE, $fp);
         }
-        print_r($query);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
         $data = curl_exec($ch);
         $meta = curl_getinfo($ch);
@@ -135,18 +134,14 @@ class Net_Top
             }
         }
         $query['sign'] = strtoupper(md5($str));
+        $req->setQueryParameters(array_merge($query, $files));
         return array($query, $files);
     }
 
     function __call($name, $args)
     {
         $api_name = ucfirst($name);
-        if ( Net_Top_Metadata::has($api_name) ) {
-            $ua = Net_Top::factory();
-            $req = Net_Top_Request::factory($api_name, $args);
-            return $ua->request($req);
-        } else {
-            die("Not api '{$api_name}' found");
-        }
+        $req = Net_Top_Request::factory($api_name, $args[0]);
+        return $this->request($req);
     }
 }
