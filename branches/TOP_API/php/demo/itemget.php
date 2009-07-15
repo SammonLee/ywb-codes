@@ -3,8 +3,9 @@ require('config.inc');
 $iid = '72eb89f0ce9ed228dce4ecc51bcc7f8a';
 $nick = '补之';
 
-$top = new Net_Top(TOP_APPKEY, TOP_SECRET_KEY);
-$req = Net_Top_Request_Item::get(
+$top = Net_Top::factory();
+$req = Net_Top_Request::factory(
+    'ItemGet',
     array(
         'fields' => array(':all'),
         'iid'=> $iid,

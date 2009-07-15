@@ -1,7 +1,0 @@
-{
-    "class" : "Net_Top_Request_Cats_SpuGet",
-    "fields" : {
-        ":all" : []
-    },
-    "require_params" : ["fields", "cid", "props"]
-}

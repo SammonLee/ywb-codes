@@ -1,0 +1,14 @@
+{
+  "class" : "Net_Top_Request_CatsGet",
+  "method" : "taobao.itemcats.get.v2",
+  "api_type" : "Cat",
+  "fields" : {
+     ":all" : ["cid","parent_cid","name","is_parent","status","sort_order"]
+  },
+  "parameters" : {
+     "required" : ["fields"],
+     "optional" : ["parent_cid", "cids"],
+     "other" : ["datetime"]
+  },
+  "list_tags" : ["item_cat"]
+}

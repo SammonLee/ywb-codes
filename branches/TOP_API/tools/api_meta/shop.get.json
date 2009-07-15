@@ -1,8 +1,0 @@
-{
-  "class" : "Net_Top_Request_Shop_Get",
-  "api_method" : "taobao.shop.get",
-  "fields" : {
-    ":all" : ["sid", "cid", "nick", "title", "desc", "bulletin", "pic_path", "created", "modified" ]
-  },
-  "require_params" : ["fields", "nick"]
-}

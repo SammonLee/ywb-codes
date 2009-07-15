@@ -10,11 +10,11 @@ class Net_Top_MetadataTest extends UnitTestCase
                 'class' => 'Net_Top_Request_ItemGet',
                 'fields' => array(
                     ':all' => array(
-                        'iid', 'nick',
+                        'iid', 'nick', "location", "location.city"
                         ),
                     ),
                 'parameters' => array(
-                    'required' => array('fields', 'nick', 'iid')
+                    'required' => array('fields', 'nick', 'iid', "location", "location.city")
                     )
             );
         Net_Top_Metadata::add(
@@ -26,13 +26,15 @@ class Net_Top_MetadataTest extends UnitTestCase
         $this->assertEqual(
             $data['parameters'],
             array (
-                'required' => array ( 'fields' => 0, 'nick' => 1, 'iid' => 2, ),
+                'required' => array ( 'fields' => 0, 'nick' => 1, 'iid' => 2, "location" => 3, "location.city" => 4),
                 'other' => array ( 'format' => 0, ),
                 'all' => array (
                     'fields' => array ( 'required' => true, ),
                     'nick' => array ( 'required' => true, ),
                     'iid' => array ( 'required' => true, ),
                     'format' => array ( 'other' => true, ),
+                    'location' => array( 'required' => true, 'struct' => true ),
+                    'location.city' => array( 'required' => true )
                     ),
                 )
             );

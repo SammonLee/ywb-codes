@@ -1,0 +1,11 @@
+{
+  "class" : "Net_Top_Request_ItemImgUpload",
+  "http_method" : "post",
+  "method" : "taobao.item.img.upload",
+  "api_type" : "Item",
+  "parameters" : {
+     "required" : ["iid", "image"],
+     "other" : ["itemimg_id", "position", "is_major"]
+  },
+  "is_secure" : true
+}

@@ -1,0 +1,9 @@
+{
+  "class" : "Net_Top_Request_ItemUpdateListing",
+  "method" : "taobao.item.update.listing",
+  "api_type" : "Item",
+  "parameters" : {
+  "required" : ["iid", "num"]
+  },
+  "is_secure" : true
+}

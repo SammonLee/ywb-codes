@@ -1,2 +1,16 @@
 {
+     "class" : "Net_Top_Request_UserGet",
+     "api_type" : "User",
+     "method" : "taobao.user.get",
+     "parameters" : {
+         "required" : ["fields", "nick"]
+     },
+     "fields" : {
+         ":public" : ["user_id","nick","sex","buyer_credit","seller_credit",
+         "created","last_visit", "location", "location.city", "location.state", "location.country", "location.district"],
+         ":private" : ["birthday", "type","has_more_pic","item_img_num","item_img_size",
+         "prop_img_num","prop_img_size","auto_repost","promoted_type",
+         "status","alipay_bind","consumer_protection", "location","location.zip", "location.address"],
+         ":all" : [ ":public", ":private" ]
+     }
 }

@@ -1,0 +1,9 @@
+{
+  "class" : "Net_Top_Request_ItemPropimgDelete",
+  "method" : "taobao.item.propimg.delete",
+  "api_type" : "Item",
+  "parameters" : {
+     "required" : ["iid", "propimg_id"]
+  },
+  "is_secure" : true
+}

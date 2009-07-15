@@ -67,15 +67,15 @@ class Net_Top
         if ( !$req->check() ) {
             die("Bad request: " . $req->getError() );
         }
-        list ($query, $files) = $this->queryParam($req);
-        if ( $req->httpMethod() == 'post' ) {
+        list ($query, $files) = $this->getParameters($req);
+        if ( $req->getHttpMethod() == 'post' ) {
+            $req->setRestUrl($this->top_url);
             $res = $this->post($this->top_url, $query, $files);
         }
         else {
-            if ( !empty($files) ) {
-                die("Use post method if want to upload file!\n");
-            }
-            $res = $this->get( $this->top_url . (empty($query) ? '' : '?' . http_build_query($query)) );
+            $url = $this->top_url . (empty($query) ? '' : '?' . http_build_query($query));
+            $req->setRestUrl($url);
+            $res = $this->get( $url );
         }
         return $req->parseResponse($res);
     }
@@ -83,7 +83,6 @@ class Net_Top
     function get($url)
     {
         $ch = curl_init();
-        var_dump($url);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, TRUE);
@@ -115,7 +114,7 @@ class Net_Top
         return array($data, $meta);
     }
 
-    function queryParam($req)
+    function getParameters($req)
     {
         $query = $req->getParameters();
         $query['method'] = $req->getMethod();
@@ -127,7 +126,7 @@ class Net_Top
         $files = array();
         ksort($query);
         foreach ( $query as $key => $val ) {
-            if ( $req->isFileParameter($key) ) { // file fields
+            if ( $req->isFile($key) ) { // file fields
                 $files[$key] = $val;
                 unset($query[$key]);
             }
@@ -137,5 +136,17 @@ class Net_Top
         }
         $query['sign'] = strtoupper(md5($str));
         return array($query, $files);
+    }
+
+    function __call($name, $args)
+    {
+        $api_name = ucfirst($name);
+        if ( Net_Top_Metadata::has($api_name) ) {
+            $ua = Net_Top::factory();
+            $req = Net_Top_Request::factory($api_name, $args);
+            return $ua->request($req);
+        } else {
+            die("Not api '{$api_name}' found");
+        }
     }
 }

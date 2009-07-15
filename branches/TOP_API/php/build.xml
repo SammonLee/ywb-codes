@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<project name="TOP_API" default="dist" basedir=".">
+  <property name="build.dir" value="${project.basedir}/build" />
+  <target name="build">
+    <mkdir dir="${build.dir}" />
+    <copy todir="${build.dir}/${phing.project.name}">
+      <fileset dir="${project.basedir}">
+        <include name="*.class.php" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="dist" depends="build">
+    <tar destfile="${build.dir}/top_api.tar.gz" compression="gzip">
+      <fileset dir="${build.dir}">
+        <include name="*" />
+      </fileset>
+    </tar>
+  </target>
+</project>

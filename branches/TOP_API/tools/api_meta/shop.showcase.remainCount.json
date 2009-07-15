@@ -1,5 +1,0 @@
-{
-  "class" : "Net_Top_Request_Shop_ShowCaseRemainCount",
-  "api_method" : "taobao.shop.showcase.remainCount",
-  "require_params" : ["session"]
-}

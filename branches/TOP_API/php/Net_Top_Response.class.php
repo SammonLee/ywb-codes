@@ -1,4 +1,13 @@
 <?php
+/**
+ * Error Type:
+ *  - curl
+ *  - service
+ *  - system
+ *  - application
+ * 
+ * @package 
+ */
 class Net_Top_Response 
 {
     protected $_data;
@@ -123,5 +132,15 @@ class Net_Top_Response
             $msg = $this->_result['msg'];
         }
         return $msg;
+    }
+
+    public function getUrl()
+    {
+        return $this->_request->getRestUrl();
+    }
+
+    public function getParameters()
+    {
+        return $this->_request->getParameters();
     }
 }

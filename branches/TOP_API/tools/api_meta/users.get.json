@@ -1,0 +1,12 @@
+{
+     "class" : "Net_Top_Request_UsersGet",
+     "api_type" : "User",
+     "method" : "taobao.users.get",
+     "parameters" : {
+         "required" : ["fields", "nicks"]
+     },
+     "fields" : {
+         ":all" : ["user_id","nick","sex","buyer_credit","seller_credit",
+         "created","last_visit", "location", "location.city", "location.state", "location.country", "location.district"]
+     }
+}

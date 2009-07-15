@@ -1,0 +1,10 @@
+{
+  "class" : "Net_Top_Request_ItemSkuUpdate",
+  "method" : "taobao.item.sku.update",
+  "api_type" : "Item",
+  "parameters" : {
+     "required" : ["iid", "properties"],
+     "other" : ["quantity", "price", "outer_id", "lang"]
+  },
+  "is_secure" : true
+}

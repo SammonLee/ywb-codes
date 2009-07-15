@@ -1,10 +1,12 @@
 <?php
 abstract class Net_Top_Request
 {
+    static $factory_prefix = 'Net_Top_Request';
     static $response_class = 'Net_Top_Response';
     protected $api_name;
     protected $paramters;
     protected $api_parameters;
+    protected $rest_url;
         
     function __construct( $args = null) 
     {
@@ -29,8 +31,8 @@ abstract class Net_Top_Request
     
     function factory($api_name, $args=null)
     {
-        $api = Net_Top_Metadata::get($api_name);
-        return new $api['class']($args);
+        $class = self::$factory_prefix . '_' . $api_name;
+        return new $class($args);
     }
 
     function parseResponse($res) 
@@ -41,7 +43,7 @@ abstract class Net_Top_Request
 
     function getResponseClass()
     {
-        return self::$responce_class;
+        return self::$response_class;
     }
 
     function getHttpMethod()
@@ -135,6 +137,10 @@ abstract class Net_Top_Request
                 return false;
             }
         }
+        if ( $this->isSecure() && !isset($this->parameters['session']) ) {
+                $this->error = "Authentication needed";
+                return false;
+        }
         return true;
     }
 
@@ -187,5 +193,20 @@ abstract class Net_Top_Request
     function getApiName()
     {
         return $this->api_name;
+    }
+
+    function isSecure()
+    {
+        return $this->getMetadata('is_secure', false);
+    }
+
+    function setRestUrl($url)
+    {
+        $this->rest_url = $url;
+    }
+
+    function getRestUrl($url)
+    {
+        return $this->rest_url;
     }
 }

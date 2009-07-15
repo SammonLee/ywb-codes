@@ -1,0 +1,13 @@
+{
+  "class" : "Net_Top_Request_PostageGet",
+  "method" : "taobao.postage.get",
+  "api_type" : "Item",
+  "fields" : {
+  ":all" : ["postage_id", "name", "memo", "created", "modified", "post_price",
+"post_increase", "express_price", "express_increase", "ems_price",
+"ems_increase", "postage_mode_list"]
+  },
+  "parameters" : {
+  "required" : ["fields", "postage_id", "nick"]
+  }
+}

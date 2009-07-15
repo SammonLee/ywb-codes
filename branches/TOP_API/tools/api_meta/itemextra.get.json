@@ -1,0 +1,12 @@
+{
+  "class" : "Net_Top_Request_ItemextraGet",
+  "method" : "taobao.itemextra.get",
+  "api_type" : "Item",
+  "fields" : {
+    ":all" : ["eid", "iid", "title", "desc", "feature", "memo", "type", "reserve_price", "sku", "created", "modified"]
+  },
+  "parameters" : {
+     "required" : ["fields", "nick", "iid", "type"]
+  },
+  "list_tags" : ["sku"]
+}

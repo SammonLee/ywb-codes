@@ -1,9 +1,13 @@
 {
-    "class" : "Net_Top_Request_Cats_PropvaluesGet",
-    "api_method" : "taobao.itempropvalues.get",
-    "fields" : {
-        ":all" : ["cid", "pid", "prop_name", "vid", "name", "status", "sort_order"]
-    },
-    "require_params" : ["fields", "cid"],
-    "optional_params" : ["pvs","datetime"]
+  "class" : "Net_Top_Request_PropvaluesGet",
+  "method" : "taobao.itempropvalues.get",
+  "api_type" : "Cat",
+  "fields" : {
+     ":all" : ["cid","pid","prop_name","vid","name","name_alias","is_parent","status","sort_order" ]
+  },
+  "parameters" : {
+     "required" : ["fields", "cid"],
+     "optional" : ["pvs", "datetime"]
+  },
+  "list_tags" : ["prop_values"]
 }

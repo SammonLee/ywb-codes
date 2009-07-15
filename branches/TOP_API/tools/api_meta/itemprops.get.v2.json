@@ -1,0 +1,13 @@
+{
+  "class" : "Net_Top_Request_PropsGet",
+  "method" : "taobao.itemprops.get.v2",
+  "api_type" : "Cat",
+  "fields" : {
+     ":all" : ["pid","name","is_key_prop","is_sale_prop","is_color_prop","is_enum_prop","is_input_prop","is_item_prop","child_template","must","multi","parent_pid","parent_vid","status","sort_order"]
+  },
+  "parameters" : {
+     "required" : ["fields", "cid"],
+     "other" : ["pid", "parent_pid", "is_key_prop","is_sale_prop","is_color_prop","is_enum_prop","is_input_prop","is_item_prop", "datetime"]
+  },
+  "list_tags" : ["item_props"]
+}

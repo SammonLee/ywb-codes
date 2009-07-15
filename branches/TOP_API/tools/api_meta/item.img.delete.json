@@ -1,0 +1,9 @@
+{
+  "class" : "Net_Top_Request_ItemImgDelete",
+  "method" : "taobao.item.img.delete",
+  "api_type" : "Item",
+  "parameters" : {
+     "required" : ["iid", "itemimg_id"]
+  },
+  "is_secure" : true
+}
