@@ -1,0 +1,18 @@
+{
+   "parameters" : {
+      "required" : [
+         "tid",
+         "content",
+         "result",
+         "anony",
+         "role"
+      ],
+      "other" : [
+         "order_id"
+      ]
+   },
+   "api_type" : "Traderate",
+   "class" : "Net_Top_Request_TraderateAdd",
+   "is_secure" : true,
+   "method" : "taobao.traderate.add"
+}

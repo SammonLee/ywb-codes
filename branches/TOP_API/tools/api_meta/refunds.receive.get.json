@@ -1,0 +1,21 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields"
+      ],
+      "other" : [
+         "status",
+         "buyer_nick",
+         "page_no",
+         "page_size",
+         "type"
+      ]
+   },
+   "fields" : {
+      ":all" : ["refund_id", "tid", "title", "buyer_nick", "seller_nick",
+      "total_fee", "status", "created", "refund_fee"]
+   },
+   "api_type" : "Trade",
+   "class" : "Net_Top_Request_RefundsReceiveGet",
+   "method" : "taobao.refunds.receive.get"
+}

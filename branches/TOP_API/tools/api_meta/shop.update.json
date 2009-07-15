@@ -1,0 +1,13 @@
+{
+   "parameters" : {
+      "optional" : [
+         "title",
+         "bulletin",
+         "desc"
+      ]
+   },
+   "api_type" : "Shop",
+   "class" : "Net_Top_Request_ShopUpdate",
+   "is_secure" : true,
+   "method" : "taobao.shop.update"
+}

@@ -1,0 +1,11 @@
+{
+   "parameters" : {
+      "required" : [
+         "picture_ids"
+      ]
+   },
+   "api_type" : "Media",
+   "class" : "Net_Top_Request_PictureDelete",
+   "is_secure" : true,
+   "method" : "taobao.picture.delete"
+}

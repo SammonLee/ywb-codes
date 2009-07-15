@@ -1,0 +1,20 @@
+{
+   "parameters" : {
+      "required" : [
+         "picture_category_id",
+         "img",
+         "image_input_title"
+      ],
+      "other" : [
+         "title"
+      ],
+      "file" : [
+         "img"
+      ]
+   },
+   "api_type" : "Media",
+   "class" : "Net_Top_Request_PictureUpload",
+   "method" : "taobao.picture.upload",
+   "is_secure" : true,
+   "http_method" : "post"
+}

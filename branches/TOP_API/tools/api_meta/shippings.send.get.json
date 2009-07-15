@@ -1,0 +1,30 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields"
+      ],
+      "other" : [
+         "tid",
+         "buyer_nick",
+         "status",
+         "seller_confirm",
+         "receiver_name",
+         "start_created",
+         "end_created",
+         "freight_payer",
+         "type",
+         "page_no",
+         "page_size"
+      ]
+   },
+   "fields" : {
+      ":all" : ["tid", "seller_nick", "buyer_nick", "delivery_start",
+      "delivery_end", "out_sid", "item_title", "receiver_name",
+      "created", "modified", "status", "type", "freight_payer",
+      "seller_confirm", "company_name"]
+   },
+   "api_type" : "Delivery",
+   "class" : "Net_Top_Request_ShippingsSendGet",
+   "is_secure" : true,
+   "method" : "taobao.shippings.send.get"
+}

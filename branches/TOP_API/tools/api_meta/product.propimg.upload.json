@@ -1,0 +1,21 @@
+{
+   "parameters" : {
+      "required" : [
+         "product_id",
+         "props",
+         "image"
+      ],
+      "other" : [
+         "pic_id",
+         "position"
+      ],
+      "file" : [
+         "image"
+      ]
+   },
+   "api_type" : "Product",
+   "class" : "Net_Top_Request_ProductPropimgUpload",
+   "method" : "taobao.product.propimg.upload",
+   "is_secure" : true,
+   "http_method" : "post"
+}

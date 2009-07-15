@@ -18,7 +18,7 @@ use Log::Log4perl qw/:easy/;
 use File::Temp qw/tempfile/;
 use Getopt::Long;
 
-@ARGV = qw(-l php -d d:/repo/ywb-codes/branches/TOP_API/php -t Item);
+@ARGV = qw(-l php -d d:/repo/ywb-codes/branches/TOP_API/php/lib);
 
 my ($api_types,                 # generate code for given type of api 
     $code_dir,                  # output code directory

@@ -1,0 +1,27 @@
+{
+   "fields" : {
+        ":all" : ["picture_id","picture_category_id","picture_path","title","sizes",
+        "pixel","status","deleted","created","modified"]
+   },
+   "parameters" : {
+      "required" : [
+         "fields"
+      ],
+      "other" : [
+         "picture_id",
+         "picture_category_id",
+         "deleted",
+         "modified_time",
+         "title",
+         "order_by",
+         "page_no",
+         "page_size",
+         "start_date",
+         "end_date"
+      ]
+   },
+   "api_type" : "Media",
+   "class" : "Net_Top_Request_PictureGet",
+   "is_secure" : true,
+   "method" : "taobao.picture.get"
+}

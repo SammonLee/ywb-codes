@@ -1,0 +1,10 @@
+{
+   "parameters" : {
+      "required" : [
+         "nick"
+      ]
+   },
+   "api_type" : "Shop",
+   "class" : "Net_Top_Request_SellercatsListGet",
+   "method" : "taobao.sellercats.list.get"
+}

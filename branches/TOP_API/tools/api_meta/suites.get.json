@@ -1,0 +1,11 @@
+{
+   "parameters" : {
+      "required" : [
+         "service_code"
+      ]
+   },
+   "api_type" : "Suites",
+   "class" : "Net_Top_Request_SuitesGet",
+   "is_secure" : true,
+   "method" : "taobao.suites.get"
+}

@@ -1,0 +1,17 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields",
+         "date"
+      ]
+   },
+   "fields" : {
+      ":all" : ["app_key", "outer_code", "trade_id", "pay_time", "pay_price",
+"auction_id", "auction_title", "auction_number", "category_id",
+"category_name", "shop_title", "discount", "taoke_amount"]
+   },
+   "api_type" : "Taoke",
+   "class" : "Net_Top_Request_TaobaokeReportGet",
+   "is_secure" : true,
+   "method" : "taobao.taobaoke.report.get"
+}

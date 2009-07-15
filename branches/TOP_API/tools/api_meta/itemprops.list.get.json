@@ -1,0 +1,10 @@
+{
+   "parameters" : {
+      "required" : [
+         "cid"
+      ]
+   },
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItempropsListGet",
+   "method" : "taobao.itemprops.list.get"
+}

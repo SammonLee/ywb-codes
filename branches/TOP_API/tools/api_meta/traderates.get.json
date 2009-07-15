@@ -1,0 +1,22 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields",
+         "rate_type",
+         "role"
+      ],
+      "other" : [
+         "result",
+         "page_no",
+         "page_size"
+      ]
+   },
+   "fields" : {
+     ":all" : ["tid", "order_id", "role", "nick", "result", "created", "rated_nick",
+"item_title", "item_price", "content", "reply"]
+   },
+   "api_type" : "Traderate",
+   "class" : "Net_Top_Request_TraderatesGet",
+   "is_secure" : true,
+   "method" : "taobao.traderates.get"
+}

@@ -1,0 +1,18 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields",
+         "sids",
+         "nick"
+      ],
+      "other" : [
+         "outerCode"
+      ]
+   },
+   "fields" : {
+   ":all" : ["user_id", "shop_title", "click_url", "shop_commission" ]
+   },
+   "api_type" : "Taoke",
+   "class" : "Net_Top_Request_TaobaokeShopsConvert",
+   "method" : "taobao.taobaoke.shops.convert"
+}

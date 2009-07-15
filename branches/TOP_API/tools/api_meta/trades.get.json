@@ -1,0 +1,21 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields",
+         "iid",
+         "seller_nick"
+      ],
+      "other" : [
+         "page_no",
+         "page_size",
+         "type"
+      ]
+   },
+   "fields" : {
+   ":all" : ["seller_nick", "buyer_nick", "title", "type", "created",
+   "iid", "price", "pic_path", "num" ]
+   },
+   "api_type" : "Trade",
+   "class" : "Net_Top_Request_TradesGet",
+   "method" : "taobao.trades.get"
+}

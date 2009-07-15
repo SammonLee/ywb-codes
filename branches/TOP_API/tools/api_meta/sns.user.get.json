@@ -1,0 +1,10 @@
+{
+   "parameters" : {
+      "required" : [
+         "uid"
+      ]
+   },
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsUserGet",
+   "method" : "taobao.sns.user.get"
+}

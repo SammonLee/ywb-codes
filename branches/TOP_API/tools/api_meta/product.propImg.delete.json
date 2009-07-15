@@ -1,0 +1,12 @@
+{
+   "parameters" : {
+      "required" : [
+         "pic_id",
+         "product_id"
+      ]
+   },
+   "api_type" : "Product",
+   "class" : "Net_Top_Request_ProductPropImgDelete",
+   "is_secure" : true,
+   "method" : "taobao.product.propImg.delete"
+}

@@ -1,0 +1,10 @@
+{
+   "parameters" : {
+      "required" : [
+         "ids"
+      ]
+   },
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsPictureSetUsed",
+   "method" : "taobao.sns.picture.setUsed"
+}

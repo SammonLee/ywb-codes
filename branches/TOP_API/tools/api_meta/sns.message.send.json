@@ -1,0 +1,12 @@
+{
+   "parameters" : {
+      "required" : [
+         "id",
+         "content"
+      ]
+   },
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsMessageSend",
+   "is_secure" : true,
+   "method" : "taobao.sns.message.send"
+}

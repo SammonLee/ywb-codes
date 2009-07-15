@@ -1,0 +1,14 @@
+{
+   "parameters" : {
+      "required" : [
+         "cid"
+      ],
+      "optional" : [
+         "pid",
+         "child_path"
+      ]
+   },
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItempropListGet",
+   "method" : "taobao.itemprop.list.get"
+}

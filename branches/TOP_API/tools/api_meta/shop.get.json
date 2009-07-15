@@ -1,0 +1,15 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields",
+         "nick"
+      ]
+   },
+   "fields" : {
+       ":all" : ["sid","cid","title","nick","desc","bulletin",
+       "pic_path","created","modified"]
+   },
+   "api_type" : "Shop",
+   "class" : "Net_Top_Request_ShopGet",
+   "method" : "taobao.shop.get"
+}

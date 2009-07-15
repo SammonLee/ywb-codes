@@ -1,0 +1,12 @@
+{
+   "parameters" : {
+      "required" : [
+         "uid",
+         "start_row",
+         "count"
+      ]
+   },
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsFriendsGet",
+   "method" : "taobao.sns.friends.get"
+}

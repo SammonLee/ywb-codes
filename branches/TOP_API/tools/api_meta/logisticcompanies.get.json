@@ -1,0 +1,16 @@
+{
+   "parameters" : {
+      "required" : [
+         "fields"
+      ],
+      "other" : [
+         "is_recommended"
+      ]
+   },
+   "fields" : {
+   ":all" : ["company_id","company_code","company_name" ]
+   },
+   "api_type" : "Delivery",
+   "class" : "Net_Top_Request_LogisticcompaniesGet",
+   "method" : "taobao.logisticcompanies.get"
+}

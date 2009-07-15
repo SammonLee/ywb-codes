@@ -1,0 +1,3699 @@
+{
+   "33" : [
+      {
+         "desc" : "需要取消橱窗推荐的商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "32" : [
+      {
+         "desc" : "需要上架的商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要上架的商品的数量",
+         "value" : "",
+         "name" : "num",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "63" : [
+      {
+         "desc" : "用户订购服务的服务码(申请服务的时候会得到)",
+         "value" : "",
+         "name" : "service_code",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "21" : [
+      {
+         "desc" : "需要修改的商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品上传后的状态。Onsale出售中，instock库中",
+         "value" : "",
+         "name" : "approve_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "叶子类目id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品属性列表",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品数量",
+         "value" : "",
+         "name" : "num",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品价格",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "宝贝标题",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在地省份,如浙江",
+         "value" : "",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在地城市,如杭州",
+         "value" : "",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费承担方式,seller（卖家承担），buyer(买家承担)",
+         "value" : "",
+         "name" : "freight_payer",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "有效期,7或者14",
+         "value" : "",
+         "name" : "valid_thru",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否有发票,true/false",
+         "value" : "",
+         "name" : "has_invoice",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否有保修,true/false",
+         "value" : "",
+         "name" : "has_warranty",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "自动上架,true/false",
+         "value" : "",
+         "name" : "auto_repost",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "橱窗推荐,true/false",
+         "value" : "",
+         "name" : "has_showcase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "店铺类目列表",
+         "value" : "",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "支持会员打折,true/false",
+         "value" : "",
+         "name" : "has_discount",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮费用,如5.00",
+         "value" : "",
+         "name" : "post_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递费用,如15.00",
+         "value" : "",
+         "name" : "express_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "ems费用,如25.00",
+         "value" : "",
+         "name" : "ems_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "上架时间,如2008-05-26 09:12:00",
+         "value" : "",
+         "name" : "list_time",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "加价幅度",
+         "value" : "",
+         "name" : "increment",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品图片，要先上传图片后再提交测试，否则商品图片不会被修改",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品新旧程度(全新:new，闲置:unused，二手：second)",
+         "value" : "",
+         "name" : "stuff_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品的积分返点比例 例：5 表示5%的返点比例",
+         "value" : "",
+         "name" : "auction_point",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "属性值别名，如pid:vid:别名; pid1:vid1:别名1 pid:属性id vid:值id。总长度不超过512字节 ",
+         "value" : "",
+         "name" : "property_alias",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "用户自行输入的类目属性ID串，结构如：pid1,pid2",
+         "value" : "",
+         "name" : "input_pids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "xx山寨|系列|xx系列,材质|xx材质,……，input_str需要与input_pids一一对应，因为有可能一件商品有多个可以自输入的属性。 长度小于4000字节",
+         "value" : "",
+         "name" : "input_str",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "更新的sku的数量串，结构如：2,3,..",
+         "value" : "",
+         "name" : "sku _quantities",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "更新的sku的价格串，结构如：10.00,5.00,..",
+         "value" : "",
+         "name" : "sku _prices",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "更新的sku的属性串，结构如：pid11:vid11;pid12:vid12,pid21:vid21;pid22:vid22,…",
+         "value" : "",
+         "name" : "sku _properties",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "这里只做添加操作，不会覆盖原有的分类",
+         "value" : "",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "宝贝所属的运费模板ID，如果没有返回则说明没有使用运费模板",
+         "value" : "",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品文字的版本，繁体传入”zh_HK”，简体传入”zh_CN”，不传默认为简体",
+         "value" : "",
+         "name" : "lang",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商家外部编码",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "71" : [
+      {
+         "desc" : "需返回的字段列表.可选值:TaobaokeShop淘宝客商品结构体中的所有字段;字段之间用,分隔",
+         "value" : "user_id,shop_title,click_url,shop_commission.rate",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "店铺id串.最大输入10个.格式如:value1,value2,value3",
+         "value" : "",
+         "name" : "sids",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "推广者的淘宝会员昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "自定义输入串.格式:英文和数字组成;长度不能大于12个字符,区分不同的推广渠道,如:bbs,表示bbs为推广渠道;blog,表示blog为推广渠道",
+         "value" : "",
+         "name" : "outerCode",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "102" : [
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "关闭原因",
+         "value" : "",
+         "name" : "close_reason",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "7" : [
+      {
+         "desc" : "产品图片ID",
+         "value" : "",
+         "name" : "pic_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品ID",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "子图片，要先上传图片后再提交测试，否则图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片序号",
+         "value" : "",
+         "name" : "position",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否将该图片设为主图(默认为false)",
+         "value" : "",
+         "name" : "is_major",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "80" : [
+      {
+         "desc" : "接收者id",
+         "value" : "",
+         "name" : "id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "动态信息",
+         "value" : "",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "26" : [
+      {
+         "desc" : "属性图片ID,如果是新增不需要填写",
+         "value" : "",
+         "name" : "propimg_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品ID",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "属性图片属性串pid:vid;pid1:vid1",
+         "value" : "",
+         "name" : "properties",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "属性图片位置",
+         "value" : "",
+         "name" : "position",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "属性图片内容，要先上传图片后再提交测试，否则图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : "isMust"
+      }
+   ],
+   "18" : [
+      {
+         "desc" : "需要返回的商品对象字段",
+         "value" : "approve_status,iid,title,nick,type,cid,pic_path,num,props,valid_thru,list_time,price",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "搜索字段.模糊查询",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "类目ID",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家店铺内自定义类目ID(格式:id1,id2,…)",
+         "value" : "",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否参与会员折扣",
+         "value" : "",
+         "name" : "has_discount",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否橱窗推荐",
+         "value" : "",
+         "name" : "has_showcase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "排序方式. 格式为column:asc/desc。（list_time,delist_time, num）",
+         "value" : "",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "72" : [
+      {
+         "desc" : "需返回的字段列表.可选值:TaobaokeItem淘宝客商品结构体中的所有字段;",
+         "value" : "iid,title,nick,pic_url,price,click_url,commission,commission_rate,commission_num,commission_volume",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "关键词",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "推广者的淘宝会员昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "自定义输入串.格式:英文和数字组成;长度不能大于12个字符,区分不同的推广渠道,如:bbs,表示bbs为推广渠道;blog,表示blog为推广渠道",
+         "value" : "",
+         "name" : "outerCode",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "16" : [
+      {
+         "desc" : "叶子类目id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "类目属性ID，取类目属性需要传cid和pid",
+         "value" : "",
+         "name" : "pid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "类目子属性路径,由该子属性上层的类目属性和类目属性值组成,格式pid:vid;pid:vid.取类目子属性需要传child_path,cid",
+         "value" : "",
+         "name" : "child_path",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "44" : [
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "seller_nick,buyer_nick,price,iid,created,tid,status",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "seller_nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数 (每页返回最多返回100条,默认值为20)",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "55" : [
+      {
+         "desc" : "评价数据结构字段列表",
+         "value" : "content,created,item_price,nick,item_title,reated_nick;result,reply,role,tid,order_id",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价状态（得到:get;给出:give）.",
+         "value" : "",
+         "name" : "rate_type",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价者加角色（卖家：seller; 买家：buyer）.",
+         "value" : "",
+         "name" : "role",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价结果.（好评：good;中评：neutral;差评: bad）",
+         "value" : "",
+         "name" : "result",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "1007" : [
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "84" : [
+      {
+         "desc" : "兑换淘金币数",
+         "value" : "",
+         "name" : "coin_count",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "74" : [
+      {
+         "desc" : "用户id",
+         "value" : "",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "开始条数",
+         "value" : "",
+         "name" : "start_row",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "查询个数",
+         "value" : "",
+         "name" : "count",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "27" : [
+      {
+         "desc" : "Sku所属商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku属性串,如：pid:vid;pid1:vid1…",
+         "value" : "",
+         "name" : "properties",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku的库存数量",
+         "value" : "",
+         "name" : "quantity",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku的销售价格,商品的价格要在商品所有的sku的价格之间",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku的商家外部id",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku文字的版本，繁体传入zh_HK，简体传入zh_CN，不传默认为简体",
+         "value" : "",
+         "name" : "lang",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "57" : [
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价内容",
+         "value" : "",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价结果",
+         "value" : "",
+         "name" : "result",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "是否匿名（是:true;否:false;）",
+         "value" : "",
+         "name" : "anony",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价角色",
+         "value" : "",
+         "name" : "role",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "61" : [
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "调用者ip地址",
+         "value" : "",
+         "name" : "app_ip",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "物流公司代码",
+         "value" : "",
+         "name" : "company_code",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "运单号",
+         "value" : "",
+         "name" : "out_sid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家联系人姓名",
+         "value" : "",
+         "name" : "seller_name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家区域县级行政区 ID",
+         "value" : "",
+         "name" : "seller_area_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家地址(详细地址)如:XXX街道XXX门牌,省市区不需要提供",
+         "value" : "",
+         "name" : "seller_address",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家邮编",
+         "value" : "",
+         "name" : "seller_zip",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "两者必须选一,卖家固定电话或者手机号码. 包含区号,电话,分机号,中间用“ – “分隔",
+         "value" : "",
+         "name" : "seller_phone",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "卖家手机号码",
+         "value" : "",
+         "name" : "seller_mobile",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "卖家备注",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "1008" : [
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "模板ID",
+         "value" : "",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家昵称 ",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "20" : [
+      {
+         "desc" : "需要返回的商品对象字段，商品结构体中所有字段均可返回",
+         "value" : "iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "103" : [
+      {
+         "desc" : "多图图片ID",
+         "value" : "",
+         "name" : "pic_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "产品ID",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "1011" : [
+      {
+         "desc" : "外部商家ID",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "89" : [
+      {
+         "desc" : "需要返回的字段,根据PictureCategory中的以下字段：picture_category_id,picture_category_name,position,type,total,created,modified ,多个字段用“,”分隔。如：type,total,created,modified ",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片分类ID",
+         "value" : "",
+         "name" : "picture_category_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "图片分类名，不支持模糊查询",
+         "value" : "",
+         "name" : "picture_category_name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "分类类型,fixed代表店铺装修分类类别，auction代表宝贝分类类别，user-define代表用户自定义分类类别",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "10" : [
+      {
+         "desc" : "Product数据结构字段列表，以半角逗号(,)分隔",
+         "value" : "product_id,outer_id,cid,cat_name,props,props_str,name",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "用户昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "31" : [
+      {
+         "desc" : "需要下架的商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "35" : [
+      {
+         "desc" : "商品所属的店铺内卖家自定义类目",
+         "value" : "",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品所属的类目ID",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "匹配关键词(匹配title)",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "在售(onsale)、仓库中(instock)、违规(irregular)",
+         "value" : "",
+         "name" : "approve_status",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "开始时间最小值",
+         "value" : "",
+         "name" : "start_date",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "开始时间最大值",
+         "value" : "",
+         "name" : "end_date",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "11" : [
+      {
+         "desc" : "需要返回的字段",
+         "value" : "cid,parent_cid,name,is_parent,status,sort_order",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "父商品类目id，0表示根节点, 传输该参数返回所有子类目。 Cids、parent_cid至少传一个",
+         "value" : "",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "类目ID列表，用半角逗号(,)分隔",
+         "value" : "",
+         "name" : "cids",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "时间戳，如果没有传，则取所有的类目信息(如果传了parent_cid或者cids，则忽略datetime)",
+         "value" : "",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "78" : [
+      {
+         "desc" : "动态信息",
+         "value" : "",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "107" : [
+      {
+         "desc" : "退款单号",
+         "value" : "",
+         "name" : "refund_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "48" : [
+      {
+         "desc" : "备注内容",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "87" : [
+      {
+         "desc" : "图片ID字符串,可以一个也可以一组,用英文逗号间隔,如450,120,155",
+         "value" : "",
+         "name" : "picture_ids",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "77" : [
+      {
+         "desc" : "图片文件ids，例如：value1,value2,value3",
+         "value" : "",
+         "name" : "ids",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "1010" : [
+      {
+         "desc" : "商品数据结构字段列表",
+         "value" : "iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "搜索字段.q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "卖家昵称列表,逗号分隔(目前最多支持5个卖家昵称，格式为nick1,nick2,nick3…). Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "nicks",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品所属类目Id. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品最低价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "start_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品最高价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "end_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "排序方式.格式为column:asc/desc,column可选值为: price, delist_time, seller_credit.如price:asc表示按价格升序排列. 没有这个参数表示按默认排序方式.",
+         "value" : "",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品属性.可以搜到拥有和输入属性一样的属性的商品的列表.",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "可以根据产品Id搜索属于这个spu的商品",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "旺旺在线状态（不设置结果包含所有状态，设置为true结果只有旺旺在线卖家的商品）不能单独使用，要和其他条件一起用才行。",
+         "value" : "",
+         "name" : "ww_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "免运费（不设置包含所有邮费状态，设置为true结果只有卖家包邮的商品）不能单独使用，要和其他条件一起用才行。",
+         "value" : "",
+         "name" : "post_free",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在省",
+         "value" : "",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在市",
+         "value" : "",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "65" : [
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "29" : [
+      {
+         "desc" : "商品的id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku属性串，如pid:vid;pid1:vid1",
+         "value" : "",
+         "name" : "properties",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku的库存数量",
+         "value" : "",
+         "name" : "quantity",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku的销售价格",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku的商家外部id",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku文字的版本，繁体传入zh_HK，简体传入zh_CN，不传默认为简体",
+         "value" : "",
+         "name" : "lang",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "39" : [
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "64" : [],
+   "58" : [
+      {
+         "desc" : "查询字段 ",
+         "value" : "tid,seller_nick,buyer_nick,delivery_start, delivery_end,out_sid,item_title,receiver_name, created,modified,status,type,freight_payer",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "交ID 注: 如果加入tid参数的话,不用传其他的参数,但是仅会返回一条物流订单信息",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "买家昵称",
+         "value" : "",
+         "name" : "buyer_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "物流状态 : 查看数据结构状态",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家是否发货: 是(yes) 否(no)",
+         "value" : "",
+         "name" : "seller_confirm",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "收货人姓名",
+         "value" : "",
+         "name" : "receiver_name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "创建时间开始",
+         "value" : "",
+         "name" : "start_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "创建时间结束",
+         "value" : "",
+         "name" : "end_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "谁承担运费:买家/buyer 卖家/seller",
+         "value" : "",
+         "name" : "freight_payer",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮(post) 快递(expess) EMS(ems)",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "12" : [
+      {
+         "desc" : "返回的字段(该接口不返回属性值)",
+         "value" : "pid,name,parent_pid,parent_vid,status,sort_order",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "叶子类目ID，如果只传cid，则只返回一级属性",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "属性id (取类目属性时，传pid，不用同时传PID和parent_pid)",
+         "value" : "",
+         "name" : "pid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "父属性ID",
+         "value" : "",
+         "name" : "parent_pid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否关键属性",
+         "value" : "",
+         "name" : "is_key_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否销售属性",
+         "value" : "",
+         "name" : "is_sale_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否颜色属性(删除的属性不会匹配和返回这个条件)",
+         "value" : "",
+         "name" : "is_color_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否枚举属性(删除的属性不会匹配和返回这个条件)",
+         "value" : "",
+         "name" : "is_enum_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否是卖家可以自行输入的属性(删除的属性不会匹配和返回这个条件)",
+         "value" : "",
+         "name" : "is_input_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否商品属性. 这个属性只能放于发布商品时使用",
+         "value" : "",
+         "name" : "is_item_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "增量时间戳，如果传1970-1-1 00:00:00，则取所有的属性和子属性ID(如果传了pid会忽略datetime)",
+         "value" : "",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "15" : [
+      {
+         "desc" : "叶子类目id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "81" : [
+      {
+         "desc" : "用户id",
+         "value" : "",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "开始条数",
+         "value" : "",
+         "name" : "start_row",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "总条数",
+         "value" : "",
+         "name" : "count",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "52" : [
+      {
+         "desc" : "退款状态 ",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "买家昵称",
+         "value" : "",
+         "name" : "buyer_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数 (每页返回最多返回100条,默认值为20) ",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "需要返回的字段 ",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "guarantee_trade,一口价、拍卖,auto_delivery,自动发货,independent_shop_trade,外部网店的交易 ",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "60" : [
+      {
+         "desc" : "查询字段 ",
+         "value" : "company_id,company_code,company_name",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "是否查询推荐物流公司,如果不提供此参数,将会返回所有的查询结果",
+         "value" : "",
+         "name" : "is_recommended",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "56" : [
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "子订单ID",
+         "value" : "",
+         "name" : "order_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "评价内容",
+         "value" : "",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价结果",
+         "value" : "",
+         "name" : "result",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "是否匿名（是:true;否:false;）卖家评不能匿名",
+         "value" : "",
+         "name" : "anony",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "评价角色",
+         "value" : "",
+         "name" : "role",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "101" : [
+      {
+         "desc" : "邮费模板名称",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "邮费模板备注",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮费用",
+         "value" : "",
+         "name" : "post_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮加件费用   ",
+         "value" : "",
+         "name" : "post_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递费用",
+         "value" : "",
+         "name" : "express_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递加件费用",
+         "value" : "",
+         "name" : "express_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "EMS费用",
+         "value" : "",
+         "name" : "ems_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "EMS加件费用",
+         "value" : "",
+         "name" : "ems _increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式(目前提供):平邮 (post),快递公司(express), EMS (ems)数量串: 例 (post;express;ems……)，用 “;”区分",
+         "value" : "",
+         "name" : "postage_mode.type",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "目的地值,涉及的地区,数值用逗号连接数量串: 例 (10;20;30,10) .填写时要注意对照地区代码值,如果填入错误地区代码, 将会出现错误信息",
+         "value" : "",
+         "name" : "postage_mode.dest",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式单价 数量串: 例 (11.2;14;6……)",
+         "value" : "",
+         "name" : "postage_mode.price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式加件费用 数量串: 例 (1.5;2……)",
+         "value" : "",
+         "name" : "postage_mode.increase",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "73" : [
+      {
+         "desc" : "需返回的字段列表.可选值:TaobaokeReportMember淘宝客报表成员结构体中的所有字段",
+         "value" : "app_key,outer_code,trade_id,pay_time,pay_price,auction_id,auction_title,auction_number,category_id,category_name,shop_title,discount,taoke_amount ",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要查询报表的日期，有效的日期为最近3个月内的某一天，格式为:yyyyMMdd,如20090520",
+         "value" : "",
+         "name" : "date",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "66" : [
+      {
+         "desc" : "卖家自定义类目名称",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "链接图片地址",
+         "value" : "",
+         "name" : "pict_url",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "父类目ID",
+         "value" : "",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "该类目在页面上的排序位置",
+         "value" : "",
+         "name" : "sort_order",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "45" : [
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "查询交易创建时间开始",
+         "value" : "",
+         "name" : "start_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询交易创建时间结束",
+         "value" : "",
+         "name" : "end_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品名称",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "交易状态",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家Nick",
+         "value" : "",
+         "name" : "seller_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "fixed,一口价;auction,拍卖,guarantee_trade,一口价、拍卖,auto_delivery,自动发货,independent_shop_trade,外部网店的交易",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "86" : [
+      {
+         "desc" : "图片分类ID，具体某个分类ID或0上传到未分类下，只能一个分类",
+         "value" : "",
+         "name" : "picture_category_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片,允许png、jpg、gif图片格式",
+         "value" : "",
+         "name" : "img",
+         "type" : "file",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "包括后缀名的图片标题,不能为空，如Bule.jpg,有些卖家希望图片上传后取图片文件的默认名",
+         "value" : "",
+         "name" : "image_input_title",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片标题,如果为空,传的图片标题就取去掉后缀名的image_input_title,超过50字符长度会截取50字符,重名会在标题末尾加(1);标题末尾已经有(数字)了，则数字加1",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "76" : [
+      {
+         "desc" : "用户图片",
+         "value" : "",
+         "name" : "picture",
+         "type" : "file",
+         "classname" : "isMust"
+      }
+   ],
+   "19" : [
+      {
+         "desc" : "需要返回的商品对象字段",
+         "value" : "approve_status,iid,title,nick,type,cid,pic_path,num,props,valid_thru,list_time,price",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "搜索字段.模糊查询",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "分类字段:没卖出的:unsold;部分卖出的:partly_sold;定时上架:regular_shelved;从未上架:never_on_shelf;全部卖完:sold_out;我下架的:off_shelf;等待所有上架:for_shelved",
+         "value" : "",
+         "name" : "banner",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "排序方式. 格式为column:asc/desc。（list_time,delist_time, num）",
+         "value" : "",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "62" : [
+      {
+         "desc" : "查询字段 ",
+         "value" : "tid,seller_nick,buyer_nick,delivery_start, delivery_end,out_sid,item_title, created,modified,status,type,freight_payer receiver_name, receiver_mobile,receiver_phone,receiver_location",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "交ID 注: 如果加入tid参数的话,不用传其他的参数,但是仅会返回一条物流订单信息",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "买家昵称",
+         "value" : "",
+         "name" : "buyer_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "物流状态 : 查看数据结构状态 ",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家是否发货: 是(yes) 否(no)",
+         "value" : "",
+         "name" : "seller_confirm",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "收货人姓名",
+         "value" : "",
+         "name" : "receiver_name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "创建时间开始",
+         "value" : "",
+         "name" : "start_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "创建时间结束",
+         "value" : "",
+         "name" : "end_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "谁承担运费:买家/buyer 卖家/seller",
+         "value" : "",
+         "name" : "freight_payer",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮(post) 快递(expess) EMS(ems)",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "54" : [
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "67" : [
+      {
+         "desc" : "卖家自定义类目名称(name、pict_url、sort_order、promotion_info至少必须传一个)",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家自定义类目id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "链接图片地址",
+         "value" : "",
+         "name" : "pict_url",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "该类目在页面上的排序位置",
+         "value" : "",
+         "name" : "sort_order",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "自定义类目的父类目ID,默认为0",
+         "value" : "",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "70" : [
+      {
+         "desc" : "需返回的字段列表.可选值:TaobaokeItem淘宝客商品结构体中的所有字段;",
+         "value" : "iid,title,nick,pic_url,price,click_url,commission,commission_rate,commission_num,commission_volume",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品id串.最大输入50个.格式如:value1,value2,value3",
+         "value" : "",
+         "name" : "iids",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "推广者的淘宝会员昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "自定义输入串.格式:英文和数字组成;长度不能大于12个字符,区分不同的推广渠道,如:bbs,表示bbs为推广渠道;blog,表示blog为推广渠道",
+         "value" : "",
+         "name" : "outerCode",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "68" : [
+      {
+         "desc" : "需要获取的店铺信息字段",
+         "value" : "sid,cid,nick,title,desc,bulletin,pic_path,create,modified",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "2" : [
+      {
+         "desc" : "User数据结构字段列表，以半角逗号(,)分隔",
+         "value" : "user_id,nick,sex,real_name,phone,mobile,email",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "用户昵称，多个用逗号分隔",
+         "value" : "",
+         "name" : "nicks",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "17" : [
+      {
+         "desc" : "商品数据结构字段列表",
+         "value" : "iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "搜索字段.q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "卖家昵称列表,逗号分隔(目前最多支持5个卖家昵称，格式为nick1,nick2,nick3…). Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "nicks",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品所属类目Id. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品最低价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "start_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品最高价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "value" : "",
+         "name" : "end_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "排序方式.格式为column:asc/desc,column可选值为: price, delist_time, seller_credit.如price:asc表示按价格升序排列. 没有这个参数表示按默认排序方式.",
+         "value" : "",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品属性.可以搜到拥有和输入属性一样的属性的商品的列表.",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "可以根据产品Id搜索属于这个spu的商品",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "旺旺在线状态（不设置结果包含所有状态，设置为true结果只有旺旺在线卖家的商品）不能单独使用，要和其他条件一起用才行。",
+         "value" : "",
+         "name" : "ww_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "免运费（不设置包含所有邮费状态，设置为true结果只有卖家包邮的商品）不能单独使用，要和其他条件一起用才行。",
+         "value" : "",
+         "name" : "post_free",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在省",
+         "value" : "",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "所在市",
+         "value" : "",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "1" : [
+      {
+         "desc" : "User数据结构字段列表，以半角逗号(,)分隔",
+         "value" : "user_id,nick,sex,real_name,phone,mobile,email",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "用户昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "88" : [
+      {
+         "desc" : "需要返回的字段，根据Picture中的以下字段：picture_id,picture_category_id,picture_path,title,sizes,pixel,status,deleted,created,modified，多个字段用,分隔。如：picture_path,title,sizes",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片ID",
+         "value" : "",
+         "name" : "picture_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "图片分类ID",
+         "value" : "",
+         "name" : "picture_category_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否删除,unfroze代表没有删除",
+         "value" : "",
+         "name" : "deleted",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "图片编辑时间,返回的是图片最后修改（包括标题、分类、内容）时间为大于这个时间点的图片",
+         "value" : "",
+         "name" : "modified_time",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "图片标题,最大长度50字符,中英文都算一字符 ",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "图片查询结果排序,time:desc按上传时间从晚到早(默认), time:asc按上传时间从早到晚,sizes:desc按图片从大到小，sizes:asc按图片从小到大,默认time:desc",
+         "value" : "",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码.传入值为1代表第一页,传入值为2代表第二页,依此类推,默认值为1",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数.每页返回最多返回100条,默认值40",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询上传开始时间点,格式:yyyy-MM-dd HH:mm:ss",
+         "value" : "",
+         "name" : "start_date",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询上传结束时间点,格式:yyyy-MM-dd HH:mm:ss",
+         "value" : "",
+         "name" : "end_date",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "1009" : [
+      {
+         "desc" : "需要返回的字段: iid,title,nick,pic_url,price,click_url",
+         "value" : "iid,title,nick,pic_url,price,click_url",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "输入格式: \"mm_会员id_网站id_广告位id\" 注意,如果会员id错误，那么客户就收不到佣金. 网站id和广告位id可以为0",
+         "value" : "",
+         "name" : "pid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品标题中包含的关键字 注意：查询时keyword,cid至少选择其中一个参数",
+         "value" : "",
+         "name" : "keyword",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品所属分类id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "起始价格 传入价格参数时，需注意起始价格和最高价格必须一起传入,并且 strat_price <= end_price ",
+         "value" : "",
+         "name" : "strat_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "最高价格",
+         "value" : "",
+         "name" : "end_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否自动发货，true或false",
+         "value" : "",
+         "name" : "auot_send",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品所在地",
+         "value" : "",
+         "name" : "area",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家信用",
+         "value" : "",
+         "name" : "credit",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "默认排序 : default 价格从高到低: price_desc 价格从低到高: price_asc 信用等级从高到低: credit_desc",
+         "value" : "",
+         "name" : "sort",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否查询消保卖家，true或false",
+         "value" : "",
+         "name" : "is_guarantee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "结果页数,1~99",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页返回结果数,40",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "30" : [
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品的id列表，逗号分隔,最多40个",
+         "value" : "",
+         "name" : "iids",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品所属卖家昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "82" : [
+      {
+         "desc" : "用户1id",
+         "value" : "",
+         "name" : "uid1",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "用户2id",
+         "value" : "",
+         "name" : "uid2",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "25" : [
+      {
+         "desc" : "商品图片ID",
+         "value" : "",
+         "name" : "propimg_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品ID",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "28" : [
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "sku_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku的id",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Sku所属用户的昵称",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "83" : [
+      {
+         "desc" : "用户id",
+         "value" : "",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "75" : [
+      {
+         "desc" : "用户id",
+         "value" : "",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "相册id",
+         "value" : "",
+         "name" : "album_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "开始条数",
+         "value" : "",
+         "name" : "start_row",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "查询个数",
+         "value" : "",
+         "name" : "count",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "40" : [
+      {
+         "desc" : "邮费模板名称",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "邮费模板备注",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "邮费模板id",
+         "value" : "",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮费用",
+         "value" : "",
+         "name" : "post_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮加件费用   ",
+         "value" : "",
+         "name" : "post_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递费用",
+         "value" : "",
+         "name" : "express_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递加件费用",
+         "value" : "",
+         "name" : "express_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "EMS费用",
+         "value" : "",
+         "name" : "ems_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "EMS加件费用",
+         "value" : "",
+         "name" : "ems _increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费子模板id:修改多个子模板时，用 “;”区分 ",
+         "value" : "",
+         "name" : "Postage_mode.id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式(目前提供):平邮 (post),快递公司(express), EMS (ems)数量串: 例 (post;express;ems……)，用 “;”区分",
+         "value" : "",
+         "name" : "postage_mode.type",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "目的地值,涉及的地区,数值用逗号连接数量串: 例 (10;20;30,10) .填写时要注意对照地区代码值,如果填入错误地区代码, 将会出现错误信息",
+         "value" : "",
+         "name" : "postage_mode.dest",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式单价 数量串: 例 (11.2;14;6……)",
+         "value" : "",
+         "name" : "postage_mode.price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "运费方式加件费用 数量串: 例 (1.5;2……)",
+         "value" : "",
+         "name" : "postage_mode.increase",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "14" : [
+      {
+         "desc" : "父商品类目id，0表示根节点, 传输该参数返回所有子类目。 Cids和parent_cid至少传一个",
+         "value" : "1",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "类目ID列表，用半角逗号(,)分隔，cids和parent_cid至少传一个",
+         "value" : "",
+         "name" : "cids",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "69" : [
+      {
+         "desc" : "店铺标题(title、bulletin和desc至少必须传一个)",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "店铺公告",
+         "value" : "",
+         "name" : "bulletin",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "店铺描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "59" : [
+      {
+         "desc" : "查询字段 ",
+         "value" : "area_id ,area_type, area_name, parent_id, zip",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "49" : [
+      {
+         "desc" : "交易备注",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "24" : [
+      {
+         "desc" : "商品图片ID",
+         "value" : "",
+         "name" : "itemimg_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品ID",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "53" : [
+      {
+         "desc" : "退款单号",
+         "value" : "",
+         "name" : "refund_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "79" : [
+      {
+         "desc" : "接收者id",
+         "value" : "",
+         "name" : "to_uid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "系统信息",
+         "value" : "",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "22" : [
+      {
+         "desc" : "商品上传后的状态。Onsale出售中，instock库中。不填默认设置为onsale",
+         "value" : "",
+         "name" : "approve_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "叶子类目id",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品属性列表 pid:vid;pid:vid ，如果该类目下面没有属性，可以不用填写。如果有属性，要根据是否是必要属性来填写。",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品数量",
+         "value" : "",
+         "name" : "num",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品价格",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "发布类型,fixed(一口价),auction(拍卖)",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "新旧程度,new(新),second(二手),unused(闲置)",
+         "value" : "",
+         "name" : "stuff_status",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "宝贝标题",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "宝贝描述,字数要大于5个字节",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "所在地省份,如浙江",
+         "value" : "",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "所在地城市,如杭州",
+         "value" : "",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "运费承担方式,seller（卖家承担），buyer(买家承担).设置为买家承担的时候，如果用户设置了运费模板会优先使用运费模板，否则要同步设置邮费（post_fee,express_fee,ems_fee）。",
+         "value" : "",
+         "name" : "freight_payer",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "有效期,7或者14",
+         "value" : "",
+         "name" : "valid_thru",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否有发票,true/false",
+         "value" : "",
+         "name" : "has_invoice",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否有保修,true/false",
+         "value" : "",
+         "name" : "has_warranty",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "自动上架,true/false",
+         "value" : "",
+         "name" : "auto_repost",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "橱窗推荐,true/false",
+         "value" : "",
+         "name" : "has_showcase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "店铺类目列表,按逗号分隔 例：,78897, ",
+         "value" : "",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "支持会员打折,true/false",
+         "value" : "",
+         "name" : "has_discount",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "平邮费用,如5.00",
+         "value" : "",
+         "name" : "post_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "快递费用,如15.00",
+         "value" : "",
+         "name" : "express_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "ems费用,如25.00",
+         "value" : "",
+         "name" : "ems_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "上架时间,如2008-05-26 09:12:00",
+         "value" : "",
+         "name" : "list_time",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "加价幅度 如果为0,代表系统代理加幅",
+         "value" : "",
+         "name" : "increment",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品主图片，要先上传图片后再提交测试，否则商品图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      },
+      {
+         "desc" : "宝贝所属的运费模板ID，如果没有返回则说明没有使用运费模板",
+         "value" : "",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品的积分返点比例，如：5 表示返点比例5% 注意:返点比例必须是>0的整数,而且最大是90",
+         "value" : "",
+         "name" : "auction_point",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "属性值别名，如pid:vid:别名; pid1:vid1:别名1 pid:属性id vid:值id",
+         "value" : "",
+         "name" : "property_alias",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "用户自行输入的类目属性ID串，结构如：pid1,pid2……",
+         "value" : "",
+         "name" : "input_pids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "xx山寨|系列|xx系列,材质|xx材质,……，input_str需要与input_pids一一对应，因为有可能一件商品有多个可以自输入的属性。所有属性别名加起来不能超过3999字节",
+         "value" : "",
+         "name" : "input_str",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "更新的sku的属性串，结构如:pid11:vid11;pid12:vid12,pid21:vid21;pid22:vid22,…",
+         "value" : "",
+         "name" : "sku_properties",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的数量串，结构如：2,3,…",
+         "value" : "",
+         "name" : "sku_quantities",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的价格串，结构如：10.00,5.00,…",
+         "value" : "",
+         "name" : "sku_prices",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的外部id串，结构如：1234,1342,…sku_properties, sku_quantities, sku_prices, sku_outer_ids在输入数据时要一一对应，如果没有sku_outer_ids就在逗号之间什么都不写就好",
+         "value" : "",
+         "name" : "sku_outer_ids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品文字的版本，繁体传入 zh_HK，简体传入 zh_CN，不传默认为简体",
+         "value" : "",
+         "name" : "lang",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商家外部编码",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品所属的产品ID(B商家发布商品需要用)",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "42" : [
+      {
+         "desc" : "外部商家ID",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "46" : [
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "查询交易创建时间开始",
+         "value" : "",
+         "name" : "start_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询交易创建时间结束",
+         "value" : "",
+         "name" : "end_created",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品名称",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "交易状态",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "买家Nick",
+         "value" : "",
+         "name" : "buyer_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询修改时间开始",
+         "value" : "",
+         "name" : "start_modified",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "查询修改时间结束",
+         "value" : "",
+         "name" : "end_modified",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "fixed,一口价;auction,拍卖,guarantee_trade,一口价、拍卖,auto_delivery,自动发货,independent_shop_trade,外部网店的交易",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "23" : [
+      {
+         "desc" : "商品图片id(如果是更新图片，则需要传该参数)",
+         "value" : "",
+         "name" : "itemimg_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品ID",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品图片位置",
+         "value" : "",
+         "name" : "position",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商品图片内容(更新图片其他信息时可以不传)，要先上传图片后再提交测试，否则图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      },
+      {
+         "desc" : "是否将该图片设为主图(默认为false)",
+         "value" : "",
+         "name" : "is_major",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "13" : [
+      {
+         "desc" : "需要返回的字段(不包括is_parent)",
+         "value" : "cid,pid,prop_name,vid,name,is_parent,status,sort_order",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "叶子类目ID",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "属性和属性值id串，格式pid:vid;pid:vid(pvs和datetime只传其中一个)",
+         "value" : "",
+         "name" : "pvs",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "增量时间戳，如果传1970-1-1 00:00:00，则取所有的属性和子属性值(状态为删除的属性值不返回prop_name)",
+         "value" : "",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "6" : [
+      {
+         "desc" : "类目ID",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "外部产品ID",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "关键属性pid:vid;pid:vid ,如果碰到用户自定义属性，请用customer_props",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "绑定属性,根据类目确定绑定属性是否是必须",
+         "value" : "",
+         "name" : "binds",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "销售属性",
+         "value" : "",
+         "name" : "sale_props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商家编码",
+         "value" : "",
+         "name" : "tsc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "用户自定义属性，1636953:DDFAFAEED",
+         "value" : "",
+         "name" : "customer_props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品名称",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "产品市场价",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "产品描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品主图，要先上传图片后再提交测试，否则产品图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : "isMust"
+      }
+   ],
+   "85" : [],
+   "36" : [
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "标题",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "自定义信息 ",
+         "value" : "",
+         "name" : "feature",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "备注 ",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "扩展类型 other:其他网店 ；uniqlo: 优衣库 reserve_price",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "预订金 100.12元",
+         "value" : "",
+         "name" : "reserve_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "SKU的属性串，pid11:vid11;pid12:vid12,pid21:vid21;pid22:vid22,…",
+         "value" : "",
+         "name" : "sku_properties",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的数量串，结构如：2,3,…",
+         "value" : "",
+         "name" : "sku_quantities",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的价格串，结构如：10.00,5.00,…",
+         "value" : "",
+         "name" : "sku_prices",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku 的备注串，结构如：2,3,…",
+         "value" : "",
+         "name" : "sku_memos",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku_id串 可以为空，如果为空，为新SKU",
+         "value" : "",
+         "name" : "sku_ids",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "9" : [
+      {
+         "desc" : "产品ID",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "外部产品ID",
+         "value" : "",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "绑定属性",
+         "value" : "",
+         "name" : "binds",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "销售属性",
+         "value" : "",
+         "name" : "sale_props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品名称",
+         "value" : "",
+         "name" : "name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品市场价",
+         "value" : "",
+         "name" : "price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "商家编码",
+         "value" : "",
+         "name" : "tsc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品主图，要先上传图片后再提交测试，否则产品图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      }
+   ],
+   "51" : [
+      {
+         "desc" : "退款状态",
+         "value" : "",
+         "name" : "status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "seller_nick",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "需要返回的字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "guarantee_trade,一口价、拍卖,auto_delivery,自动发货,independent_shop_trade,外部网店的交易",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "47" : [
+      {
+         "desc" : "交易ID",
+         "value" : "",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "8" : [
+      {
+         "desc" : "产品属性图片ID",
+         "value" : "",
+         "name" : "pic_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "产品ID",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "属性串，格式pid:vid，目前仅支持颜色属性",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "子图片，要先上传图片后再提交测试，否则图片不会被提交",
+         "value" : "",
+         "name" : "image",
+         "type" : "file",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "图片序号",
+         "value" : "",
+         "name" : "position",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "38" : [
+      {
+         "desc" : "需要返回的商品对象字段，商品结构体中所有字段均可返回",
+         "value" : "",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "昵称",
+         "value" : "",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "扩展类型",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "4" : [
+      {
+         "desc" : "Product数据结构字段列表，以半角逗号(,)分隔",
+         "value" : "product_id,outer_id,cid,cat_name,props,props_str,name",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "Product的ID(如果根据product_id查询，就不需要传其他的条件了)",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "商品类目ID，必须是叶子类目的，如果没有传product_id，那么cid和props必须要传",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "关键属性列表，格式：pid:vid;pid:vid，比如：诺基亚N73这个PRODUCT的关键属性列表就是：品牌:诺基亚;型号:诺基亚型号，对应的PV值就是10005:10027;10006:29729，该数据可以通过taobao.itemprop.get获取",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "1062" : [
+      {
+         "desc" : "属性图片ID",
+         "value" : "",
+         "name" : "pic_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "产品ID",
+         "value" : "",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "34" : [
+      {
+         "desc" : "需要橱窗推荐的商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "37" : [
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "标题",
+         "value" : "",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "描述",
+         "value" : "",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "自定义信息 ",
+         "value" : "",
+         "name" : "feature",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "备注 ",
+         "value" : "",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "扩展类型 other:其他网店 ；uniqlo: 优衣库 reserve_price",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "预订金 100.12元",
+         "value" : "",
+         "name" : "reserve_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "SKU的属性串，pid11:vid11;pid12:vid12,pid21:vid21;pid22:vid22,…",
+         "value" : "",
+         "name" : "sku_properties",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的数量串，结构如：2,3,…",
+         "value" : "",
+         "name" : "sku_quantities",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "sku的价格串，结构如：10.00,5.00,…",
+         "value" : "",
+         "name" : "sku_prices",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku 的备注串，结构如：2,3,…",
+         "value" : "",
+         "name" : "sku_memos",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku_id串 可以为空，如果为空，为新SKU",
+         "value" : "",
+         "name" : "sku_ids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "Sku主键串",
+         "value" : "",
+         "name" : "sku_extra_ids",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "43" : [
+      {
+         "desc" : "需要返回的交易数据结构字段",
+         "value" : "seller_nick,buyer_nick,price,iid,created,tid,status",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "商品id",
+         "value" : "",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "卖家昵称",
+         "value" : "",
+         "name" : "seller_nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "每页条数 (每页返回最多返回100条,默认值为20)",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "fixed,一口价;auction,拍卖;guarantee_trade,一口价、拍卖;auto_delivery,自动发货;independent_shop_trade,外部网店的交易;ec 直充 ;cod 货到付款 ",
+         "value" : "",
+         "name" : "type",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "5" : [
+      {
+         "desc" : "Product 目前返回值(product_id,name,pic_patch,cid,props,price,modified,tsc)",
+         "value" : "product_id,name,pic_patch,cid,props,price,modified,tsc",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "desc" : "搜索的关键词(q,cid和props必须至少传一个)",
+         "value" : "",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "类目ID",
+         "value" : "",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "属性、属性值的组合，格式：pid:vid;pid:vid",
+         "value" : "",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "desc" : "每页显示条数",
+         "value" : "",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "desc" : "页码",
+         "value" : "",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      }
+   ]
+}
