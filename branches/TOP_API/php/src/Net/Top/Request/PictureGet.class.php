@@ -11,16 +11,16 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'other' => array(
-                'picture_id',
-                'picture_category_id',
                 'deleted',
+                'end_date',
                 'modified_time',
-                'title',
                 'order_by',
                 'page_no',
                 'page_size',
+                'picture_category_id',
+                'picture_id',
                 'start_date',
-                'end_date',
+                'title',
             ),
         ),
         'fields' => array(
@@ -40,6 +40,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Media',
         'method' => 'taobao.picture.get',
         'class' => 'Net_Top_Request_PictureGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

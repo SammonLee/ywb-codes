@@ -8,11 +8,11 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'tid',
+                'anony',
                 'content',
                 'result',
-                'anony',
                 'role',
+                'tid',
             ),
             'other' => array(
                 'order_id',
@@ -23,6 +23,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Traderate',
         'method' => 'taobao.traderate.add',
         'class' => 'Net_Top_Request_TraderateAdd',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

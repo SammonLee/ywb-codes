@@ -9,8 +9,8 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'fields',
-                'sku_id',
                 'nick',
+                'sku_id',
             ),
         ),
         'fields' => array(

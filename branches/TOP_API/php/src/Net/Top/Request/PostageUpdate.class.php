@@ -8,24 +8,22 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'postage_id',
+                'name',
             ),
             'other' => array(
-                'name',
-                'memo',
-                'postage_mode',
-                'postage_mode.type',
-                'postage_mode.dest',
-                'postage_mode.price',
-                'postage_mode.increase',
-            ),
-            'optional' => array(
-                'post_price',
-                'post_increase',
-                'express_price',
-                'express_increase',
+                'ems _increase',
                 'ems_price',
-                'ems_increase',
+                'express_increase',
+                'express_price',
+                'memo',
+                'postage_id',
+                'postage_mode.dest',
+                'Postage_mode.id',
+                'postage_mode.increase',
+                'postage_mode.price',
+                'postage_mode.type',
+                'post_increase',
+                'post_price',
             ),
         ),
         'fields' => array(
@@ -33,6 +31,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.postage.update',
         'class' => 'Net_Top_Request_PostageUpdate',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

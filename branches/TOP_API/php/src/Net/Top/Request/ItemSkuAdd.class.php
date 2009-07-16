@@ -9,13 +9,13 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'iid',
+                'price',
                 'properties',
                 'quantity',
-                'price',
             ),
             'other' => array(
-                'outer_id',
                 'lang',
+                'outer_id',
             ),
         ),
         'fields' => array(
@@ -23,6 +23,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.item.sku.add',
         'class' => 'Net_Top_Request_ItemSkuAdd',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

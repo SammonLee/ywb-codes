@@ -8,13 +8,13 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'product_id',
                 'image',
+                'product_id',
             ),
             'other' => array(
+                'is_major',
                 'pic_id',
                 'position',
-                'is_major',
             ),
             'file' => array(
                 'image',
@@ -26,6 +26,6 @@ Net_Top_Metadata::add(
         'method' => 'taobao.product.img.upload',
         'class' => 'Net_Top_Request_ProductImgUpload',
         'http_method' => 'post',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

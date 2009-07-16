@@ -13,9 +13,9 @@ Net_Top_Metadata::add(
                 'role',
             ),
             'other' => array(
-                'result',
                 'page_no',
                 'page_size',
+                'result',
             ),
         ),
         'fields' => array(
@@ -36,6 +36,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Traderate',
         'method' => 'taobao.traderates.get',
         'class' => 'Net_Top_Request_TraderatesGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

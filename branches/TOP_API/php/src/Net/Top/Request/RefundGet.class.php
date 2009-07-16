@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'refund_id',
                 'fields',
+                'refund_id',
             ),
         ),
         'fields' => array(
@@ -42,6 +42,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Trade',
         'method' => 'taobao.refund.get',
         'class' => 'Net_Top_Request_RefundGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

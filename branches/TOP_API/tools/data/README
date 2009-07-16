@@ -1,0 +1,6 @@
+wget http://open.taobao.com/api_tool/api_list.php?pAction=catList -O api_list.json
+wget http://open.taobao.com/api_tool/api_list.php?pAction=catProprety -O api_params.json
+手工编辑生成 cat_list.json
+api_fields.json 从各接口文档整理得到
+api_secure.json 从各接口文档整理得到
+api_list_tags.json 仅列出已知接口

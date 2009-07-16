@@ -11,8 +11,8 @@ Net_Top_Metadata::add(
                 'cid',
             ),
             'optional' => array(
-                'pid',
                 'child_path',
+                'pid',
             ),
         ),
         'fields' => array(

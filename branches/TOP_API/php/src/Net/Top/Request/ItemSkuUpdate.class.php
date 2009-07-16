@@ -12,10 +12,10 @@ Net_Top_Metadata::add(
                 'properties',
             ),
             'other' => array(
-                'quantity',
-                'price',
-                'outer_id',
                 'lang',
+                'outer_id',
+                'price',
+                'quantity',
             ),
         ),
         'fields' => array(
@@ -23,6 +23,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.item.sku.update',
         'class' => 'Net_Top_Request_ItemSkuUpdate',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

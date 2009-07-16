@@ -9,18 +9,18 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'cid',
+                'image',
                 'name',
                 'price',
-                'image',
             ),
             'other' => array(
-                'outer_id',
-                'props',
                 'binds',
-                'sale_props',
-                'tsc',
                 'customer_props',
                 'desc',
+                'outer_id',
+                'props',
+                'sale_props',
+                'tsc',
             ),
             'file' => array(
                 'image',
@@ -32,6 +32,6 @@ Net_Top_Metadata::add(
         'method' => 'taobao.product.add',
         'class' => 'Net_Top_Request_ProductAdd',
         'http_method' => 'post',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

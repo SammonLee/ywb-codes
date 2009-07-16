@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'optional' => array(
-                'parent_cid',
                 'cids',
+                'parent_cid',
             ),
         ),
         'fields' => array(

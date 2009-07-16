@@ -11,14 +11,14 @@ Net_Top_Metadata::add(
                 'product_id',
             ),
             'other' => array(
-                'outer_id',
                 'binds',
-                'sale_props',
-                'name',
-                'price',
                 'desc',
-                'tsc',
                 'image',
+                'name',
+                'outer_id',
+                'price',
+                'sale_props',
+                'tsc',
             ),
             'file' => array(
                 'image',
@@ -30,6 +30,6 @@ Net_Top_Metadata::add(
         'method' => 'taobao.product.update',
         'class' => 'Net_Top_Request_ProductUpdate',
         'http_method' => 'post',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

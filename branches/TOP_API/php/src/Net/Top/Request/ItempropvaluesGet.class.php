@@ -1,38 +1,39 @@
 <?php
-class Net_Top_Request_CatsGet extends Net_Top_Request
+class Net_Top_Request_ItempropvaluesGet extends Net_Top_Request
 {
 }
 
 Net_Top_Metadata::add(
-    'CatsGet',
+    'ItempropvaluesGet',
     array(
         'parameters' => array(
             'required' => array(
+                'cid',
                 'fields',
             ),
-            'other' => array(
-                'datetime',
-            ),
             'optional' => array(
-                'parent_cid',
-                'cids',
+                'datetime',
+                'pvs',
             ),
         ),
         'list_tags' => array(
-            'item_cat',
+            'prop_values',
         ),
         'fields' => array(
             ':all' => array(
                 'cid',
-                'parent_cid',
+                'pid',
+                'prop_name',
+                'vid',
                 'name',
+                'name_alias',
                 'is_parent',
                 'status',
                 'sort_order',
             ),
         ),
         'api_type' => 'Cat',
-        'method' => 'taobao.itemcats.get.v2',
-        'class' => 'Net_Top_Request_CatsGet',
+        'method' => 'taobao.itempropvalues.get',
+        'class' => 'Net_Top_Request_ItempropvaluesGet',
     )
 );

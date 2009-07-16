@@ -11,15 +11,15 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'other' => array(
-                'start_created',
+                'buyer_nick',
                 'end_created',
+                'end_modified',
                 'page_no',
                 'page_size',
-                'title',
-                'status',
-                'buyer_nick',
+                'start_created',
                 'start_modified',
-                'end_modified',
+                'status',
+                'title',
                 'type',
             ),
         ),
@@ -80,6 +80,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Trade',
         'method' => 'taobao.trades.sold.get',
         'class' => 'Net_Top_Request_TradesSoldGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

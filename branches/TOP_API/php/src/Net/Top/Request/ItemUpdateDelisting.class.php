@@ -16,6 +16,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.item.update.delisting',
         'class' => 'Net_Top_Request_ItemUpdateDelisting',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

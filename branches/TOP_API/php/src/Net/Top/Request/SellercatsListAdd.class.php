@@ -11,8 +11,8 @@ Net_Top_Metadata::add(
                 'name',
             ),
             'other' => array(
-                'pict_url',
                 'parent_cid',
+                'pict_url',
                 'sort_order',
             ),
         ),
@@ -21,6 +21,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Shop',
         'method' => 'taobao.sellercats.list.add',
         'class' => 'Net_Top_Request_SellercatsListAdd',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

@@ -1,26 +1,26 @@
 <?php
-class Net_Top_Request_PropsGet extends Net_Top_Request
+class Net_Top_Request_ItempropsGetV2 extends Net_Top_Request
 {
 }
 
 Net_Top_Metadata::add(
-    'PropsGet',
+    'ItempropsGetV2',
     array(
         'parameters' => array(
             'required' => array(
-                'fields',
                 'cid',
+                'fields',
             ),
             'other' => array(
-                'pid',
-                'parent_pid',
-                'is_key_prop',
-                'is_sale_prop',
+                'datetime',
                 'is_color_prop',
                 'is_enum_prop',
                 'is_input_prop',
                 'is_item_prop',
-                'datetime',
+                'is_key_prop',
+                'is_sale_prop',
+                'parent_pid',
+                'pid',
             ),
         ),
         'list_tags' => array(
@@ -47,6 +47,6 @@ Net_Top_Metadata::add(
         ),
         'api_type' => 'Cat',
         'method' => 'taobao.itemprops.get.v2',
-        'class' => 'Net_Top_Request_PropsGet',
+        'class' => 'Net_Top_Request_ItempropsGetV2',
     )
 );

@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'outer_id',
                 'fields',
+                'outer_id',
             ),
         ),
         'fields' => array(
@@ -28,6 +28,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.fullskus.get',
         'class' => 'Net_Top_Request_FullskusGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

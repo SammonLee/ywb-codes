@@ -8,10 +8,10 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'uid',
                 'album_id',
-                'start_row',
                 'count',
+                'start_row',
+                'uid',
             ),
         ),
         'fields' => array(

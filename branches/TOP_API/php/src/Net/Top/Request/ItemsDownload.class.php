@@ -8,12 +8,12 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'optional' => array(
-                'seller_cids',
-                'cid',
-                'q',
                 'approve_status',
-                'start_date',
+                'cid',
                 'end_date',
+                'q',
+                'seller_cids',
+                'start_date',
             ),
         ),
         'fields' => array(

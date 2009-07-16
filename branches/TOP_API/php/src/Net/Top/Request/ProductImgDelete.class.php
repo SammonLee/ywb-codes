@@ -17,6 +17,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Product',
         'method' => 'taobao.product.img.delete',
         'class' => 'Net_Top_Request_ProductImgDelete',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

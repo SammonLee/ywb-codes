@@ -17,6 +17,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Trade',
         'method' => 'taobao.trade.memo.add',
         'class' => 'Net_Top_Request_TradeMemoAdd',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

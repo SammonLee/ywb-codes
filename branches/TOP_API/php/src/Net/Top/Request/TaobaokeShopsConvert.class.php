@@ -9,8 +9,8 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'fields',
-                'sids',
                 'nick',
+                'sids',
             ),
             'other' => array(
                 'outerCode',

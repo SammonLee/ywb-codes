@@ -15,9 +15,9 @@ Net_Top_Metadata::add(
                 'page_size',
             ),
             'optional' => array(
-                'q',
                 'cid',
                 'props',
+                'q',
             ),
         ),
         'fields' => array(

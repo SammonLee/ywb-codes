@@ -1,13 +1,6 @@
 <?php
-define('TOP_DIR', realpath(dirname(__FILE__).'/..'));
 require_once('simpletest/autorun.php');
+define('TOP_LIBPATH', realpath(dirname(__FILE__).'/../src/'));
+require( TOP_LIBPATH . DIRECTORY_SEPARATOR . 'Net/Top/Autoload.php');
+Net_Top_Autoload::register();
 
-function net_top_autoload($name)
-{
-    $file = TOP_DIR . '/' . $name . '.class.php';
-    // echo 'load ' , $file, "\n";
-    if ( file_exists( $file ) ){
-        require($file);
-    }
-}
-spl_autoload_register('net_top_autoload');

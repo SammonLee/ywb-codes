@@ -1,0 +1,944 @@
+{
+   "taobao.taobaoke.shops.convert" : {
+      ":all" : [
+         "user_id",
+         "shop_title",
+         "click_url",
+         "shop_commission"
+      ]
+   },
+   "taobao.items.onsale.get" : {
+      ":all" : [
+         "approve_status",
+         "iid",
+         "num_iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "pic_path",
+         "num",
+         "props",
+         "valid_thru",
+         "list_time",
+         "price",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "modified",
+         "delist_time",
+         "postage_id",
+         "seller_cids",
+         "outer_id"
+      ]
+   },
+   "taobao.taobaoke.items.convert" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_url",
+         "price",
+         "click_url",
+         "commission",
+         "commission_rate",
+         "commission_num",
+         "commission_volume"
+      ]
+   },
+   "taobao.fullitems.get" : {
+      ":small" : [
+         "iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "num",
+         "price"
+      ],
+      ":image" : [
+         "pic_path",
+         "itemimg",
+         "propimg"
+      ],
+      ":all" : [
+         ":large",
+         ":image",
+         "increment",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "auto_repost",
+         "auction_point"
+      ],
+      ":large" : [
+         ":small",
+         ":postage",
+         "props",
+         "property_alias",
+         "desc",
+         "seller_cids",
+         "valid_thru",
+         "list_time",
+         "delist_time",
+         "stuff_status",
+         "location",
+         "modified",
+         "sku",
+         "approve_status",
+         "product_id"
+      ],
+      ":postage" : [
+         "post_fee",
+         "express_fee",
+         "ems_fee",
+         "postage_id",
+         "freight_payer"
+      ]
+   },
+   "taobao.picture.category.get" : {
+      ":all" : [
+         "picture_category_id",
+         "picture_category_name",
+         "position",
+         "type",
+         "total",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.itempropvalues.get" : {
+      ":all" : [
+         "cid",
+         "pid",
+         "prop_name",
+         "vid",
+         "name",
+         "name_alias",
+         "is_parent",
+         "status",
+         "sort_order"
+      ]
+   },
+   "taobao.item.skus.get" : {
+      ":all" : [
+         "sku_id",
+         "iid",
+         "properties",
+         "quantity",
+         "price",
+         "outer_id",
+         "created",
+         "modified",
+         "status"
+      ]
+   },
+   "taobao.itemprops.get.v2" : {
+      ":all" : [
+         "pid",
+         "name",
+         "is_key_prop",
+         "is_sale_prop",
+         "is_color_prop",
+         "is_enum_prop",
+         "is_input_prop",
+         "is_item_prop",
+         "child_template",
+         "must",
+         "multi",
+         "parent_pid",
+         "parent_vid",
+         "status",
+         "sort_order"
+      ]
+   },
+   "taobao.refunds.apply.get" : {
+      ":all" : [
+         "refund_id",
+         "tid",
+         "title",
+         "buyer_nick",
+         "seller_nick",
+         "total_fee",
+         "status",
+         "created",
+         "refund_fee"
+      ]
+   },
+   "taobao.items.search" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_path",
+         "cid",
+         "price",
+         "type",
+         "delist_time",
+         "post_fee"
+      ]
+   },
+   "taobao.shop.get" : {
+      ":all" : [
+         "sid",
+         "cid",
+         "title",
+         "nick",
+         "desc",
+         "bulletin",
+         "pic_path",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.items.instock.get" : {
+      ":all" : [
+         "approve_status",
+         "iid",
+         "num_iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "pic_path",
+         "num",
+         "props",
+         "valid_thru",
+         "list_time",
+         "price",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "modified",
+         "delist_time",
+         "postage_id",
+         "seller_cids",
+         "outer_id"
+      ]
+   },
+   "taobao.trades.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "iid",
+         "price",
+         "pic_path",
+         "num"
+      ]
+   },
+   "taobao.postages.get" : {
+      ":all" : [
+         "postage_id",
+         "name",
+         "memo",
+         "created",
+         "modified",
+         "post_price",
+         "post_increase",
+         "express_price",
+         "express_increase",
+         "ems_price",
+         "ems_increase",
+         "postage_mode_list"
+      ]
+   },
+   "taobao.products.search" : {
+      ":all" : [
+         "product_id",
+         "outer_id",
+         "tsc",
+         "cid",
+         "cat_name",
+         "props",
+         "props_str",
+         "name",
+         "binds",
+         "binds_str",
+         "sale_props",
+         "sale_props_str",
+         "price",
+         "desc",
+         "pic_path",
+         "productimg.id",
+         "productimg.url",
+         "productimg.position",
+         "productimg",
+         "productPropImg.id",
+         "productPropImg.props",
+         "productPropImg.url",
+         "productPropImg.position",
+         "ProductPropImg",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.logisticcompanies.get" : {
+      ":all" : [
+         "company_id",
+         "company_code",
+         "company_name"
+      ]
+   },
+   "taobao.refund.get" : {
+      ":all" : [
+         "refund_id",
+         "alipay_no",
+         "tid",
+         "oid",
+         "buyer_nick",
+         "seller_nick",
+         "total_fee",
+         "status",
+         "created",
+         "refund_fee",
+         "good_status",
+         "has_good_return",
+         "payment",
+         "reason",
+         "desc",
+         "iid",
+         "title",
+         "price",
+         "num",
+         "good_return_time",
+         "company_name",
+         "sid",
+         "address"
+      ]
+   },
+   "taobao.products.get" : {
+      ":all" : [
+         "product_id",
+         "outer_id",
+         "tsc",
+         "cid",
+         "cat_name",
+         "props",
+         "props_str",
+         "name",
+         "binds",
+         "binds_str",
+         "sale_props",
+         "sale_props_str",
+         "price",
+         "desc",
+         "pic_path",
+         "productimg.id",
+         "productimg.url",
+         "productimg.position",
+         "productimg",
+         "productPropImg.id",
+         "productPropImg.props",
+         "productPropImg.url",
+         "productPropImg.position",
+         "ProductPropImg",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.user.get" : {
+      ":private" : [
+         "birthday",
+         "type",
+         "has_more_pic",
+         "item_img_num",
+         "item_img_size",
+         "prop_img_num",
+         "prop_img_size",
+         "auto_repost",
+         "promoted_type",
+         "status",
+         "alipay_bind",
+         "consumer_protection",
+         "location",
+         "location.zip",
+         "location.address"
+      ],
+      ":all" : [
+         ":public",
+         ":private"
+      ],
+      ":public" : [
+         "user_id",
+         "nick",
+         "sex",
+         "buyer_credit",
+         "seller_credit",
+         "created",
+         "last_visit",
+         "location",
+         "location.city",
+         "location.state",
+         "location.country",
+         "location.district"
+      ]
+   },
+   "taobao.orders.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "iid",
+         "price",
+         "pic_path",
+         "num"
+      ]
+   },
+   "taobao.postage.get" : {
+      ":all" : [
+         "postage_id",
+         "name",
+         "memo",
+         "created",
+         "modified",
+         "post_price",
+         "post_increase",
+         "express_price",
+         "express_increase",
+         "ems_price",
+         "ems_increase",
+         "postage_mode_list"
+      ]
+   },
+   "taobao.trades.bought.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "sid",
+         "tid",
+         "seller_rate",
+         "buyer_rate",
+         "status",
+         "payment",
+         "discount_fee",
+         "adjust_fee",
+         "post_fee",
+         "total_fee",
+         "pay_time",
+         "end_time",
+         "modified",
+         "consign_time",
+         "buyer_obtain_point_fee",
+         "point_fee",
+         "real_point_fee",
+         "received_payment",
+         "commission_fee",
+         "buyer_memo",
+         "seller_memo",
+         "alipay_no",
+         "buyer_message",
+         "pic_path",
+         "iid",
+         "num",
+         "price",
+         "cod_fee",
+         "shipping_type",
+         "orders",
+         "orders.title",
+         "orders.pic_path",
+         "orders.price",
+         "orders.num",
+         "orders.iid",
+         "orders.sku_id",
+         "orders.refund_status",
+         "orders.status",
+         "orders.tid",
+         "orders.total_fee",
+         "orders.payment",
+         "orders.discount_fee",
+         "orders.adjust_fee",
+         "orders.sku_properties_name",
+         "orders.item_meal_name"
+      ]
+   },
+   "taobao.itemcats.get.v2" : {
+      ":all" : [
+         "cid",
+         "parent_cid",
+         "name",
+         "is_parent",
+         "status",
+         "sort_order"
+      ]
+   },
+   "taobao.items.get" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_path",
+         "cid",
+         "price",
+         "type",
+         "delist_time",
+         "post_fee"
+      ]
+   },
+   "taobao.fullskus.get" : {
+      ":all" : [
+         "sku_id",
+         "iid",
+         "properties",
+         "quantity",
+         "price",
+         "outer_id",
+         "created",
+         "modified",
+         "status"
+      ]
+   },
+   "taobao.product.get" : {
+      ":all" : [
+         "product_id",
+         "outer_id",
+         "tsc",
+         "cid",
+         "cat_name",
+         "props",
+         "props_str",
+         "name",
+         "binds",
+         "binds_str",
+         "sale_props",
+         "sale_props_str",
+         "price",
+         "desc",
+         "pic_path",
+         "productimg.id",
+         "productimg.url",
+         "productimg.position",
+         "productimg",
+         "productPropImg.id",
+         "productPropImg.props",
+         "productPropImg.url",
+         "productPropImg.position",
+         "ProductPropImg",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.trades.sold.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "sid",
+         "tid",
+         "seller_rate",
+         "buyer_rate",
+         "status",
+         "payment",
+         "discount_fee",
+         "adjust_fee",
+         "post_fee",
+         "total_fee",
+         "pay_time",
+         "end_time",
+         "modified",
+         "consign_time",
+         "buyer_obtain_point_fee",
+         "point_fee",
+         "real_point_fee",
+         "received_payment",
+         "commission_fee",
+         "buyer_memo",
+         "seller_memo",
+         "alipay_no",
+         "buyer_message",
+         "pic_path",
+         "iid",
+         "num",
+         "price",
+         "cod_fee",
+         "shipping_type",
+         "orders",
+         "orders.title",
+         "orders.pic_path",
+         "orders.price",
+         "orders.num",
+         "orders.iid",
+         "orders.sku_id",
+         "orders.refund_status",
+         "orders.status",
+         "orders.tid",
+         "orders.total_fee",
+         "orders.payment",
+         "orders.discount_fee",
+         "orders.adjust_fee",
+         "orders.sku_properties_name",
+         "orders.item_meal_name"
+      ]
+   },
+   "taobao.refunds.receive.get" : {
+      ":all" : [
+         "refund_id",
+         "tid",
+         "title",
+         "buyer_nick",
+         "seller_nick",
+         "total_fee",
+         "status",
+         "created",
+         "refund_fee"
+      ]
+   },
+   "taobao.users.get" : {
+      ":all" : [
+         "user_id",
+         "nick",
+         "sex",
+         "buyer_credit",
+         "seller_credit",
+         "created",
+         "last_visit",
+         "location",
+         "location.city",
+         "location.state",
+         "location.country",
+         "location.district"
+      ]
+   },
+   "taobao.areas.get" : {
+      ":all" : [
+         "area_id",
+         "area_type",
+         "area_name",
+         "parent_id",
+         "zip"
+      ]
+   },
+   "taobao.shippings.send.fullinfo.get" : {
+      ":all" : [
+         "tid",
+         "seller_nick",
+         "buyer_nick",
+         "delivery_start",
+         "delivery_end",
+         "out_sid",
+         "item_title",
+         "created",
+         "modified",
+         "status",
+         "type",
+         "freight_payer",
+         "receiver_name",
+         "receiver_mobile",
+         "receiver_phone",
+         "receiver_location"
+      ]
+   },
+   "taobao.itemextra.get" : {
+      ":all" : [
+         "eid",
+         "iid",
+         "title",
+         "desc",
+         "feature",
+         "memo",
+         "type",
+         "reserve_price",
+         "sku",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.item.get" : {
+      ":small" : [
+         "iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "num",
+         "price"
+      ],
+      ":image" : [
+         "pic_path",
+         "itemimg",
+         "propimg"
+      ],
+      ":all" : [
+         ":large",
+         ":image",
+         "increment",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "auto_repost",
+         "auction_point"
+      ],
+      ":large" : [
+         ":small",
+         ":postage",
+         "props",
+         "property_alias",
+         "desc",
+         "seller_cids",
+         "valid_thru",
+         "list_time",
+         "delist_time",
+         "stuff_status",
+         "location",
+         "modified",
+         "sku",
+         "approve_status",
+         "product_id"
+      ],
+      ":postage" : [
+         "post_fee",
+         "express_fee",
+         "ems_fee",
+         "postage_id",
+         "freight_payer"
+      ]
+   },
+   "taobao.taobaoke.items.get" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_url",
+         "price",
+         "click_url",
+         "commission",
+         "commission_rate",
+         "commission_num",
+         "commission_volume"
+      ]
+   },
+   "taobao.taobaoke.listurl.get" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_url",
+         "price",
+         "click_url",
+         "commission",
+         "commission_rate",
+         "commission_num",
+         "commission_volume"
+      ]
+   },
+   "taobao.picture.get" : {
+      ":all" : [
+         "picture_id",
+         "picture_category_id",
+         "picture_path",
+         "title",
+         "sizes",
+         "pixel",
+         "status",
+         "deleted",
+         "created",
+         "modified"
+      ]
+   },
+   "taobao.shippings.send.get" : {
+      ":all" : [
+         "tid",
+         "seller_nick",
+         "buyer_nick",
+         "delivery_start",
+         "delivery_end",
+         "out_sid",
+         "item_title",
+         "receiver_name",
+         "created",
+         "modified",
+         "status",
+         "type",
+         "freight_payer",
+         "seller_confirm",
+         "company_name"
+      ]
+   },
+   "taobao.trade.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "sid",
+         "tid",
+         "seller_rate",
+         "buyer_rate",
+         "status",
+         "payment",
+         "discount_fee",
+         "adjust_fee",
+         "post_fee",
+         "total_fee",
+         "pay_time",
+         "end_time",
+         "modified",
+         "consign_time",
+         "buyer_obtain_point_fee",
+         "point_fee",
+         "real_point_fee",
+         "received_payment",
+         "commission_fee",
+         "buyer_memo",
+         "seller_memo",
+         "alipay_no",
+         "buyer_message",
+         "pic_path",
+         "iid",
+         "num",
+         "price",
+         "cod_fee",
+         "shipping_type",
+         "orders",
+         "orders.title",
+         "orders.pic_path",
+         "orders.price",
+         "orders.num",
+         "orders.iid",
+         "orders.sku_id",
+         "orders.refund_status",
+         "orders.status",
+         "orders.tid",
+         "orders.total_fee",
+         "orders.payment",
+         "orders.discount_fee",
+         "orders.adjust_fee",
+         "orders.sku_properties_name",
+         "orders.item_meal_name"
+      ]
+   },
+   "taobao.item.sku.get" : {
+      ":all" : [
+         "sku_id",
+         "iid",
+         "properties",
+         "quantity",
+         "price",
+         "outer_id",
+         "created",
+         "modified",
+         "status"
+      ]
+   },
+   "taobao.taobaoke.report.get" : {
+      ":all" : [
+         "app_key",
+         "outer_code",
+         "trade_id",
+         "pay_time",
+         "pay_price",
+         "auction_id",
+         "auction_title",
+         "auction_number",
+         "category_id",
+         "category_name",
+         "shop_title",
+         "discount",
+         "taoke_amount"
+      ]
+   },
+   "taobao.traderates.get" : {
+      ":all" : [
+         "tid",
+         "order_id",
+         "role",
+         "nick",
+         "result",
+         "created",
+         "rated_nick",
+         "item_title",
+         "item_price",
+         "content",
+         "reply"
+      ]
+   },
+   "taobao.trade.fullinfo.get" : {
+      ":all" : [
+         "seller_nick",
+         "buyer_nick",
+         "title",
+         "type",
+         "created",
+         "sid",
+         "tid",
+         "seller_rate",
+         "buyer_rate",
+         "status",
+         "payment",
+         "discount_fee",
+         "adjust_fee",
+         "post_fee",
+         "total_fee",
+         "pay_time",
+         "end_time",
+         "modified",
+         "consign_time",
+         "buyer_obtain_point_fee",
+         "point_fee",
+         "real_point_fee",
+         "received_payment",
+         "commission_fee",
+         "buyer_memo",
+         "seller_memo",
+         "alipay_no",
+         "buyer_message",
+         "pic_path",
+         "iid",
+         "num",
+         "price",
+         "buyer_alipay_no",
+         "receiver_name",
+         "receiver_state",
+         "receiver_city",
+         "receiver_distrinct",
+         "receiver_address",
+         "receiver_zip",
+         "receiver_mobile",
+         "receiver_phone",
+         "buyer_email",
+         "seller_alipay_no",
+         "seller_mobile",
+         "seller_phone",
+         "seller_name",
+         "seller_email",
+         "available_confirm_fee",
+         "has_postFee",
+         "timeout_action_time",
+         "snapshot_url",
+         "cod_fee",
+         "shipping_type",
+         "orders",
+         "orders.title",
+         "orders.pic_path",
+         "orders.price",
+         "orders.num",
+         "orders.iid",
+         "orders.sku_id",
+         "orders.refund_status",
+         "orders.status",
+         "orders.tid",
+         "orders.total_fee",
+         "orders.payment",
+         "orders.discount_fee",
+         "orders.adjust_fee",
+         "orders.snapshot_url",
+         "orders.timeout_action_time",
+         "orders.sku_properties_name",
+         "orders.item_meal_name"
+      ]
+   }
+}

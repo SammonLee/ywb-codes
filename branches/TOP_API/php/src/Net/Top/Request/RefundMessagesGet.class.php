@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'refund_id',
                 'fields',
+                'refund_id',
             ),
         ),
         'fields' => array(

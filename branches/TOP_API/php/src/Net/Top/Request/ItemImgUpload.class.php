@@ -9,12 +9,15 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'iid',
-                'image',
             ),
             'other' => array(
+                'image',
+                'is_major',
                 'itemimg_id',
                 'position',
-                'is_major',
+            ),
+            'file' => array(
+                'image',
             ),
         ),
         'fields' => array(
@@ -22,7 +25,7 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.item.img.upload',
         'class' => 'Net_Top_Request_ItemImgUpload',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
         'http_method' => 'post',
+        'is_secure' => '1',
     )
 );

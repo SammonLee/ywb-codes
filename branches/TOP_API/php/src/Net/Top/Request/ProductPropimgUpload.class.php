@@ -8,9 +8,9 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
+                'image',
                 'product_id',
                 'props',
-                'image',
             ),
             'other' => array(
                 'pic_id',
@@ -26,6 +26,6 @@ Net_Top_Metadata::add(
         'method' => 'taobao.product.propimg.upload',
         'class' => 'Net_Top_Request_ProductPropimgUpload',
         'http_method' => 'post',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

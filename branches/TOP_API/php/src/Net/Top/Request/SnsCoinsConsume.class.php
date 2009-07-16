@@ -16,6 +16,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Sns',
         'method' => 'taobao.sns.coins.consume',
         'class' => 'Net_Top_Request_SnsCoinsConsume',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

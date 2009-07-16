@@ -7,22 +7,26 @@
 use warnings;
 use strict;
 
-use lib 'd:/SVN/ywb-codes/TOP_API/perl/lib';
+use lib 'e:/svn/ywb-codes/branches/TOP_API/perl/lib/';
 use FindBin qw/$Bin/;
 use JSON::XS;
 use Net::Top::Helper;
 use Data::Dumper qw(Dumper);
 use Path::Class;
+use List::MoreUtils qw/uniq/;
 use Log::Log4perl qw/:easy/;
 use File::Temp qw/tempfile/;
 use Getopt::Long;
 
-my ($all, $for_class, $code_dir, $lang);
+@ARGV = qw(-l php -d e:/svn/ywb-codes/branches/TOP_API/php/src);
+
+my ($api_name,                  # generate code for given api 
+    $code_dir,                  # output code directory
+    $lang);                     # generate code for language
 GetOptions(
     'lang=s' => \$lang,
     'dir=s' => \$code_dir,
-    'all' => \$all,
-    'class=s' => \$for_class,
+    'api=s' => \$api_name,
 );
 my %implement_lang = ( perl => 1, php => 1 );
 if ( !$lang || !exists $implement_lang{$lang} ) {
@@ -32,59 +36,100 @@ $lang = ucfirst($lang);
 if ( !$code_dir ) {
     die "Save directory?\n";
 }
+if ( !-d $code_dir ) {
+    mkdir($code_dir) or die "Can't mkdir '$code_dir': $!\n";
+}
 
 Log::Log4perl->easy_init();
 $Data::Dumper::Indent=1;
-my $dir = "$Bin/api_meta";
-my %classes;
-while ( <$dir/*.json> ) {
-    eval {
-        my $api = decode_json(file($_)->slurp());
-        my $class = $api->{class};
-        my ($factory, $method) = ($class =~ /(.*)_(\w+)$/);
-        $classes{$factory}{$method} = $api;
-    };
-    if ( $@ ) {
-        WARN("Load api $_ failed: $@");
+my $dir = dir("$Bin/meta");      # metadata directory
+
+if ( $api_name ) {
+    gen_class($api_name);
+} else {
+    my $dh = $dir->open();
+    while ( my $file = $dh->read ) {
+        next if $file !~ /\.json$/;
+        $file = $dir->file($file);
+        if ( -f $file ) {
+            (my $api_name = $file->basename) =~ s/\.json$//;
+            gen_class($api_name);
+        }
     }
 }
 
-my %for_class;
-if ( $for_class ) {
-    %for_class = map {$_=>1} split /,/, $for_class;
-}
-my $gen = "Net::Top::Gen::${lang}";
-foreach my $factory ( keys %classes ) {
-    my @r = split /_/, $factory;
-    my $pkg = pop(@r);
-    if ( $for_class && !exists $for_class{$factory} ) {
-        next;
+sub gen_class {
+    my $api_name = shift;
+    my $api = get_api($api_name);
+    if ( !$api ) {
+        die("Unknown api '$api_name'\n");
     }
-
-    my $subclass = $classes{$factory};
-    my $fh;
-    if ( $all ) {
-        my $file = file($gen->get_class_file($code_dir, $pkg));
-        if ( !-d $file->dir ) {
-            $file->dir->mkpath() or die "Can't make dir" . $file->dir;
+    my $generator = "Net::Top::Gen::${lang}"; # Language Code Generator
+    expand_fields($api);
+    my %parameters;
+    foreach my $param ( @{$api->{parameters}} ) {
+        if ( $param->{'classname'} eq 'isMust' ) {
+            push @{$parameters{required}}, $param->{name};
         }
-        if ( -e $file ) {
-            my $new_file = gen_new_filename($file);
-            INFO("Save old $file to $new_file");
-            rename($file, $new_file);
+        elsif ( $param->{'classname'} eq 'mSelect' ) {
+            push @{$parameters{optional}}, $param->{name};
+        } else {
+            push @{$parameters{other}}, $param->{name};
         }
-        open($fh, ">", $file) or die "Can't create file $file: $!";
-        print {$fh} $gen->get_class_code($pkg, $subclass);
-        # print $gen->get_class_code($pkg, $subclass);
+        if ( $param->{'type'} eq 'file' ) {
+            push @{$parameters{file}}, $param->{name};
+            $api->{http_method} = 'post';
+        }
     }
-
-    my $base_file = file($gen->get_base_class_file($code_dir, $pkg));
+    $api->{parameters} = \%parameters;
+    my $gen = $generator->new({
+        dir => $code_dir,
+        class => $api->{class},
+        ancestor => 'Net_Top_Request',
+        metadata => $api,
+    });
+    my $base_file = $gen->get_file();
     if ( !-d $base_file->dir ) {
         $base_file->dir->mkpath() or die "Can't make dir" . $base_file->dir;
     }
+    my $fh;
     open($fh, ">", $base_file) or die "Can't create file $base_file: $!";
-    print {$fh} $gen->get_base_class_code($pkg, $subclass);
-    # print $gen->get_base_class_code($pkg, $subclass);
+    # $fh = \*STDOUT;
+    print {$fh} $gen->get_code();
+    close($fh);
+    DEBUG("Save code to $base_file");
+}
+
+sub get_api {
+    my $api_name = shift;
+    return decode_json(file('meta', $api_name . '.json')->slurp());
+}
+
+sub expand_fields {
+    my $data = shift;
+    my $expanded = {};
+    foreach my $tag ( keys %{$data->{fields}} ) {
+        expand_fields2($data->{fields}, $tag, $expanded);
+    }
+}
+
+sub expand_fields2 {
+    my ($fields, $tag, $expanded) = @_;
+    if ( exists $expanded->{$tag} ) {
+        return;
+    }
+    my @flat = ();
+    foreach my $name ( @{$fields->{$tag}} ) {
+        if ( substr($name, 0, 1) eq ':' ) {
+            expand_fields2($fields, $name, $expanded);
+            push @flat, @{$fields->{$name}};
+        } else {
+            push @flat, $name;
+        }
+    }
+    @flat = uniq(@flat);
+    $fields->{$tag} = \@flat;
+    $expanded->{$tag} = 1;
 }
 
 sub gen_new_filename {

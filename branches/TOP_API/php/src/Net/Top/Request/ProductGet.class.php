@@ -11,8 +11,8 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'optional' => array(
-                'product_id',
                 'cid',
+                'product_id',
                 'props',
             ),
         ),

@@ -8,9 +8,9 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'uid',
-                'start_row',
                 'count',
+                'start_row',
+                'uid',
             ),
         ),
         'fields' => array(

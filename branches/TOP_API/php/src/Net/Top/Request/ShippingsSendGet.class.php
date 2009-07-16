@@ -11,17 +11,17 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'other' => array(
-                'tid',
                 'buyer_nick',
-                'status',
-                'seller_confirm',
-                'receiver_name',
-                'start_created',
                 'end_created',
                 'freight_payer',
-                'type',
                 'page_no',
                 'page_size',
+                'receiver_name',
+                'seller_confirm',
+                'start_created',
+                'status',
+                'tid',
+                'type',
             ),
         ),
         'fields' => array(
@@ -46,6 +46,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Delivery',
         'method' => 'taobao.shippings.send.get',
         'class' => 'Net_Top_Request_ShippingsSendGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

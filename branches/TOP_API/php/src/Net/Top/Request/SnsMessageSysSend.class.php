@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'to_uid',
                 'content',
+                'to_uid',
             ),
         ),
         'fields' => array(
@@ -17,6 +17,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Sns',
         'method' => 'taobao.sns.message.sysSend',
         'class' => 'Net_Top_Request_SnsMessageSysSend',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

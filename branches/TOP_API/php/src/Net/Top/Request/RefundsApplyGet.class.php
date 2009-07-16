@@ -11,10 +11,10 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'other' => array(
-                'status',
-                'seller_nick',
                 'page_no',
                 'page_size',
+                'seller_nick',
+                'status',
                 'type',
             ),
         ),

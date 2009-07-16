@@ -9,12 +9,15 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'iid',
-                'properties',
                 'image',
+                'properties',
             ),
             'other' => array(
-                'propimg_id',
                 'position',
+                'propimg_id',
+            ),
+            'file' => array(
+                'image',
             ),
         ),
         'fields' => array(
@@ -22,7 +25,7 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.item.propimg.upload',
         'class' => 'Net_Top_Request_ItemPropimgUpload',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
         'http_method' => 'post',
+        'is_secure' => '1',
     )
 );

@@ -8,8 +8,8 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'tid',
                 'close_reason',
+                'tid',
             ),
         ),
         'fields' => array(
@@ -17,6 +17,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Trade',
         'method' => 'taobao.trade.close',
         'class' => 'Net_Top_Request_TradeClose',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

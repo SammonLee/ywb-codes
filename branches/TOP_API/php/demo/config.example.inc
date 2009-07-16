@@ -1,13 +1,7 @@
 <?php
-define('TOP_APPKEY', '');
+define('TOP_SERVICE_URL', '');
+define('TOP_API_KEY', '');
 define('TOP_SECRET_KEY', '');
-define('TOP_DIR', dirname(__FILE__).'/../');
-
-function net_top_autoload($name)
-{
-    $file = TOP_DIR . $name . '.class.php';
-    if ( file_exists( $file ) ){
-        require($file);
-    }
-}
-spl_autoload_register('net_top_autoload');
+define('TOP_LIBPATH', realpath(dirname(__FILE__).'/../src/'));
+require( TOP_LIBPATH . DIRECTORY_SEPARATOR . 'Net/Top/Autoload.php');
+Net_Top_Autoload::register();

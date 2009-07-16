@@ -8,9 +8,9 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'optional' => array(
-                'title',
                 'bulletin',
                 'desc',
+                'title',
             ),
         ),
         'fields' => array(
@@ -18,6 +18,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Shop',
         'method' => 'taobao.shop.update',
         'class' => 'Net_Top_Request_ShopUpdate',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

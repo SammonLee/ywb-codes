@@ -2,34 +2,41 @@
 class Net_Top
 {
     protected $top_url;
-    protected $top_appkey;
+    protected $top_apikey;
     protected $top_secretkey;
-    static $params;
-    const TOP_URL = 'http://gw.api.taobao.com/router/rest';
+    static $params = array(
+        'service_url' => null,
+        'apikey' => null,
+        'secret_key' => null
+        );
     const TOP_VERSION = '1.0';
 
-    function __construct($top_url, $top_appkey, $top_secretkey)
+    function __construct($top_url=null, $top_apikey=null, $top_secretkey=null)
     {
-        $this->top_url = (is_null($top_url) ? self::TOP_URL : $top_url);
-        $this->top_appkey = $top_appkey;
-        $this->top_secretkey = $top_secretkey;
+        $this->top_url = (!is_null($top_url)
+                          ? $top_url
+                          : (defined('TOP_SERVICE_URL') ? TOP_SERVICE_URL : '' ));
+        $this->top_apikey = ( !is_null($top_apikey)
+                              ? $top_apikey
+                              : (defined('TOP_API_KEY') ? TOP_API_KEY : '' ) );
+        $this->top_secretkey = ( !is_null($top_secretkey)
+                                 ? $top_secretkey
+                                 : (defined('TOP_SECRET_KEY') ? TOP_SECRET_KEY : ''));
     }
 
-    static function setParams($top_url, $top_appkey, $top_secretkey)
+    static function setParams($top_url, $top_apikey, $top_secretkey)
     {
         self::$params = array(
             'service_url' => $top_url,
-            'appkey' => $top_appkey,
+            'apikey' => $top_apikey,
             'secret_key' => $top_secretkey
             );
     }
 
     static function factory()
     {
-        if ( empty(self::$params) )
-            die("call setParams first!");
         return new self(self::$params['service_url'],
-                        self::$params['appkey'],
+                        self::$params['apikey'],
                         self::$params['secret_key']);
     }
 
@@ -43,14 +50,14 @@ class Net_Top
         return $this->top_url = $top_url;
     }
 
-    function getAppkey ()
+    function getApikey ()
     {
-        return $this->top_appkey;
+        return $this->top_apikey;
     }
 
-    function setAppkey($top_appkey)
+    function setApikey($top_apikey)
     {
-        return $this->top_appkey = $top_appkey;
+        return $this->top_apikey = $top_apikey;
     }
     function getSecretkey ()
     {
@@ -117,7 +124,7 @@ class Net_Top
     {
         $query = $req->getParameters();
         $query['method'] = $req->getMethod();
-        $query['api_key'] = $this->top_appkey;
+        $query['api_key'] = $this->top_apikey;
 		date_default_timezone_set('Asia/Chongqing');
         $query['timestamp'] = date('Y-m-d H:i:s.000');
         $query['v'] = self::TOP_VERSION;

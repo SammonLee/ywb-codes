@@ -17,12 +17,14 @@ __PACKAGE__->mk_accessors(qw/class dir ancestor metadata/);
 
 sub get_file {
     my ($self) = @_;
-    return file($self->dir, $self->class . '.class.php');
+    my @path = split('_', $self->class);
+    my $file = pop @path;
+    return file($self->dir, @path, $file . '.class.php');
 }
 
 sub get_code {
     my ($self) = @_;
-    my ($api_name) = ($self->class =~ /_([a-zA-Z]+)$/);
+    my ($api_name) = ($self->class =~ /_([a-zA-Z0-9]+)$/);
     my $code = "<?php\n"
     . "class " . $self->class . " extends " . $self->ancestor . "\n"
     . "{\n}\n\n"

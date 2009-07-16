@@ -8,21 +8,21 @@ Net_Top_Metadata::add(
     array(
         'parameters' => array(
             'required' => array(
-                'tid',
                 'app_ip',
                 'company_code',
                 'out_sid',
-                'seller_name',
-                'seller_area_id',
                 'seller_address',
+                'seller_area_id',
+                'seller_name',
                 'seller_zip',
+                'tid',
             ),
             'other' => array(
                 'memo',
             ),
             'optional' => array(
-                'seller_phone',
                 'seller_mobile',
+                'seller_phone',
             ),
         ),
         'fields' => array(

@@ -11,14 +11,14 @@ Net_Top_Metadata::add(
                 'fields',
             ),
             'other' => array(
-                'q',
                 'cid',
-                'seller_cids',
-                'page_no',
-                'page_size',
                 'has_discount',
                 'has_showcase',
                 'order_by',
+                'page_no',
+                'page_size',
+                'q',
+                'seller_cids',
             ),
         ),
         'list_tags' => array(
@@ -53,6 +53,6 @@ Net_Top_Metadata::add(
         'api_type' => 'Item',
         'method' => 'taobao.items.onsale.get',
         'class' => 'Net_Top_Request_ItemsOnsaleGet',
-        'is_secure' => bless( do{\(my $o = 1)}, 'JSON::XS::Boolean' ),
+        'is_secure' => '1',
     )
 );

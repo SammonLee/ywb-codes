@@ -9,8 +9,8 @@ Net_Top_Metadata::add(
         'parameters' => array(
             'required' => array(
                 'fields',
-                'postage_id',
                 'nick',
+                'postage_id',
             ),
         ),
         'fields' => array(
