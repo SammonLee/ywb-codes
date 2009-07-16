@@ -1,5 +1,5 @@
 <?php
-$_REQUEST = array('pAction' => 'catList');
+// $_REQUEST = array('pAction' => 'catProperty');
 
 if ( $_REQUEST['pAction'] == 'catList' ) {
     $dbh = get_connection();
@@ -11,10 +11,18 @@ if ( $_REQUEST['pAction'] == 'catList' ) {
     }
 }
 elseif ( $_REQUEST['pAction'] == 'catProperty' ) {
-    include('api_params.txt');
+    $dbh = get_connection();
+    $sql = 'SELECT *  FROM param';
+    $sth = $dbh->query($sql);
+    while ( $row = $sth->fetch(PDO::FETCH_ASSOC) ) {
+        $param = array();
+        foreach ( array('type', 'name', 'value', 'classname', 'desc') as $n ) {
+            $param[$n] = $row['param_'.$n];
+        }
+        $res[$row['api_id']][] = $param;
+    }
 }
-
-print_r($res);
+echo json_encode($res);
 
 function get_connection()
 {
@@ -29,8 +37,8 @@ function get_connection()
                 $sep = ';';
             }
         }
-        $dbh = new PDO($dsn, $dbconf['user'], $dbconf['pass'],
-                       array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8' ) );
+// $attr = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8' );
+        $dbh = new PDO($dsn, $dbconf['user'], $dbconf['pass']);
     }
     return $dbh;
 }

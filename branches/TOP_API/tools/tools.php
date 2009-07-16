@@ -36,8 +36,8 @@
                 		<span style="float: left; margin-top: 11px;"><a href="http://wiki.open.taobao.com/index.php/API%E6%96%87%E6%A1%A3#API.E6.B5.8B.E8.AF.95.E5.B7.A5.E5.85.B7.E4.BD.BF.E7.94.A8.E6.8C.87.E5.8D.97" target="_blank" style="color: blue;">API测试工具使用指南</a></span>
 
 						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="http://wiki.open.taobao.com/index.php/API%E6%96%87%E6%A1%A3" target="_blank" style="color: blue;">API文档</a> </span>
-						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="/api_tool/props" target="_blank" style="color: blue;">API属性工具</a></span>
-                		<span style="width: 122px; float: right; margin-top: 11px; text-align: left; padding-left: 5px;"><a href="/api_tool/taobaoPubAccount.html" target="_blank" style="text-decoration: underline;"> 查看测试环境公用账号</a></span>
+						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="props" target="_blank" style="color: blue;">API属性工具</a></span>
+                		<span style="width: 122px; float: right; margin-top: 11px; text-align: left; padding-left: 5px;"><a href="taobaoPubAccount.html" target="_blank" style="text-decoration: underline;"> 查看测试环境公用账号</a></span>
                 		<span style="float: right; margin-top: 10px;"><img src="http://isv.alisoft.com/isv/images/dev/taobaoapi.gif"></span>
                 	</td>
                 </tr>
@@ -53,6 +53,7 @@
 
                                             <td width="340">
                                                 <select id="format" name="format" style="width: 195px;">
+                                                    <option value="php">PHP</option>
                                                     <option value="xml">XML</option>
                                                     <option value="json">json</option>
                                                 </select>
@@ -89,7 +90,6 @@
                                             	<span id="SipApinameDiv"><select id="sip_apiname" name="sip_apiname"><option value="">--请选择API--</option></select></span>&nbsp;</td>
 
                                         </tr>
-                                        <!--
                                         <tr>
                                             <td align="right">数据环境：</td>
                                             <td><input id="restId" name="restId" onclick="javascript:sanboxUrl()" checked="checked" type="radio"> 测试 <input id="restId" name="restId" onclick="javascript:apiUrl();" type="radio"> 正式</td>
@@ -108,7 +108,6 @@
 	                                        <td align="right">app secret：</td>
 	                                        <td><input id="app_secret" name="app_secret" value="系统分配" style="width: 190px;" readonly="true" type="text"></td>
 	                                    </tr>
-                                        -->
 										<tr id="getSessionSpan">
 											<td align="right">获取session key：</td>
 											<td>
@@ -217,7 +216,7 @@ function getSandboxSession() {
 	} else {
 		xmlHttp = new XMLHttpRequest();
 	}
-	var url = '/api_tool/getSessionByAuthcode.php?nick=' + document.getElementById('sandboxUsers').value;
+	var url = 'getSessionByAuthcode.php?nick=' + document.getElementById('sandboxUsers').value;
 	xmlHttp.open('GET', url, false);
 	xmlHttp.send(null);
 	if(xmlHttp.readyState == 4) {
@@ -379,39 +378,22 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 		if (4 == xmlHttp.readyState) {
 			if (200 == xmlHttp.status) {
 				var response = xmlHttp.responseText;
-				response = response.split('|');
-				var response1 = response[0].replace(/(<br>)/g, '\r\n');
-				var response2 = response[1];
-				if ('-1' != response2.indexOf('<code>26</code>') || '-1' != response2.indexOf('"code":26') || '-1' != response2.indexOf('<code>27</code>') || '-1' != response2.indexOf('"code":27')) {
-					if (document.getElementById("api_url").value == "yield" && document.getElementById("api_soure").value == 0) {
-						alert('调用此api需要绑定用户，请用户登录后再操作！');
-						//window.open ('http://member1.daily.taobao.net/member/login.jhtml?redirect_url=http://container.daily.taobao.net/container?appkey=' + document.getElementById('hid_app_key').value);
-						window.open ('http://member1.taobao.com/member/login.jhtml?redirect_url=http://container.api.taobao.com/container?appkey=' + document.getElementById('hid_app_key').value);	
-					} else {
-						if ('' == document.getElementById('session').value) {
-							alert('请输入session key！');
-						} else {
-							alert('无效session key,请重新输入session key！');
-						}
-						document.getElementById('session').focus();
-					}
+				response = eval('(' + response + ')');
+				document.getElementById('param').value = response.param;
+				//如果格式为xml，IE下缩进xml
+				if ('xml' == document.getElementById('format').value && window.ActiveXObject) {
+					var rdr = new ActiveXObject("MSXML2.SAXXMLReader");
+					var wrt = new ActiveXObject("MSXML2.MXXMLWriter");
+					wrt.indent = true;
+					rdr.contentHandler = wrt;
+					rdr.parse(response.content);
+					document.getElementById('resultShow').value = wrt.output;
 				} else {
-					document.getElementById('param').value = response1;
-					//如果格式为xml，IE下缩进xml
-					if ('xml' == document.getElementById('format').value && window.ActiveXObject) {
-						var rdr = new ActiveXObject("MSXML2.SAXXMLReader");
-						var wrt = new ActiveXObject("MSXML2.MXXMLWriter");
-						wrt.indent = true;
-						rdr.contentHandler = wrt;
-						rdr.parse(response2);
-						document.getElementById('resultShow').value = wrt.output;
-					} else {
-						document.getElementById('resultShow').value = response2;
-					}
+					document.getElementById('resultShow').value = response.content;
+				}
 
-					if (document.getElementById('image') !=	null) {
-						document.getElementById('image').value = '';
-					}
+				if (document.getElementById('image') !=	null) {
+					document.getElementById('image').value = '';
 				}
 				xmlHttp = null;
 			}
@@ -420,13 +402,13 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 	
 	//发送请求
 	if ('POST' == sip_http_method) {
-		xmlHttp.open('POST', '/api_tool/api_test.php', true);
+		xmlHttp.open('POST', 'api_test.php', true);
 		//FF兼容中文
 		xmlHttp.setRequestHeader("Content-Length",paramString.length);
 		xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		xmlHttp.send(paramString);
 	} else {
-		var url = '/api_tool/api_test.php?'+paramString;
+		var url = 'api_test.php?'+paramString;
 		xmlHttp.open('GET', url, true);
 		xmlHttp.send(null);
 	}

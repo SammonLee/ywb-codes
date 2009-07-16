@@ -1,19 +1,5 @@
 <?php
-define('TOP_SERVICE_URL', "http://api.daily.taobao.net/router/rest");
-define('TOP_APPKEY', '597');
-define('TOP_SECRET_KEY', 'LFeRyNaPMcEnmoFWJGxUYmrbXcdoMciM');
-define('TOP_DIR', 'd:/repo/ywb-codes/branches/TOP_API/php');
-
-function net_top_autoload($name)
-{
-    $file = TOP_DIR . DIRECTORY_SEPARATOR . $name . '.class.php';
-    if ( file_exists( $file ) ){
-        require($file);
-    }
-}
-spl_autoload_register('net_top_autoload');
-
-Net_Top::setParams(TOP_SERVICE_URL, TOP_APPKEY, TOP_SECRET_KEY);
+require('config.inc');
 
 error_log(date('c'). ' ' . var_export($_REQUEST, true) . "\n", 3, "param.log");
 /* $_REQUEST = array (
