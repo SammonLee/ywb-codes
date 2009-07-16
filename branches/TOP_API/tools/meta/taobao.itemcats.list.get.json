@@ -1,0 +1,21 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "类目ID列表，用半角逗号(,)分隔，cids和parent_cid至少传一个",
+         "name" : "cids",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "1",
+         "desc" : "父商品类目id，0表示根节点, 传输该参数返回所有子类目。 Cids和parent_cid至少传一个",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItemcatsListGet",
+   "method" : "taobao.itemcats.list.get"
+}

@@ -1,0 +1,41 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "Sku所属用户的昵称",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "Sku的id",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "需要返回的字段",
+         "name" : "sku_id",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "fields" : {
+      ":all" : [
+         "sku_id",
+         "iid",
+         "properties",
+         "quantity",
+         "price",
+         "outer_id",
+         "created",
+         "modified",
+         "status"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemSkuGet",
+   "method" : "taobao.item.sku.get"
+}

@@ -1,0 +1,28 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "类目子属性路径,由该子属性上层的类目属性和类目属性值组成,格式pid:vid;pid:vid.取类目子属性需要传child_path,cid",
+         "name" : "child_path",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "叶子类目id",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "类目属性ID，取类目属性需要传cid和pid",
+         "name" : "pid",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItempropListGet",
+   "method" : "taobao.itemprop.list.get"
+}

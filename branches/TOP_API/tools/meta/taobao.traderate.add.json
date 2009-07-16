@@ -1,0 +1,50 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "是否匿名（是:true;否:false;）卖家评不能匿名",
+         "name" : "anony",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "评价内容",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "子订单ID",
+         "name" : "order_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "评价结果",
+         "name" : "result",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "评价角色",
+         "name" : "role",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "交易ID",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Traderate",
+   "class" : "Net_Top_Request_TraderateAdd",
+   "method" : "taobao.traderate.add",
+   "is_secure" : "1"
+}

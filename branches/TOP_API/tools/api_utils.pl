@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# api_utils.pl --- 
+# api_utils.pl --- Api 工具集
 # Author: Ye Wenbin <wenbinye@gmail.com>
 # Created: 15 Jul 2009
 # Version: 0.01
@@ -12,20 +12,35 @@ use JSON::XS;
 use Path::Class;
 use DBI;
 use SQL::Abstract;
+use Getopt::Long;
+use Pod::Usage;
+use Config::General;
+
+my $config = new Config::General('db.ini');
+my %dbconf = $config->getall;
 
 my $dbh = DBI->connect(
-    'dbi:mysql:dbname=test',
-    'root', '',
+    'dbi:mysql:' . join(';', map { "$_=$dbconf{$_}" } grep { exists $dbconf{$_} } qw/dbname host/),
+    $dbconf{user}, $dbconf{pass},
 );
 
 my $sql = SQL::Abstract->new;
-# init();
-export_all();
+my $cmd = shift;
 
-sub export_all {
+if ( $cmd && main->can($cmd) ) {
+    main->$cmd();
+} else {
+    pod2usage( $cmd && "Unknown command $cmd");
+}
+
+sub export {
     my $stmt = $sql->select('api', 'api_name');
     my $apis = $dbh->selectall_arrayref($stmt);
     my $coder = JSON::XS->new->pretty;
+    my $dir = dir('meta');
+    if ( !-d $dir ) {
+        $dir->mkpath() or die "Can't create dir $dir: $!";
+    }
     foreach my $api ( @$apis ) {
         my $fh = file('meta', $api->[0].'.json' )->openw;
         my $api = get_api( $api->[0] );
@@ -201,3 +216,20 @@ sub load_list_tags{
         $sth->execute(@binds);
     }
 }
+
+__END__
+
+=head1 NAME
+
+api_utils.pl -  api 工具集
+
+=head1 SYNOPSIS
+
+api_utils.pl command
+
+   Commands:
+     init            导入数据到数据库（数据表已经创建并为空）
+     export          将数据库中 api 信息输出到文件
+
+=cut
+

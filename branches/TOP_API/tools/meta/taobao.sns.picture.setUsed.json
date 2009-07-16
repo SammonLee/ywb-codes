@@ -1,0 +1,14 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "图片文件ids，例如：value1,value2,value3",
+         "name" : "ids",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsPictureSetUsed",
+   "method" : "taobao.sns.picture.setUsed"
+}

@@ -1,0 +1,84 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "调用者ip地址",
+         "name" : "app_ip",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "物流公司代码",
+         "name" : "company_code",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家备注",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运单号",
+         "name" : "out_sid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家地址(详细地址)如:XXX街道XXX门牌,省市区不需要提供",
+         "name" : "seller_address",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家区域县级行政区 ID",
+         "name" : "seller_area_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家手机号码",
+         "name" : "seller_mobile",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家联系人姓名",
+         "name" : "seller_name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "两者必须选一,卖家固定电话或者手机号码. 包含区号,电话,分机号,中间用“ – “分隔",
+         "name" : "seller_phone",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家邮编",
+         "name" : "seller_zip",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "交易ID",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Delivery",
+   "class" : "Net_Top_Request_DeliverySend",
+   "method" : "taobao.delivery.send"
+}

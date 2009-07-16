@@ -1,0 +1,14 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "用户id",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsUserGet",
+   "method" : "taobao.sns.user.get"
+}

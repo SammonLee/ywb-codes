@@ -1,0 +1,15 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "兑换淘金币数",
+         "name" : "coin_count",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsCoinsConsume",
+   "method" : "taobao.sns.coins.consume",
+   "is_secure" : "1"
+}

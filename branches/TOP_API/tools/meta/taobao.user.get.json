@@ -1,0 +1,58 @@
+{
+   "parameters" : [
+      {
+         "value" : "user_id,nick,sex,real_name,phone,mobile,email",
+         "desc" : "User数据结构字段列表，以半角逗号(,)分隔",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "用户昵称",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "fields" : {
+      ":private" : [
+         "birthday",
+         "type",
+         "has_more_pic",
+         "item_img_num",
+         "item_img_size",
+         "prop_img_num",
+         "prop_img_size",
+         "auto_repost",
+         "promoted_type",
+         "status",
+         "alipay_bind",
+         "consumer_protection",
+         "location",
+         "location.zip",
+         "location.address"
+      ],
+      ":all" : [
+         ":public",
+         ":private"
+      ],
+      ":public" : [
+         "user_id",
+         "nick",
+         "sex",
+         "buyer_credit",
+         "seller_credit",
+         "created",
+         "last_visit",
+         "location",
+         "location.city",
+         "location.state",
+         "location.country",
+         "location.district"
+      ]
+   },
+   "api_type" : "User",
+   "class" : "Net_Top_Request_UserGet",
+   "method" : "taobao.user.get"
+}

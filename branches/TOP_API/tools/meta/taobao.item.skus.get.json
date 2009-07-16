@@ -1,0 +1,44 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "需要返回的字段",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "商品的id列表，逗号分隔,最多40个",
+         "name" : "iids",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "商品所属卖家昵称",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "list_tags" : [
+      "skus"
+   ],
+   "fields" : {
+      ":all" : [
+         "sku_id",
+         "iid",
+         "properties",
+         "quantity",
+         "price",
+         "outer_id",
+         "created",
+         "modified",
+         "status"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemSkusGet",
+   "method" : "taobao.item.skus.get"
+}

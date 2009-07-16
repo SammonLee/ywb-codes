@@ -1,0 +1,53 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "需要返回的商品对象字段，商品结构体中所有字段均可返回",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "商品id",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "昵称",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "扩展类型",
+         "name" : "type",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "list_tags" : [
+      "sku"
+   ],
+   "fields" : {
+      ":all" : [
+         "eid",
+         "iid",
+         "title",
+         "desc",
+         "feature",
+         "memo",
+         "type",
+         "reserve_price",
+         "sku",
+         "created",
+         "modified"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemextraGet",
+   "method" : "taobao.itemextra.get"
+}

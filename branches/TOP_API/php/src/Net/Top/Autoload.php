@@ -1,4 +1,10 @@
 <?php
+if ( !defined('TOP_LIBPATH') ) {
+    define('TOP_LIBPATH', realpath(
+               implode( DIRECTORY_SEPARATOR,
+                        array(dirname(__FILE__), '..', '..'))));
+}
+
 class Net_Top_Autoload 
 {
     static $registered;
@@ -34,10 +40,7 @@ class Net_Top_Autoload
 
     public function autoload($class)
     {
-        if ( !defined('TOP_LIBPATH') )
-            define('TOP_LIBPATH', realpath( implode( DIRECTORY_SEPARATOR,
-                                                     array(dirname(__FILE__), '..', '..') )));
-        $paths = explode('_',strtolower($class));
+        $paths = explode('_',$class);
         array_unshift($paths, TOP_LIBPATH);
         $file = implode( DIRECTORY_SEPARATOR, $paths ) . '.class.php';
         if ( file_exists( $file ) ){

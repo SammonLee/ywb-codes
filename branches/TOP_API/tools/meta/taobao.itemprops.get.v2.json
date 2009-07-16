@@ -1,0 +1,106 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "叶子类目ID，如果只传cid，则只返回一级属性",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "增量时间戳，如果传1970-1-1 00:00:00，则取所有的属性和子属性ID(如果传了pid会忽略datetime)",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "pid,name,parent_pid,parent_vid,status,sort_order",
+         "desc" : "返回的字段(该接口不返回属性值)",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "是否颜色属性(删除的属性不会匹配和返回这个条件)",
+         "name" : "is_color_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否枚举属性(删除的属性不会匹配和返回这个条件)",
+         "name" : "is_enum_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否是卖家可以自行输入的属性(删除的属性不会匹配和返回这个条件)",
+         "name" : "is_input_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否商品属性. 这个属性只能放于发布商品时使用",
+         "name" : "is_item_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否关键属性",
+         "name" : "is_key_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否销售属性",
+         "name" : "is_sale_prop",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "父属性ID",
+         "name" : "parent_pid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "属性id (取类目属性时，传pid，不用同时传PID和parent_pid)",
+         "name" : "pid",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "list_tags" : [
+      "item_props"
+   ],
+   "fields" : {
+      ":all" : [
+         "pid",
+         "name",
+         "is_key_prop",
+         "is_sale_prop",
+         "is_color_prop",
+         "is_enum_prop",
+         "is_input_prop",
+         "is_item_prop",
+         "child_template",
+         "must",
+         "multi",
+         "parent_pid",
+         "parent_vid",
+         "status",
+         "sort_order"
+      ]
+   },
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItempropsGetV2",
+   "method" : "taobao.itemprops.get.v2"
+}

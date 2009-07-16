@@ -1,0 +1,15 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "图片ID字符串,可以一个也可以一组,用英文逗号间隔,如450,120,155",
+         "name" : "picture_ids",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Media",
+   "class" : "Net_Top_Request_PictureDelete",
+   "method" : "taobao.picture.delete",
+   "is_secure" : "1"
+}

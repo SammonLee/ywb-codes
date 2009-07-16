@@ -1,0 +1,128 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "商品所属类目Id. Q,cid,nicks,props,product_id中至少要一个.",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "商品最高价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "name" : "end_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee",
+         "desc" : "商品数据结构字段列表",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "所在市",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "所在省",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "卖家昵称列表,逗号分隔(目前最多支持5个卖家昵称，格式为nick1,nick2,nick3…). Q,cid,nicks,props,product_id中至少要一个.",
+         "name" : "nicks",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "排序方式.格式为column:asc/desc,column可选值为: price, delist_time, seller_credit.如price:asc表示按价格升序排列. 没有这个参数表示按默认排序方式.",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "页码",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "每页条数",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "免运费（不设置包含所有邮费状态，设置为true结果只有卖家包邮的商品）不能单独使用，要和其他条件一起用才行。",
+         "name" : "post_free",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "可以根据产品Id搜索属于这个spu的商品",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "商品属性.可以搜到拥有和输入属性一样的属性的商品的列表.",
+         "name" : "props",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "搜索字段.q,cid,nicks,props,product_id中至少要一个.",
+         "name" : "q",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "商品最低价格. Q,cid,nicks,props,product_id中至少要一个.",
+         "name" : "start_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "旺旺在线状态（不设置结果包含所有状态，设置为true结果只有旺旺在线卖家的商品）不能单独使用，要和其他条件一起用才行。",
+         "name" : "ww_status",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "list_tags" : [
+      "items"
+   ],
+   "fields" : {
+      ":all" : [
+         "iid",
+         "title",
+         "nick",
+         "pic_path",
+         "cid",
+         "price",
+         "type",
+         "delist_time",
+         "post_fee"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemsGet",
+   "method" : "taobao.items.get"
+}

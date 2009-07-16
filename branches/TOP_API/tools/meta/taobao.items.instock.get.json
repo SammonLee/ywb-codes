@@ -1,0 +1,79 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "分类字段:没卖出的:unsold;部分卖出的:partly_sold;定时上架:regular_shelved;从未上架:never_on_shelf;全部卖完:sold_out;我下架的:off_shelf;等待所有上架:for_shelved",
+         "name" : "banner",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "approve_status,iid,title,nick,type,cid,pic_path,num,props,valid_thru,list_time,price",
+         "desc" : "需要返回的商品对象字段",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "排序方式. 格式为column:asc/desc。（list_time,delist_time, num）",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "页码",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "每页条数",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "搜索字段.模糊查询",
+         "name" : "q",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "list_tags" : [
+      "items"
+   ],
+   "fields" : {
+      ":all" : [
+         "approve_status",
+         "iid",
+         "num_iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "pic_path",
+         "num",
+         "props",
+         "valid_thru",
+         "list_time",
+         "price",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "modified",
+         "delist_time",
+         "postage_id",
+         "seller_cids",
+         "outer_id"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemsInstockGet",
+   "method" : "taobao.items.instock.get",
+   "is_secure" : "1"
+}

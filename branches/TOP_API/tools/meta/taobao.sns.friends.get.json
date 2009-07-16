@@ -1,0 +1,28 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "总条数",
+         "name" : "count",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "开始条数",
+         "name" : "start_row",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "用户id",
+         "name" : "uid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsFriendsGet",
+   "method" : "taobao.sns.friends.get"
+}

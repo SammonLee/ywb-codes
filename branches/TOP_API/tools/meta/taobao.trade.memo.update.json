@@ -1,0 +1,22 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "交易备注",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "交易ID",
+         "name" : "tid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Trade",
+   "class" : "Net_Top_Request_TradeMemoUpdate",
+   "method" : "taobao.trade.memo.update",
+   "is_secure" : "1"
+}

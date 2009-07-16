@@ -1,0 +1,15 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "动态信息",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsActivityAdd",
+   "method" : "taobao.sns.activity.add",
+   "is_secure" : "1"
+}

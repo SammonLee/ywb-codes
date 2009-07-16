@@ -1,0 +1,21 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "需要返回的字段",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "退款单号",
+         "name" : "refund_id",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Trade",
+   "class" : "Net_Top_Request_RefundMessagesGet",
+   "method" : "taobao.refund.messages.get"
+}

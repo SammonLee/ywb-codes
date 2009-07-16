@@ -1,0 +1,6 @@
+{
+   "parameters" : null,
+   "api_type" : "Shop",
+   "class" : "Net_Top_Request_ShopcatsListGet",
+   "method" : "taobao.shopcats.list.get"
+}

@@ -20,7 +20,10 @@ class Net_Top_Metadata
         $all = array();
         if ( !isset($api['parameters']['other']) )
             $api['parameters']['other'] = array();
+        /* add system parameter */
         $api['parameters']['other'][] = 'format';
+        $api['parameters']['other'][] = 'session';
+        
         foreach ( array('required', 'optional', 'file', 'other') as $type ) {
             if ( isset($api['parameters'][$type]) ) {
                 foreach ( $api['parameters'][$type] as $name ) {

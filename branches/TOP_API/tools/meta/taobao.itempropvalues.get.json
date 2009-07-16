@@ -1,0 +1,51 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "叶子类目ID",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "增量时间戳，如果传1970-1-1 00:00:00，则取所有的属性和子属性值(状态为删除的属性值不返回prop_name)",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "cid,pid,prop_name,vid,name,is_parent,status,sort_order",
+         "desc" : "需要返回的字段(不包括is_parent)",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "属性和属性值id串，格式pid:vid;pid:vid(pvs和datetime只传其中一个)",
+         "name" : "pvs",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "list_tags" : [
+      "prop_values"
+   ],
+   "fields" : {
+      ":all" : [
+         "cid",
+         "pid",
+         "prop_name",
+         "vid",
+         "name",
+         "name_alias",
+         "is_parent",
+         "status",
+         "sort_order"
+      ]
+   },
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItempropvaluesGet",
+   "method" : "taobao.itempropvalues.get"
+}

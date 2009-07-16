@@ -1,5 +1,5 @@
 #!/home/y/bin/perl -w
-# gen_class.pl --- 
+# gen_class.pl --- 代码生成工具
 # Author: Ye Wenbin <wenbin.ye@alibaba-inc.com>
 # Created: 09 Mar 2009
 # Version: 0.01
@@ -7,8 +7,8 @@
 use warnings;
 use strict;
 
-use lib 'e:/svn/ywb-codes/branches/TOP_API/perl/lib/';
 use FindBin qw/$Bin/;
+use lib "$Bin/../perl/lib";
 use JSON::XS;
 use Net::Top::Helper;
 use Data::Dumper qw(Dumper);
@@ -18,15 +18,12 @@ use Log::Log4perl qw/:easy/;
 use File::Temp qw/tempfile/;
 use Getopt::Long;
 
-@ARGV = qw(-l php -d e:/svn/ywb-codes/branches/TOP_API/php/src);
+my $code_dir = "$Bin/../php/src"; # output code directory
+my $lang = 'php';                 # generate code for language
 
-my ($api_name,                  # generate code for given api 
-    $code_dir,                  # output code directory
-    $lang);                     # generate code for language
 GetOptions(
     'lang=s' => \$lang,
     'dir=s' => \$code_dir,
-    'api=s' => \$api_name,
 );
 my %implement_lang = ( perl => 1, php => 1 );
 if ( !$lang || !exists $implement_lang{$lang} ) {
@@ -44,18 +41,20 @@ Log::Log4perl->easy_init();
 $Data::Dumper::Indent=1;
 my $dir = dir("$Bin/meta");      # metadata directory
 
-if ( $api_name ) {
-    gen_class($api_name);
-} else {
+my @apis = @ARGV;
+if ( !@apis ) {
     my $dh = $dir->open();
     while ( my $file = $dh->read ) {
         next if $file !~ /\.json$/;
         $file = $dir->file($file);
         if ( -f $file ) {
             (my $api_name = $file->basename) =~ s/\.json$//;
-            gen_class($api_name);
+            push @apis, $api_name;
         }
     }
+}
+foreach my $api_name ( @apis ) {
+    gen_class($api_name);
 }
 
 sub gen_class {
@@ -147,32 +146,13 @@ __END__
 
 =head1 NAME
 
-generate_class.pl - Describe the usage of script briefly
+gen_class.pl - 代码生成工具
 
 =head1 SYNOPSIS
 
-generate_class.pl [options] args
+gen_class.pl [options] [api]
 
-      -opt --long      Option description
-
-=head1 DESCRIPTION
-
-Stub documentation for generate_class.pl, 
-
-=head1 AUTHOR
-
-Ye Wenbin, E<lt>wenbin.ye@alibaba-inc.comE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2009 by Ye Wenbin
-
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.2 or,
-at your option, any later version of Perl 5 you may have available.
-
-=head1 BUGS
-
-None reported... yet.
+      -l --lang      代码生成的语言，默认为 php
+      -d --dir       代码文件保存目录，默认为 ../php/src
 
 =cut

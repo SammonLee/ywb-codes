@@ -1,0 +1,106 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "EMS加件费用",
+         "name" : "ems _increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "EMS费用",
+         "name" : "ems_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "快递加件费用",
+         "name" : "express_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "快递费用",
+         "name" : "express_price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "邮费模板备注",
+         "name" : "memo",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "邮费模板名称",
+         "name" : "name",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "邮费模板id",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "目的地值,涉及的地区,数值用逗号连接数量串: 例 (10;20;30,10) .填写时要注意对照地区代码值,如果填入错误地区代码, 将会出现错误信息",
+         "name" : "postage_mode.dest",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运费子模板id:修改多个子模板时，用 “;”区分 ",
+         "name" : "Postage_mode.id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运费方式加件费用 数量串: 例 (1.5;2……)",
+         "name" : "postage_mode.increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运费方式单价 数量串: 例 (11.2;14;6……)",
+         "name" : "postage_mode.price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运费方式(目前提供):平邮 (post),快递公司(express), EMS (ems)数量串: 例 (post;express;ems……)，用 “;”区分",
+         "name" : "postage_mode.type",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "平邮加件费用   ",
+         "name" : "post_increase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "平邮费用",
+         "name" : "post_price",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_PostageUpdate",
+   "method" : "taobao.postage.update",
+   "is_secure" : "1"
+}

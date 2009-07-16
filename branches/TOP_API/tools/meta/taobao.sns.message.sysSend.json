@@ -1,0 +1,22 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "系统信息",
+         "name" : "content",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "接收者id",
+         "name" : "to_uid",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsMessageSysSend",
+   "method" : "taobao.sns.message.sysSend",
+   "is_secure" : "1"
+}

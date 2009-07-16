@@ -1,0 +1,84 @@
+{
+   "parameters" : [
+      {
+         "value" : "iid,title,nick,pic_path,cid,price,type,location.city,delist_time,post_fee",
+         "desc" : "需要返回的商品对象字段，商品结构体中所有字段均可返回",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "商品id",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "卖家昵称",
+         "name" : "nick",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "list_tags" : [
+      "sku",
+      "itemimg",
+      "propimg"
+   ],
+   "fields" : {
+      ":small" : [
+         "iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "num",
+         "price"
+      ],
+      ":image" : [
+         "pic_path",
+         "itemimg",
+         "propimg"
+      ],
+      ":all" : [
+         ":large",
+         ":image",
+         "increment",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "auto_repost",
+         "auction_point"
+      ],
+      ":postage" : [
+         "post_fee",
+         "express_fee",
+         "ems_fee",
+         "postage_id",
+         "freight_payer"
+      ],
+      ":large" : [
+         ":small",
+         ":postage",
+         "props",
+         "property_alias",
+         "desc",
+         "seller_cids",
+         "valid_thru",
+         "list_time",
+         "delist_time",
+         "stuff_status",
+         "location",
+         "modified",
+         "sku",
+         "approve_status",
+         "product_id"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemGet",
+   "method" : "taobao.item.get"
+}

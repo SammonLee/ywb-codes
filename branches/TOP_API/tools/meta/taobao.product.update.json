@@ -1,0 +1,71 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "绑定属性",
+         "name" : "binds",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "产品描述",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "产品主图，要先上传图片后再提交测试，否则产品图片不会被提交",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "产品名称",
+         "name" : "name",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "外部产品ID",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "产品市场价",
+         "name" : "price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "产品ID",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "销售属性",
+         "name" : "sale_props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商家编码",
+         "name" : "tsc",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "api_type" : "Product",
+   "class" : "Net_Top_Request_ProductUpdate",
+   "method" : "taobao.product.update",
+   "is_secure" : "1"
+}

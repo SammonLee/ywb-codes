@@ -1,0 +1,253 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "商品上传后的状态。Onsale出售中，instock库中",
+         "name" : "approve_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品的积分返点比例 例：5 表示5%的返点比例",
+         "name" : "auction_point",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "自动上架,true/false",
+         "name" : "auto_repost",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "叶子类目id",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品描述",
+         "name" : "desc",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "ems费用,如25.00",
+         "name" : "ems_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "快递费用,如15.00",
+         "name" : "express_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "运费承担方式,seller（卖家承担），buyer(买家承担)",
+         "name" : "freight_payer",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "支持会员打折,true/false",
+         "name" : "has_discount",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否有发票,true/false",
+         "name" : "has_invoice",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "橱窗推荐,true/false",
+         "name" : "has_showcase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否有保修,true/false",
+         "name" : "has_warranty",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "需要修改的商品id",
+         "name" : "iid",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "商品图片，要先上传图片后再提交测试，否则商品图片不会被修改",
+         "name" : "image",
+         "type" : "file",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "加价幅度",
+         "name" : "increment",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "用户自行输入的类目属性ID串，结构如：pid1,pid2",
+         "name" : "input_pids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "xx山寨|系列|xx系列,材质|xx材质,……，input_str需要与input_pids一一对应，因为有可能一件商品有多个可以自输入的属性。 长度小于4000字节",
+         "name" : "input_str",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品文字的版本，繁体传入”zh_HK”，简体传入”zh_CN”，不传默认为简体",
+         "name" : "lang",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "上架时间,如2008-05-26 09:12:00",
+         "name" : "list_time",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "所在地城市,如杭州",
+         "name" : "location.city",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "所在地省份,如浙江",
+         "name" : "location.state",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品数量",
+         "name" : "num",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商家外部编码",
+         "name" : "outer_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "宝贝所属的运费模板ID，如果没有返回则说明没有使用运费模板",
+         "name" : "postage_id",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "平邮费用,如5.00",
+         "name" : "post_fee",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品价格",
+         "name" : "price",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "属性值别名，如pid:vid:别名; pid1:vid1:别名1 pid:属性id vid:值id。总长度不超过512字节 ",
+         "name" : "property_alias",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品属性列表",
+         "name" : "props",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "店铺类目列表",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "更新的sku的价格串，结构如：10.00,5.00,..",
+         "name" : "sku _prices",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "更新的sku的属性串，结构如：pid11:vid11;pid12:vid12,pid21:vid21;pid22:vid22,…",
+         "name" : "sku _properties",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "更新的sku的数量串，结构如：2,3,..",
+         "name" : "sku _quantities",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "商品新旧程度(全新:new，闲置:unused，二手：second)",
+         "name" : "stuff_status",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "宝贝标题",
+         "name" : "title",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "有效期,7或者14",
+         "name" : "valid_thru",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemUpdate",
+   "method" : "taobao.item.update",
+   "is_secure" : "1"
+}

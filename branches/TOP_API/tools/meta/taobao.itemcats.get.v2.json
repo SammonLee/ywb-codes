@@ -1,0 +1,48 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "类目ID列表，用半角逗号(,)分隔",
+         "name" : "cids",
+         "type" : "text",
+         "classname" : "mSelect"
+      },
+      {
+         "value" : "",
+         "desc" : "时间戳，如果没有传，则取所有的类目信息(如果传了parent_cid或者cids，则忽略datetime)",
+         "name" : "datetime",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "cid,parent_cid,name,is_parent,status,sort_order",
+         "desc" : "需要返回的字段",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "父商品类目id，0表示根节点, 传输该参数返回所有子类目。 Cids、parent_cid至少传一个",
+         "name" : "parent_cid",
+         "type" : "text",
+         "classname" : "mSelect"
+      }
+   ],
+   "list_tags" : [
+      "item_cat"
+   ],
+   "fields" : {
+      ":all" : [
+         "cid",
+         "parent_cid",
+         "name",
+         "is_parent",
+         "status",
+         "sort_order"
+      ]
+   },
+   "api_type" : "Cat",
+   "class" : "Net_Top_Request_ItemcatsGetV2",
+   "method" : "taobao.itemcats.get.v2"
+}

@@ -1,0 +1,100 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "类目ID",
+         "name" : "cid",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "approve_status,iid,title,nick,type,cid,pic_path,num,props,valid_thru,list_time,price",
+         "desc" : "需要返回的商品对象字段",
+         "name" : "fields",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "是否参与会员折扣",
+         "name" : "has_discount",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "是否橱窗推荐",
+         "name" : "has_showcase",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "排序方式. 格式为column:asc/desc。（list_time,delist_time, num）",
+         "name" : "order_by",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "页码",
+         "name" : "page_no",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "每页条数",
+         "name" : "page_size",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "搜索字段.模糊查询",
+         "name" : "q",
+         "type" : "text",
+         "classname" : ""
+      },
+      {
+         "value" : "",
+         "desc" : "卖家店铺内自定义类目ID(格式:id1,id2,…)",
+         "name" : "seller_cids",
+         "type" : "text",
+         "classname" : ""
+      }
+   ],
+   "list_tags" : [
+      "items"
+   ],
+   "fields" : {
+      ":all" : [
+         "approve_status",
+         "iid",
+         "num_iid",
+         "title",
+         "nick",
+         "type",
+         "cid",
+         "pic_path",
+         "num",
+         "props",
+         "valid_thru",
+         "list_time",
+         "price",
+         "has_discount",
+         "has_invoice",
+         "has_warranty",
+         "has_showcase",
+         "modified",
+         "delist_time",
+         "postage_id",
+         "seller_cids",
+         "outer_id"
+      ]
+   },
+   "api_type" : "Item",
+   "class" : "Net_Top_Request_ItemsOnsaleGet",
+   "method" : "taobao.items.onsale.get",
+   "is_secure" : "1"
+}

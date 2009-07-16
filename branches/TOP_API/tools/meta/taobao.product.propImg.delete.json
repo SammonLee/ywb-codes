@@ -1,0 +1,22 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "属性图片ID",
+         "name" : "pic_id",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "产品ID",
+         "name" : "product_id",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Product",
+   "class" : "Net_Top_Request_ProductPropImgDelete",
+   "method" : "taobao.product.propImg.delete",
+   "is_secure" : "1"
+}

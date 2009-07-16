@@ -1,7 +1,7 @@
-drop table cat;
-drop table api;
-drop table fields;
-drop table param;
+drop table if exists cat;
+drop table if exists api;
+drop table if exists fields;
+drop table if exists param;
 
 create table cat (
    cat_id int not null auto_increment,

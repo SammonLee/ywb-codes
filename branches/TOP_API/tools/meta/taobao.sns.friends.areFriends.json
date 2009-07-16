@@ -1,0 +1,21 @@
+{
+   "parameters" : [
+      {
+         "value" : "",
+         "desc" : "用户1id",
+         "name" : "uid1",
+         "type" : "text",
+         "classname" : "isMust"
+      },
+      {
+         "value" : "",
+         "desc" : "用户2id",
+         "name" : "uid2",
+         "type" : "text",
+         "classname" : "isMust"
+      }
+   ],
+   "api_type" : "Sns",
+   "class" : "Net_Top_Request_SnsFriendsAreFriends",
+   "method" : "taobao.sns.friends.areFriends"
+}
