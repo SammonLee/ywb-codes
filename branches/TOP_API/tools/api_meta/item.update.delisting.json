@@ -1,9 +1,0 @@
-{
-  "class" : "Net_Top_Request_ItemUpdateDelisting",
-  "method" : "taobao.item.update.delisting",
-  "api_type" : "Item",
-  "parameters" : {
-  "required" : ["iid"]
-  },
-  "is_secure" : true
-}

@@ -1,6 +1,0 @@
-{
-   "parameters" : null,
-   "api_type" : "Sns",
-   "class" : "Net_Top_Request_SnsCoinsSum",
-   "method" : "taobao.sns.coins.sum"
-}

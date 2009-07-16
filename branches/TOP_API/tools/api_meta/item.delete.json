@@ -1,9 +1,0 @@
-{
-  "class" : "Net_Top_Request_ItemDelete",
-  "method" : "taobao.item.delete",
-  "api_type" : "Item",
-  "parameters" : {
-  "required" : ["iid"]
-  },
-  "is_secure" : true
-}
