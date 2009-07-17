@@ -11,6 +11,11 @@ class Net_Top
         );
     const TOP_VERSION = '1.0';
 
+    /**
+     * @param string $top_url 服务器地址
+     * @param string $top_apikey 应用 API Key
+     * @param string $top_secretkey 应用密钥
+     */
     function __construct($top_url=null, $top_apikey=null, $top_secretkey=null)
     {
         $this->top_url = (!is_null($top_url)
@@ -24,6 +29,14 @@ class Net_Top
                                  : (defined('TOP_SECRET_KEY') ? TOP_SECRET_KEY : ''));
     }
 
+    /**
+     * 设置 TOP 连接参数。
+     * 通过设置连接参数，可以配合 factory 函数，在运行时自由指定连接参数
+     * 
+     * @param string $top_url 服务器地址
+     * @param string $top_apikey 应用 API Key
+     * @param string $top_secretkey 应用密钥
+     */
     static function setParams($top_url, $top_apikey, $top_secretkey)
     {
         self::$params = array(
@@ -33,6 +46,13 @@ class Net_Top
             );
     }
 
+    /**
+     * 构造 Net_Top 对象
+     * factory 和直接使用 new 创建区别在于，使用 new 创建对象是依赖
+     * 预定义的函数，而 factory 还依赖于 setParams 设置的连接参数
+     * 
+     * @return Net_Top
+     */
     static function factory()
     {
         return new self(self::$params['service_url'],
@@ -69,6 +89,12 @@ class Net_Top
         return $this->top_secretkey = $top_secretkey;
     }
 
+    /**
+     * 完成 API 调用
+     * 
+     * @param Net_Top_Request $req 请求参数
+     * @return Net_Top_Response 请求响应
+     */
     function request ($req)
     {
         if ( !$req->check() ) {
@@ -87,20 +113,32 @@ class Net_Top
         return $req->parseResponse($res);
     }
 
-    function get($url)
+    private function curlExec($ch)
+    {
+        $data = curl_exec($ch);
+        $meta = curl_getinfo($ch);
+        $curl_error = array();
+        if ( curl_errno($ch) != CURLE_OK ) {
+            $curl_error = array(
+                'code' => curl_errno($ch),
+                'msg' => curl_error($ch)
+                );
+        }
+        curl_close($ch);
+        return array($data, $meta, $curl_error);
+    }
+
+    protected function get($url)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, TRUE);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $data = curl_exec($ch);
-        $meta = curl_getinfo($ch);
-        curl_close($ch);
-        return array($data, $meta);
+        return $this->curlExec($ch);
     }
 
-    function post($url, $query, $files)
+    protected function post($url, $query, $files)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -114,13 +152,10 @@ class Net_Top
             curl_setopt($ch, CURLOPT_INFILE, $fp);
         }
         curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
-        $data = curl_exec($ch);
-        $meta = curl_getinfo($ch);
-        curl_close($ch);
-        return array($data, $meta);
+        return $this->curlExec($ch);
     }
-
-    function getParameters($req)
+    
+    protected function getParameters($req)
     {
         $query = $req->getParameters();
         $query['method'] = $req->getMethod();
@@ -145,6 +180,16 @@ class Net_Top
         return array($query, $files);
     }
 
+    /**
+     * 创建 Net_Top_Request 对象，再调用 request 函数
+     * 例如 $top->itemGet(array('iid' => $iid, ...))
+     * 可以等价于：
+     *  $req = Net_Top_Request::factory('ItemGet', array(..));
+     *  $top->request($req);
+     * 
+     * @param array $args API 调用参数
+     * @return Net_Top_Response 请求响应
+     */
     function __call($name, $args)
     {
         $api_name = ucfirst($name);

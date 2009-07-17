@@ -2,6 +2,7 @@
 require('config.inc');
 $nick = 'alipublic01';
 $session = '195602316366e90b1ccfd6319d2da46a2';
+$session = '';
 $fields = array(':all');
 
 $top = Net_Top::factory();
