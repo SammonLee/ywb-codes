@@ -1,4 +1,4 @@
-#!/home/y/bin/perl -w
+#!/usr/bin/perl
 # gen_class.pl --- 代码生成工具
 # Author: Ye Wenbin <wenbin.ye@alibaba-inc.com>
 # Created: 09 Mar 2009
@@ -64,7 +64,9 @@ sub gen_class {
         die("Unknown api '$api_name'\n");
     }
     my $generator = "Net::Top::Gen::${lang}"; # Language Code Generator
-    expand_fields($api);
+    if ( $api->{fields} ) {
+        expand_fields($api);
+    }
     my %parameters;
     foreach my $param ( @{$api->{parameters}} ) {
         if ( $param->{'classname'} eq 'isMust' ) {

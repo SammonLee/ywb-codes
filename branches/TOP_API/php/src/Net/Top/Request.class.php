@@ -182,6 +182,9 @@ abstract class Net_Top_Request
                     }
                     $query[$name] = implode(',', array_unique($all));
                 }
+                /* ignore session when empty */
+                elseif ( $name == 'session' && empty($this->parameters[$name]) ) {
+                }
                 else {
                     $query[$name] = (string)$this->parameters[$name];
                 }

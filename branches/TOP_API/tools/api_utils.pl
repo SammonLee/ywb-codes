@@ -15,22 +15,134 @@ use SQL::Abstract;
 use Getopt::Long;
 use Pod::Usage;
 use Config::General;
+use Log::Log4perl qw/:easy/;
+
+Log::Log4perl->easy_init();
 
 my $config = new Config::General('db.ini');
 my %dbconf = $config->getall;
-
+my $dsn = 'dbi:mysql:' . join(';', map { "$_=$dbconf{$_}" } grep { exists $dbconf{$_} } qw/dbname host/),;
 my $dbh = DBI->connect(
-    'dbi:mysql:' . join(';', map { "$_=$dbconf{$_}" } grep { exists $dbconf{$_} } qw/dbname host/),
+    $dsn,
     $dbconf{user}, $dbconf{pass},
 );
+$dbh->do('set names utf8');
 
 my $sql = SQL::Abstract->new;
-my $cmd = shift;
+my $cmd = shift @ARGV;
 
 if ( $cmd && main->can($cmd) ) {
     main->$cmd();
 } else {
     pod2usage( $cmd && "Unknown command $cmd");
+}
+
+sub show {
+    my $api = shift @ARGV;
+    $api = get_api($api);
+    print JSON::XS->new->pretty->encode($api), "\n";
+}
+
+sub update {
+    my $api = shift @ARGV;
+    my $data  = decode_json(file('meta', $api.'.json')->slurp());
+    my $cat = find_or_create('cat', 'cat_id', { cat_name => $data->{api_type} });
+    my ($sth, $stmt, @binds);
+    ($stmt, @binds) = $sql->select('api', ['api_id','api_name', 'is_secure', 'list_tags'],
+                                   { api_name => $data->{method} });
+    $sth = $dbh->prepare($stmt);
+    $sth->execute(@binds);
+    my $api_id;
+    if ( $sth->rows ) {
+        $api = $sth->fetchrow_hashref;
+        $api_id = $api->{api_id};
+        my %changes;
+        $data->{is_secure} = !!$data->{is_secure};
+        if ( $api->{is_secure} != $data->{is_secure} ) {
+            $changes{is_secure} = $data->{is_secure};
+        }
+        if ( !same_words([split(',', $api->{list_tags}||'')], $data->{list_tags}) ) {
+            $changes{list_tags} = join(',', @{$data->{list_tags}});
+        }
+        if ( %changes ) {
+            ($stmt, @binds) = $sql->update('api', {api_id => $api->{api_id}}, \%changes);
+            $sth = $dbh->prepare($stmt);
+            $sth->execute(@binds);
+        }
+        ($stmt, @binds) = $sql->delete('fields', {api_id => $api_id});
+        $sth = $dbh->prepare($stmt);
+        $sth->execute(@binds);
+        ($stmt, @binds) = $sql->delete('param', {api_id => $api_id});
+        $sth = $dbh->prepare($stmt);
+        $sth->execute(@binds);
+    } else {
+        my %row = (
+            'api_name' => $data->{method},
+            'cat_id' => $cat->{cat_id},
+        );
+        if ( $data->{is_secure} ) {
+            $row{is_secure} = 1;
+        }
+        if ( $data->{list_tags} ) {
+            $row{list_tags} = join(',', @{$data->{list_tags}});
+        }
+        ($stmt, @binds) = $sql->insert('api', \%row);
+        $sth = $dbh->prepare($stmt);
+        $sth->execute(@binds);
+        $api_id = $dbh->selectall_arrayref('select last_insert_id()')->[0][0];
+    }
+    if ( $data->{fields} ) {
+        my $sth;
+        foreach my $fields_name ( keys %{$data->{'fields'}} ) {
+            my %row = (
+                'api_id' => $api_id,
+                'fields_name' => $fields_name,
+                'fields_value' => join(',', @{$data->{'fields'}{$fields_name}})
+            );
+            my ($stmt, @binds) = $sql->insert('fields', \%row);
+            $sth ||= $dbh->prepare($stmt);
+            $sth->execute(@binds);
+        }
+    }
+    $sth = undef;
+    foreach my $param ( @{$data->{parameters}} ) {
+        my %row = (
+            'api_id' => $api_id,
+        );
+        foreach my $name ( keys %$param ) {
+            $row{'param_'.$name} = $param->{$name};
+        }
+        my ($stmt, @binds) = $sql->insert('param', \%row);
+        $sth ||= $dbh->prepare($stmt);
+        $sth->execute(@binds);
+    }
+}
+
+sub same_words {
+    my ($a, $b) = @_;
+    $a ||= [];
+    $b ||= [];
+    return join(',', sort(@$a)) eq join(',', sort(@$b));
+}
+
+sub find_or_create {
+    my ($table, $fields, $where, $row) = @_;
+    my ($sth, $stmt, @binds);
+    ($stmt, @binds) = $sql->select($table, $fields, $where);
+    $sth = $dbh->prepare($stmt);
+    $sth->execute(@binds);
+    if ( $sth->rows ) {
+        return $sth->fetchrow_hashref;
+    } else {
+        $row ||= $where;
+        ($stmt, @binds) = $sql->insert($table, $row);
+        $sth = $dbh->prepare($stmt);
+        $sth->execute(@binds);
+        ($stmt, @binds) = $sql->select($table, $fields, $where);
+        $sth = $dbh->prepare($stmt);
+        $sth->execute(@binds);
+        return $sth->fetchrow_hashref;
+    }
 }
 
 sub export {

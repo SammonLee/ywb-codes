@@ -2,7 +2,7 @@
 require('config.inc');
 
 error_log(date('c'). ' ' . var_export($_REQUEST, true) . "\n", 3, "param.log");
-/* $_REQUEST = array (
+/*$_REQUEST = array (
   'format' => 'xml',
   'method' => 'taobao.user.get',
   'api_url' => 'sandbox',
@@ -13,8 +13,7 @@ error_log(date('c'). ' ' . var_export($_REQUEST, true) . "\n", 3, "param.log");
   'sip_http_method' => 'POST',
   'fields' => '"user_id,nick,sex,real_name,phone,mobile,email"',
   'nick' => '"tbtest1010"',
-  'ZDEDebuggerPresent' => 'php,phtml,php3',
-  ); */
+  );*/
 
 $method = $_REQUEST['method'];
 $api_name = get_api_name($method);
@@ -31,7 +30,7 @@ if ( $api_name ) {
     $req = Net_Top_Request::factory(
         $api_name, $_REQUEST
         );
-    if ( $_REQUEST['sip_http_method'] ) {
+    if ( $_REQUEST['sip_http_method'] && $req->getHttpMethod() != 'post') {
         $req->setHttpMethod($_REQUEST['sip_http_method']);
     }
     if ( !$req->check() ) {
@@ -63,29 +62,40 @@ if ( $api_name ) {
             } else {
                 $result['content'] = $res->content();
             }
+            $result['phpcode'] = gen_code($req);
         }
     }
 }
 echo json_encode($result);
-
-function get_metadata()
-{
-    static $data;
-    if ( !$data ) {
-        $data = json_decode(file_get_contents("api_meta.json"), true);
-    }
-    return $data;
-}
+// print_r($result);
 
 function get_api_name ($method)
 {
-    $metadata = get_metadata();
-    foreach ( $metadata as $type => $apis ) {
-        foreach ( $apis as $name => $api ) {
-            if ( $name == $method ) {
-                $part = explode('_', $api['class']);
-                return array_pop($part);
-            }
-        }
-    }
+    $parts = explode('.', $method);
+    array_shift($parts);
+    return implode('', array_map('ucfirst', $parts));
+}
+
+function gen_code($req)
+{
+    ob_start();
+    $api_name = $req->getApiName();
+    $args = var_export($req->getParameters(), true);
+    $args = preg_replace('/\n/sm', "\n    ", $args);
+?>
+require('config.inc');
+$top = Net_Top::factory();
+$req = Net_Top_Request::factory(
+    '<?php echo $api_name ?>',
+    <?php echo $args ?>
+
+);
+<?php if ( $req->getMetadata('http_method', 'get') != $req->getHttpMethod()) : ?>
+$req->setHttpMethod('<?php echo $req->getHttpMethod() ?>');
+<?php endif; ?>
+$res = $top->request($req);
+<?php
+$code = ob_get_contents();
+ob_end_clean();
+return $code;
 }

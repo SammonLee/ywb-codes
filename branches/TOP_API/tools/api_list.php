@@ -1,5 +1,5 @@
 <?php
-// $_REQUEST = array('pAction' => 'catProperty');
+require('config.inc');
 
 if ( $_REQUEST['pAction'] == 'catList' ) {
     $dbh = get_connection();
@@ -23,22 +23,3 @@ elseif ( $_REQUEST['pAction'] == 'catProperty' ) {
     }
 }
 echo json_encode($res);
-
-function get_connection()
-{
-    static $dbh;
-    if ( !$dbh ) {
-        $dbconf = parse_ini_file(dirname(__FILE__) . '/db.ini');
-        $dsn = 'mysql:';
-        $sep = '';
-        foreach ( array( 'dbname', 'host' ) as $n ) {
-            if ( isset($dbconf[$n]) ) {
-                $dsn .= $sep . $n . '=' . $dbconf[$n];
-                $sep = ';';
-            }
-        }
-// $attr = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8' );
-        $dbh = new PDO($dsn, $dbconf['user'], $dbconf['pass']);
-    }
-    return $dbh;
-}

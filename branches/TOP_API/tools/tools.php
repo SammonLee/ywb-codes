@@ -1,3 +1,9 @@
+<?php
+require('config.inc');
+$dbh = get_connection();
+$sth = $dbh->query('select cat_id, cat_name, cat_desc from cat');
+$cats = $sth->fetchAll(PDO::FETCH_ASSOC);
+?>
 <html><head>
 
 	
@@ -5,6 +11,7 @@
 		<link midia="screen" type="text/css" href="http://yubo.ued.taobao.net/assets/tbra/dev/reset-grids.css" rel="stylesheet">
 		<link midia="screen" type="text/css" href="http://assets.taobaocdn.com/app/top/isv.css" rel="stylesheet">
 		<style type="text/css">
+          body, div, input, textarea, table { font-size: 12px; }
 			a {color:#4D4D4D;text-decoration:none}
 			a:hover {color:#EA4106;text-decoration:underline;}
 			td {padding:6px}
@@ -36,14 +43,14 @@
                 		<span style="float: left; margin-top: 11px;"><a href="http://wiki.open.taobao.com/index.php/API%E6%96%87%E6%A1%A3#API.E6.B5.8B.E8.AF.95.E5.B7.A5.E5.85.B7.E4.BD.BF.E7.94.A8.E6.8C.87.E5.8D.97" target="_blank" style="color: blue;">API测试工具使用指南</a></span>
 
 						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="http://wiki.open.taobao.com/index.php/API%E6%96%87%E6%A1%A3" target="_blank" style="color: blue;">API文档</a> </span>
-						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="props" target="_blank" style="color: blue;">API属性工具</a></span>
+						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="http://open.taobao.com/api_tool/props" target="_blank" style="color: blue;">API属性工具</a></span>
                 		<span style="width: 122px; float: right; margin-top: 11px; text-align: left; padding-left: 5px;"><a href="taobaoPubAccount.html" target="_blank" style="text-decoration: underline;"> 查看测试环境公用账号</a></span>
                 		<span style="float: right; margin-top: 10px;"><img src="http://isv.alisoft.com/isv/images/dev/taobaoapi.gif"></span>
                 	</td>
                 </tr>
 
   				<tr>
-    				<td valign="top">
+    				<td width="40%" valign="top">
                     	<table border="0" cellpadding="0" cellspacing="0">
                         	<tbody><tr>
                             	<td>
@@ -65,22 +72,9 @@
                                             <td>
                                             	<select name="apiCategoryId" id="apiCategoryId" style="width: 195px;" onchange="callgetApiListByCategory(this);">
                                                     <option value="">--请选择API类目--</option>
-													<option value="1">用户API</option>
-                                                    <option value="2">产品API</option>
-                                                    <option value="3">类目属性API</option>
-
-                                                    <option value="4">商品API</option>
-                                                    <option value="5">交易API</option>
-                                                    <option value="6">评价API</option>
-                                                    <option value="7">物流API</option>
-                                                    <option value="8">收费API</option>
-                                                    <option value="9">店铺API</option>
-
-													<!--
-													<option value="10">淘宝客API</option>
-													<option value="11">社区API</option>
-													<option value="12">媒体文件API</option>
-													-->
+                                                    <?php foreach ( $cats as $cat ) : ?>
+                                                    <option value="<?php echo $cat['cat_id'] ?>"><?php echo $cat['cat_desc'] ?></option>
+                                                    <?php endforeach; ?>
                                                      </select>
                                             </td>
                                         </tr>
@@ -90,7 +84,7 @@
                                             	<span id="SipApinameDiv"><select id="sip_apiname" name="sip_apiname"><option value="">--请选择API--</option></select></span>&nbsp;</td>
 
                                         </tr>
-                                        <tr>
+                                        <tr style="display:none;">
                                             <td align="right">数据环境：</td>
                                             <td><input id="restId" name="restId" onclick="javascript:sanboxUrl()" checked="checked" type="radio"> 测试 <input id="restId" name="restId" onclick="javascript:apiUrl();" type="radio"> 正式</td>
                                         </tr>
@@ -99,12 +93,12 @@
                                             <td align="right">提交方式：</td>
                                             <td><input name="sip_http_method" value="2" checked="checked" type="radio"> POST　<input name="sip_http_method" value="1" type="radio"> GET</td>
                                         </tr>
-                                        <tr>
+                                        <tr style="display:none;">
                                             <td align="right">app key：</td>
                                             <td><input id="app_key" name="app_key" value="系统分配" style="width: 190px;" readonly="true" type="text">&nbsp;<a href="javascript:void(0)" onclick="javascript:readonlySelect();this.blur();"><span id="automaticSpan">自定义</span></a></td>
 
                                         </tr>
-	                                    <tr>
+	                                    <tr style="display:none;">
 	                                        <td align="right">app secret：</td>
 	                                        <td><input id="app_secret" name="app_secret" value="系统分配" style="width: 190px;" readonly="true" type="text"></td>
 	                                    </tr>
@@ -146,12 +140,13 @@
                         	</tr>
                   		</tbody></table>
 				  	</td>
-    				<td valign="top">
+    				<td width="60%" valign="top">
                        	提交参数：<br>
-
-						<textarea name="param" id="param" cols="50" rows="12" style="overflow-x: scroll;" readonly="readonly"></textarea><br><br>
+						<textarea name="param" id="param" cols="72" rows="8" style="overflow-x: scroll;" readonly="readonly"></textarea><br><br>
+                        PHP 代码 (<a href="manual.html">查看 php api 文档</a>)：<br>
+						<textarea name="param" id="phpcode" cols="72" rows="8" style="overflow-x: scroll;" readonly="readonly"></textarea><br><br>
                     	返回结果：<br>
-						<textarea name="resultShow" id="resultShow" cols="50" rows="18" style="overflow-x: scroll;" readonly="readonly"></textarea>
+						<textarea name="resultShow" id="resultShow" cols="72" rows="18" style="overflow-x: scroll;" readonly="readonly"></textarea>
 			  		</td>
 				</tr>
                 <tr>
@@ -259,7 +254,7 @@ function callgetParamListByApi(o) {
 	if ('undefined' != typeof(apiParam[o.value])) {
 		var sip_category_id = document.getElementById('apiCategoryId').value;
 		var sip_apiname = apiArr[sip_category_id][o.value];
-		var str = '<table width="500" border=0 cellPadding=4 cellSpacing=0>';
+		var str = '<table border=0 cellPadding=4 cellSpacing=0>';
 		str += '<tr><td colspan="2">将鼠标移至说明上，查看参数介绍；<font color="red">*</font> 表示必填，<font color="blue">*</font> 表示几个参数中必填一个；查看<a href="http://wiki.open.taobao.com/index.php/' + sip_apiname + '" target="_blank" style="color:blue">API详情</a></td>';
 		str += '</tr>';
 		for (var i=0; i<apiParam[o.value].length; i++) {
@@ -380,6 +375,7 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 				var response = xmlHttp.responseText;
 				response = eval('(' + response + ')');
 				document.getElementById('param').value = response.param;
+				document.getElementById('phpcode').value = response.phpcode;
 				//如果格式为xml，IE下缩进xml
 				if ('xml' == document.getElementById('format').value && window.ActiveXObject) {
 					var rdr = new ActiveXObject("MSXML2.SAXXMLReader");
@@ -391,7 +387,6 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 				} else {
 					document.getElementById('resultShow').value = response.content;
 				}
-
 				if (document.getElementById('image') !=	null) {
 					document.getElementById('image').value = '';
 				}

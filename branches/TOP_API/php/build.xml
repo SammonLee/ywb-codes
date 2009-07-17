@@ -8,7 +8,7 @@
     <copy todir="${build.dir}/${phing.project.name}">
       <fileset dir="${project.basedir}">
         <include name="src/**" />
-        <include name="demo/config.example.inc" />
+        <include name="demo/config.inc.example" />
         <include name="demo/*.php" />
         <include name="build.xml" />
       </fileset>
