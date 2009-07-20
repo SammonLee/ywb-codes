@@ -25,15 +25,6 @@ $cats = $sth->fetchAll(PDO::FETCH_ASSOC);
 </head><body>
 
 		<div id="page">
-			<div style="background: transparent url(http://isv.alisoft.com/isv/images/dev/ruanjianliebiao_pic1_bg.gif) repeat scroll 0% 0%; width: 100%; height: 35px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; float: left; margin-top: 10px;">
-    			<ul>
-      				<li style="float: left;"><img src="http://isv.alisoft.com/isv/images/dev/ruanjianliebiao_pic1_left.gif"></li>
-      				<li style="padding: 12px 0px 0px 15px; float: left;">API测试工具</li>
-      				<li style="float: right;"><img src="http://isv.alisoft.com/isv/images/dev/ruanjianliebiao_pic1_right.gif"></li>
-    			</ul>
-
-  			</div>
-  			
   			<div style="background: rgb(249, 249, 249) none repeat scroll 0% 0%; width: 100%; float: left; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">
 			<form id="frmApitest" name="frmApitest" method="post" action="">
 			<input id="api_url" name="api_url" value="sandbox" type="hidden">
@@ -44,6 +35,13 @@ $cats = $sth->fetchAll(PDO::FETCH_ASSOC);
 
 						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="http://wiki.open.taobao.com/index.php/API%E6%96%87%E6%A1%A3" target="_blank" style="color: blue;">API文档</a> </span>
 						<span style="float: left; margin-top: 11px; padding-left: 20px;"><a href="http://open.taobao.com/api_tool/props" target="_blank" style="color: blue;">API属性工具</a></span>
+  						<span style="float: left; margin-top: 11px; padding-left: 20px;">
+<?php if ( isset($_SESSION['user']) ) : ?>
+                           <span id="session_user"><?php echo $_SESSION['user'] ?><a onclick="return unbindSessionUser();" style="color: blue;">退出会话</a></span>
+<?php else : ?>
+                           <span id="session_user"><a onclick="return bindSessionUser();" style="color: blue;">绑定会话</a></span>
+<?php endif; ?>
+                        </span>
                 		<span style="width: 122px; float: right; margin-top: 11px; text-align: left; padding-left: 5px;"><a href="taobaoPubAccount.html" target="_blank" style="text-decoration: underline;"> 查看测试环境公用账号</a></span>
                 		<span style="float: right; margin-top: 10px;"><img src="http://isv.alisoft.com/isv/images/dev/taobaoapi.gif"></span>
                 	</td>
@@ -143,7 +141,7 @@ $cats = $sth->fetchAll(PDO::FETCH_ASSOC);
     				<td width="60%" valign="top">
                        	提交参数：<br>
 						<textarea name="param" id="param" cols="72" rows="8" style="overflow-x: scroll;" readonly="readonly"></textarea><br><br>
-                        PHP 代码 (<a href="manual.html">查看 php api 文档</a>)：<br>
+                        PHP 代码 (<a href="http://code.google.com/p/ywb-codes/wiki/TopPhpApiManual">查看 php api 文档</a>)：<br>
 						<textarea name="param" id="phpcode" cols="72" rows="8" style="overflow-x: scroll;" readonly="readonly"></textarea><br><br>
                     	返回结果：<br>
 						<textarea name="resultShow" id="resultShow" cols="72" rows="18" style="overflow-x: scroll;" readonly="readonly"></textarea>
@@ -189,15 +187,19 @@ if(xmlHttp.readyState == 4) {
 
 //API参数数组
 var apiParam = new Array();
-var response = '';
-var url = 'api_list.php?pAction=catProperty';
-xmlHttp.open('GET', url, false);
-xmlHttp.send(null);
-if(xmlHttp.readyState == 4){
-	if(xmlHttp.status == 200){
-		response = xmlHttp.responseText;
-		apiParam = eval("(" + response + ")");
-	}
+getApiParam();
+
+function getApiParam () {
+    var response = '';
+    var url = 'api_list.php?pAction=catProperty';
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    if(xmlHttp.readyState == 4){
+    	if(xmlHttp.status == 200){
+    		response = xmlHttp.responseText;
+    		apiParam = eval("(" + response + ")");
+    	}
+    }
 }
 
 //获得测试环境下session
@@ -318,6 +320,58 @@ function checkForm() {
 	}
 }
 
+function bindSessionUser()
+{
+    var user = prompt('用户名');
+    if ( user ) {
+        if(window.ActiveXObject) {
+        	xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+        	xmlHttp = new XMLHttpRequest();
+        }
+        var url = 'api_list.php?pAction=bindUser&user=' + encodeURIComponent(user);
+        xmlHttp.open('GET', url, false);
+        xmlHttp.send(null);
+        if(xmlHttp.readyState == 4) {
+        	if(xmlHttp.status == 200) {
+        		var response = xmlHttp.responseText;
+                response = eval("(" + response + ")");
+                if ( response.status == 200 ) {
+                    getApiParam();
+                    document.getElementById('session_user').innerHTML = user + '<a onclick="return unbindSessionUser();" style="color: blue;">退出会话</a>';
+                } else {
+                    alert(response.msg);
+                }
+        	}
+        }
+    }
+    return false;
+}
+function unbindSessionUser()
+{
+    if(window.ActiveXObject) {
+    	xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } else {
+    	xmlHttp = new XMLHttpRequest();
+    }
+    var url = 'api_list.php?pAction=unbindUser';
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    if(xmlHttp.readyState == 4) {
+    	if(xmlHttp.status == 200) {
+    		var response = xmlHttp.responseText;
+            response = eval("(" + response + ")");
+            if ( response.status == 200 ) {
+                getApiParam();
+                document.getElementById('session_user').innerHTML = '<a onclick="return bindSessionUser();" style="color: blue;">绑定会话</a>';
+            } else {
+                alert(response.msg);
+            }
+    	}
+    }
+    return false;
+}
+
 //绑定用户
 function bindUser() {
 	if ('' == document.getElementById('app_key').value) {
@@ -359,6 +413,7 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 
 	if ('undefined' != typeof(apiParam[sip_apiname_id])) {
 		for (var i = 0; i < apiParam[sip_apiname_id].length; i++) {
+            apiParam[sip_apiname_id][i].value = document.getElementById(apiParam[sip_apiname_id][i].name).value;
 			paramString += '&' + apiParam[sip_apiname_id][i].name + '="' + document.getElementById(apiParam[sip_apiname_id][i].name).value + '"';
 		}
 	}
@@ -374,22 +429,26 @@ function ajaxRequest(sip_http_method, sip_apiname_id) {
 			if (200 == xmlHttp.status) {
 				var response = xmlHttp.responseText;
 				response = eval('(' + response + ')');
-				document.getElementById('param').value = response.param;
-				document.getElementById('phpcode').value = response.phpcode;
-				//如果格式为xml，IE下缩进xml
-				if ('xml' == document.getElementById('format').value && window.ActiveXObject) {
-					var rdr = new ActiveXObject("MSXML2.SAXXMLReader");
-					var wrt = new ActiveXObject("MSXML2.MXXMLWriter");
-					wrt.indent = true;
-					rdr.contentHandler = wrt;
-					rdr.parse(response.content);
-					document.getElementById('resultShow').value = wrt.output;
-				} else {
-					document.getElementById('resultShow').value = response.content;
-				}
-				if (document.getElementById('image') !=	null) {
-					document.getElementById('image').value = '';
-				}
+                if ( 200 == response.status ) {
+    				document.getElementById('param').value = response.param;
+    				document.getElementById('phpcode').value = response.phpcode;
+    				//如果格式为xml，IE下缩进xml
+    				if ('xml' == document.getElementById('format').value && window.ActiveXObject) {
+    					var rdr = new ActiveXObject("MSXML2.SAXXMLReader");
+    					var wrt = new ActiveXObject("MSXML2.MXXMLWriter");
+    					wrt.indent = true;
+    					rdr.contentHandler = wrt;
+    					rdr.parse(response.content);
+    					document.getElementById('resultShow').value = wrt.output;
+    				} else {
+    					document.getElementById('resultShow').value = response.content;
+    				}
+    				if (document.getElementById('image') !=	null) {
+    					document.getElementById('image').value = '';
+    				}
+                } else {
+                    alert(response.msg);
+                }
 				xmlHttp = null;
 			}
 		}

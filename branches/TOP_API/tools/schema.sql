@@ -41,3 +41,17 @@ create table fields (
    primary key(fields_id),
    unique key(api_id, fields_name)
 ) DEFAULT CHARSET utf8;
+
+create table user (
+   user_id int primary key auto_increment,
+   user_name varchar(255) not null,
+   unique key(user_name)
+);
+
+create table user_params (
+   user_id int not null references user(user_id),
+   api_id int not null references api(api_id),
+   param_name varchar(100) not null,
+   param_value text,
+   primary key(user_id, api_id, param_name)
+);

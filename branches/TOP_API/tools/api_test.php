@@ -1,9 +1,9 @@
 <?php
 require('config.inc');
-
 error_log(date('c'). ' ' . var_export($_REQUEST, true) . "\n", 3, "param.log");
-/*$_REQUEST = array (
-  'format' => 'xml',
+/*
+$_REQUEST = array (
+  'format' => 'php',
   'method' => 'taobao.user.get',
   'api_url' => 'sandbox',
   'api_soure' => '1',
@@ -12,8 +12,10 @@ error_log(date('c'). ' ' . var_export($_REQUEST, true) . "\n", 3, "param.log");
   'session' => '',
   'sip_http_method' => 'POST',
   'fields' => '"user_id,nick,sex,real_name,phone,mobile,email"',
-  'nick' => '"tbtest1010"',
-  );*/
+  'nick' => '"alipublic01"',
+  'ZDEDebuggerPresent' => 'php,phtml,php3',
+  'PHPSESSID' => 'ngq7srs289iga2umpv6bcp8mj0',
+  ); */
 
 $method = $_REQUEST['method'];
 $api_name = get_api_name($method);
@@ -40,13 +42,14 @@ if ( $api_name ) {
             );
     } else {
         $res = $top->request($req);
-        if ( $res->isHttpError() ) {
+        if ( $res->isError() && $res->getErrorType() != Net_Top_Response::REQUEST_ERROR ) {
             $result = array(
                 'status' => 500,
-                'msg' => $res->getError()
+                'msg' => $res->getMessage()
                 );
         }
         else {
+            save_user_params($req);
             $result['status'] = 200;
             if ($req->getHttpMethod() == 'get') {
                 $result['param'] = $res->getUrl();
