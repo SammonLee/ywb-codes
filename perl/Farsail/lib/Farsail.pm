@@ -19,8 +19,8 @@ sub new {
     my %opts = @_;
     $self->setEventDispatcher($opts{event_dispatcher})
          ->setConfig($opts{config})
-         ->setArgs($opts{args})
-         ->setActions($opts{actions});
+         ->setActions($opts{actions})
+         ->setArgs($opts{args});
     $self->loadPlugins($opts{plugins});
     return $self;
 }
@@ -33,7 +33,7 @@ sub setEventDispatcher {
 }
 
 sub getEventDispatcher{
-    return shift->{event_dispatcher};
+    return shift->{dispatcher};
 }
 
 sub setConfig {
@@ -64,7 +64,7 @@ sub setArgs{
     if ( ref $args ne 'ARRAY' ) {
         $args = \@ARGV;
     }
-    $self->{args}->getopt('pass_through', @$args);
+    $self->{args}->getopt('pass_through', $args);
     if ( @$args ) {
         if ( $self->{actions}->hasAction($args->[0]) ) {
             $self->setAction(shift @$args);
@@ -131,7 +131,7 @@ sub createInstance {
     no strict 'refs';
     my $instance = ${ $class.'::_instance' } = $class->new(@_);
 
-    $instance->{event_dispatcher}->notify(new Farsail::Event(
+    $instance->{dispatcher}->notify(new Farsail::Event(
         name => 'farsail.createInstance',
     ));
     return $instance;
@@ -140,7 +140,7 @@ sub createInstance {
 sub initActionArgs {
     my $self = shift;
     my $args = $self->{args};
-    my $args_defs = $self->{action}->getArgs();
+    my $args_defs = $self->{action}->getAllArgs();
     foreach my $name ( keys %$args_defs ) {
         $args->define($name, $args_defs->{$name});
     }
@@ -154,11 +154,11 @@ sub dispatch {
     }
     $self->{completed_actions} = {};
     $self->initActionArgs();
-    $self->{event_dispatcher}->notify(new Farsail::Event(
+    $self->{dispatcher}->notify(new Farsail::Event(
         'name' => 'farsail.beforeDispatch'
     ));
     $self->callAction($self->{action});
-    $self->{event_dispatcher}->notify(new Farsail::Event(
+    $self->{dispatcher}->notify(new Farsail::Event(
         'name' => 'farsail.afterDispatch'
     ));
 }
@@ -169,20 +169,20 @@ sub callAction {
         return;
     }
     $self->{completed_actions}{$action->getFullName()}++;
-    $self->setCurrentAciton($action);
+    $self->setCurrentAction($action);
     my $event = new Farsail::Event(
         'name' => 'farsail.beforeCallAction',
         'subject' => $action,
     );
-    $self->{event_dispatcher}->filter($event, 1);
+    $self->{dispatcher}->filter($event, 1);
     for my $dep( $action->getDepends() ) {
-        $self->callAction($dep);
+        $self->callAction( $dep );
     }
     if ( $event->getReturnValue() ) {
         $self->loadModule( $action->getModule() );
-        $action->call();
+        $action->call( $self );
     }
-    $self->{event_dispatcher}->notify(new Farsail::Event(
+    $self->{dispatcher}->notify(new Farsail::Event(
         'name' => 'farsail.afterCallAction',
         'subject' => $action
     ));
