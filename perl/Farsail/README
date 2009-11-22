@@ -1,0 +1,115 @@
+-*- org -*-
+
+Farsail 应该是一个灵活可扩展的应用框架。
+
+#+BEGIN_SRC perl
+use Farsail;
+
+Farsail->createInstance(
+    actions => {
+        'demo' => {
+            'module' => 'Demo',
+            'hello' => {}
+        }
+    }
+)->dispatch();
+
+package Demo;
+use base 'Farsail::Action';
+
+sub ACTION_hello {
+    print "Hello, world\n";
+}
+#+END_SRC
+
+createInstance 可配置项：
+- actions
+- config
+- plugins
+- namespace
+
+使用 action 配置文件：
+#+BEGIN_SRC perl
+use FindBin qw/$Bin/;
+use Farsail;
+
+Farsail->createInstance(
+    'actions' => "$Bin/../conf/actions.yml"
+)->dispatch();
+#+END_SRC
+
+action 配置文件示例：
+#+BEGIN_SRC yaml
+demo:
+  module: Demo
+  hello: {}
+#+END_SRC
+
+使用配置文件：
+#+BEGIN_SRC perl
+use FindBin qw/$Bin/;
+use Farsail;
+
+Farsail->createInstance(
+    'conf' => "$Bin/../conf/farsail.ini"
+)->dispatch();
+#+END_SRC
+
+配置文件示例：
+#+BEGIN_SRC conf
+actions = actions.yml
+#+END_SRC
+特殊的配置：
+- actions
+- arguments
+- include
+
+配置可以加上名字空间前缀，默认名字空间是 global。
+如设置：
+#+BEGIN_SRC conf
+demo.name = Farsail
+#+END_SRC
+获得配置方法：
+#+BEGIN_SRC perl
+package Demo;
+use base 'Farsail::Action';
+
+sub ACTION_hello {
+    my $self = shift;
+    print "Hello, ", $self->config('name'), "\n";
+}
+#+END_SRC
+
+在 action 配置中可以加上参数限制:
+#+BEGIN_SRC yaml
+module:
+   action:
+      args:
+        arg1: arg_type
+        arg2: { type: arg_type, default: default_value }
+#+END_SRC
+
+插件：
+1. 虚拟运行模式
+2. log
+
+Farsail 插件使用 Event 方式接入。
+所有运行参数都会保存在 context 中，所以接入的插件有权限修改整个流程。
+
+Farsail
+ Event
+ EventDispatcher
+ Util
+ Config
+ Action
+ ActionSet
+ Args
+ Plugins/
+  Log
+  Mock
+  Depend
+  Check
+
+dispatch 只能进行一次。
+
+
