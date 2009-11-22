@@ -112,4 +112,4 @@ Farsail
 
 dispatch 只能进行一次。
 
-
+a => b => c => a

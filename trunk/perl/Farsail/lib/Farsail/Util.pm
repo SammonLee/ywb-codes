@@ -9,7 +9,7 @@ use File::Glob qw/:glob/;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our %EXPORT_TAGS = ( 'all' => [ qw( check_date parse_date expand_file ) ] );
+our %EXPORT_TAGS = ( 'all' => [ qw( check_date parse_date expand_file find_file ) ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(  );
 

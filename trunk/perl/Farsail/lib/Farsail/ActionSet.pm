@@ -7,7 +7,8 @@ use Carp;
 use YAML qw/LoadFile/;
 use Farsail::Action;
 use Farsail::Util qw/expand_file find_file/;
-use const GLOBAL_NAMESPACE => 'global';
+use Scalar::Util qw/blessed/;
+use constant GLOBAL_NAMESPACE => 'global';
 use Log::Log4perl qw/:easy/;
 
 sub new {
@@ -132,6 +133,8 @@ sub getAction {
         } else {
             return $self->createAction($ns, $name);
         }
+    } else {
+        ERROR("Unknown action '$action'");
     }
 }
 
@@ -146,16 +149,14 @@ sub createAction {
     }
     return $self->{ACTIONS}{$ns}{$name} = new Farsail::Action(
         actions => $self,
-        module => $self->getModule($ns),
         namespace => $ns,
         name => $name,
-        types => $self->getTypes($ns),
-        def => $action
+        action => $action
     );
 }
 
 sub getNamespaces {
-    return shift->{NAMESPACES};
+    return @{shift->{NAMESPACES}};
 }
 
 sub addNamespace {
