@@ -54,6 +54,10 @@ sub setActions{
     return $self;
 }
 
+sub getActions{
+    return shift->{actions};
+}
+
 sub setArgs{
     my $self = shift;
     my $args = shift;
@@ -62,15 +66,10 @@ sub setArgs{
         $self->{args}->define(split /\s*,\s*/, $self->{config}->get('argments'));
     }
     if ( ref $args ne 'ARRAY' ) {
-        $args = \@ARGV;
+        $args = [ @ARGV ];
     }
     $self->{args}->getopt('pass_through', $args);
-    if ( @$args ) {
-        if ( $self->{actions}->hasAction($args->[0]) ) {
-            $self->setAction(shift @$args);
-        }
-        $self->{action_args} = $args;
-    }
+    $self->{action_args} = $args;
     return $self;
 }
 
@@ -144,13 +143,21 @@ sub initActionArgs {
     foreach my $name ( keys %$args_defs ) {
         $args->define($name, $args_defs->{$name});
     }
-    $args->getopt(@{$self->{action_args}});
+    $args->getopt($self->{action_args});
 }
 
 sub dispatch {
     my $self = shift;
     if ( !$self->{action} ) {
-        confess "No action specified";
+        if ( @{$self->{action_args}} ) {
+            my $args = $self->{action_args};
+            if ( $self->{actions}->hasAction($args->[0]) ) {
+                $self->setAction(shift @$args);
+            }
+        }
+        if ( !$self->{action} ) {
+            confess "No action specified";
+        }
     }
     $self->{completed_actions} = {};
     $self->initActionArgs();
@@ -204,7 +211,7 @@ sub loadModule {
         }
     }
     if ( $module->can('init') ) {
-        $module->init();
+        $module->init($self);
     }
 }
 

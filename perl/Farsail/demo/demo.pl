@@ -13,13 +13,14 @@ use Data::Dumper qw(Dumper);
 use Farsail;
 
 my $f = Farsail->createInstance(
+    'plugins' => ['Farsail::Help'],
     'actions' => {
         'demo' => {
             module => 'Demo',
             hello => {},
         }
     },
-    args => ['demo.hello']
+    args => ['help']
 );
 $f->dispatch();
 
