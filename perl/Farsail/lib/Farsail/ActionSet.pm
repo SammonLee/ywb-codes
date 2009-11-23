@@ -8,6 +8,7 @@ use YAML qw/LoadFile/;
 use Farsail::Action;
 use Farsail::Util qw/expand_file find_file/;
 use Scalar::Util qw/blessed/;
+use List::MoreUtils qw/uniq/;
 use constant GLOBAL_NAMESPACE => 'global';
 use Log::Log4perl qw/:easy/;
 
@@ -24,7 +25,7 @@ sub new {
     if ( @_ ) {
         my $actions = shift;
         if ( ref $actions eq 'HASH' ) {
-            $self->setActions($actions);
+            $self->addActions($actions);
         } else {
             $self->setActionsFile($actions);
         }
@@ -32,7 +33,7 @@ sub new {
     return $self;
 }
 
-sub setActions {
+sub addActions {
     my ($self, $defs) = @_;
     my $include = delete $defs->{include};
     my $actions = $self->{ACTIONS};
@@ -97,7 +98,7 @@ sub loadFile {
     if ( $@ ) {
         confess "Load action '$file' failed: $@\n";
     }
-    $self->setActions($actions);
+    $self->addActions($actions);
 }
 
 sub hasAction {

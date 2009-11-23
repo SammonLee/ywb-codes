@@ -8,7 +8,7 @@ use Data::Dumper qw(Dumper);
 
 sub init {
     my ($pkg, $farsail) = @_;
-    $farsail->getActions->setActions({
+    $farsail->getActions->addActions({
         'global' => {
             'help' => {
                 'module' => 'Farsail::Help'
