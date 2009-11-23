@@ -7,18 +7,15 @@ use Farsail;
 
 Farsail->createInstance(
     actions => {
-        'demo' => {
-            'module' => 'Demo',
+        'global' => {
+            'module' => 'main',
             'hello' => {}
         }
     }
 )->dispatch();
 
-package Demo;
-use base 'Farsail::Action';
-
 sub ACTION_hello {
-    print "Hello, world\n";
+    print "Hello, World\n";
 }
 #+END_SRC
 
@@ -34,14 +31,14 @@ use FindBin qw/$Bin/;
 use Farsail;
 
 Farsail->createInstance(
-    'actions' => "$Bin/../conf/actions.yml"
+    'actions' => "$Bin/actions.yml"
 )->dispatch();
 #+END_SRC
 
 action 配置文件示例：
 #+BEGIN_SRC yaml
-demo:
-  module: Demo
+global:
+  module: main
   hello: {}
 #+END_SRC
 
@@ -51,7 +48,7 @@ use FindBin qw/$Bin/;
 use Farsail;
 
 Farsail->createInstance(
-    'conf' => "$Bin/../conf/farsail.ini"
+    'conf' => "$Bin/farsail.ini"
 )->dispatch();
 #+END_SRC
 

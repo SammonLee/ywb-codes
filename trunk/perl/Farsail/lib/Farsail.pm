@@ -22,6 +22,9 @@ sub new {
          ->setActions($opts{actions})
          ->setArgs($opts{args});
     $self->loadPlugins($opts{plugins});
+    if ( exists $opts{namespace} ) {
+        $self->{actions}->addNamespace( ref $opts{namespace} eq 'ARRAY' ? @{$opts{namespace}} : $opts{namespace});
+    }
     return $self;
 }
 
@@ -188,6 +191,11 @@ sub callAction {
     if ( $event->getReturnValue() ) {
         $self->loadModule( $action->getModule() );
         $action->call( $self );
+    } else {
+        $self->{dispatcher}->notify(new Farsail::Event(
+            'name' => 'farsail.skipCallAction',
+            'subject' => $action
+        ));
     }
     $self->{dispatcher}->notify(new Farsail::Event(
         'name' => 'farsail.afterCallAction',
@@ -212,6 +220,30 @@ sub loadModule {
     }
     if ( $module->can('init') ) {
         $module->init($self);
+    }
+}
+
+sub addProperty {
+    my ($self, $name, $obj) = @_;
+    no strict 'refs';
+    my $class = ref $self || $self;
+    *{$class."::$name"} = sub {
+        my $self = shift;
+        if ( @_ ) {
+            $obj = shift;
+        }
+        return $obj;
+    };
+}
+
+sub addMethod {
+    my ($self, $name, $sub) = @_;
+    if ( ref $sub eq 'CODE' ) {
+        no strict 'refs';
+        my $class = ref $self || $self;
+        *{$class . "::$name"} = $sub;
+    } else {
+        die("Not a callback");
     }
 }
 
