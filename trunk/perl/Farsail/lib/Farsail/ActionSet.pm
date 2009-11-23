@@ -107,17 +107,17 @@ sub hasAction {
         push @ns, $action->getNamespace();
         $action_name = $action->getName();
     } else {
-        if ( index('.', $action) ) {
+        if ( index($action, '.') == -1 ) { # action doesn't contain namespace
+            @ns = $namespace ? @$namespace : $self->getNamespaces();
+            $action_name = $action;
+        } else { 
             my @r = split /\./, $action, 2;
             push @ns, $r[0];
             $action_name = $r[1];
-        } else {
-            @ns = $namespace ? @$namespace : $self->getNamespaces();
-            $action_name = $action;
         }
     }
     for ( @ns ) {
-        if ( exists $self->{ACTIONS}{$_}{$action_name} ) {
+        if ( exists $self->{ACTIONS}{$_} && exists $self->{ACTIONS}{$_}{$action_name} ) {
             return ($_, $action_name);
         }
     }
@@ -184,6 +184,10 @@ sub getTypes {
 
 sub getIncludedFiles{
     return shift->{INCLUDES};
+}
+
+sub getActions {
+    return shift->{ACTIONS};
 }
 
 1;
