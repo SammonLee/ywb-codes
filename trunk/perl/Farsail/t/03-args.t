@@ -14,4 +14,5 @@ Log::Log4perl->easy_init();
 use_ok("Farsail::Args");
 
 my $args = Farsail::Args->new();
-$args->getopt('pass_through', 'demo');
+isa_ok($args, 'Farsail::Args');
+$args->getopt('pass_through', ['demo']);
