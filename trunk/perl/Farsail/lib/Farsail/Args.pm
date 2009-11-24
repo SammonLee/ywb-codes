@@ -7,6 +7,7 @@ use Carp;
 
 use AppConfig qw(:argcount);
 use base 'AppConfig', 'Clone';
+use Return::Value;
 
 our %ARGS_TYPE = (
     'string' => { ARGCOUNT => ARGCOUNT_ONE },
@@ -55,13 +56,31 @@ sub define {
     }
 }
 
+sub get {
+    my ($self, $name, $def) = @_;
+    if ( $self->_exists($name) ) {
+        my $res =  $self->SUPER::get($name);
+        if ( defined $res ) {
+            return $res;
+        }
+    }
+    return $def;
+}
+
 sub checkRequires {
     my $self = shift;
     my $state = $self->{STATE};
+    my @missing;
     for ( keys %{$state->{REQUIRES}} ) {
-        if ( !$self->_exists($_) ) {
-            return 0;
+        if ( !defined $self->get($_) ) {
+            push @missing, $_;
         }
+    }
+    if ( @missing ) {
+        return new Return::Value(
+            'type' => 'failure',
+            'data' => \@missing
+        );
     }
     return 1;
 }
