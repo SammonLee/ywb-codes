@@ -19,8 +19,7 @@ sub new {
     }
     my $action = $opts{action};
     $self->{module} = $action->{module}
-        || $self->{actions}->getModule($self->{namespace})
-            || die "Can't find action module for '".$self->getFullName()."'";
+        || $self->{actions}->getMeta($self->{namespace}, 'module');
     $self->setDepends($action->{depends});
     $self->setArgs($action->{args});
     return $self;
@@ -74,8 +73,8 @@ sub getActions {
 sub setArgs {
     my ($self, $args) = @_;
     if ( $args && ref $args eq 'HASH' ) {
-        my $types = $self->{actions}->getTypes($self->{namespace}) || {};
-        foreach ( %$args ) {
+        my $types = $self->{actions}->getMeta($self->{namespace}, 'types') || {};
+        foreach ( keys %$args ) {
             my $opt = $args->{$_};
             if ( !ref $opt ) {
                 $opt = { type => $opt };
@@ -104,7 +103,7 @@ sub setDepends {
     my ($self, $depends) = @_;
     my @deps;
     if ( ref $depends ) {
-        my @namespaces = ($self->{namespace}, $self->{actions}->getNamespaces());
+        my @namespaces = ($self->{namespace}, $self->{actions}->getActiveNamespaces());
         foreach ( @$depends ) {
             my $dep = $self->{actions}->getAction($_, \@namespaces);
             if ( $dep ) {

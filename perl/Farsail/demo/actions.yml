@@ -1,3 +1,4 @@
 global:
-  module: main
-  hello: {}
+  hello:
+    args:
+      name: string

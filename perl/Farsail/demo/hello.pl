@@ -10,6 +10,7 @@ use strict;
 use FindBin qw/$Bin/;
 use lib "$Bin/../lib";
 use Farsail;
+use Data::Dumper qw(Dumper);
 use Log::Log4perl qw/:easy/;
 Log::Log4perl->easy_init();
 
@@ -17,12 +18,16 @@ Farsail->createInstance(
     'plugins' => ['Farsail::Help', 'Farsail::Log'],
     'actions' => {
         'global' => {
-            module => 'main',
-            hello => {},
+            'hello' => {
+                'args' => {
+                    'name' => { type => 'string' }
+                }
+            }
         }
-    },
+    }
 )->dispatch();
 
 sub ACTION_hello {
-    print "Hello, Farsail!\n";
+    my ($self, $farsail) = @_;
+    print "Hello, " . $farsail->getArgs()->get('name', 'Farsail'), "!\n";
 }

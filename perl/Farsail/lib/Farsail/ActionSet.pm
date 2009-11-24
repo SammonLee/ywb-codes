@@ -19,14 +19,17 @@ sub new {
     bless $self, $class;
     $self->{ACTIONS} = {};
     $self->{INCLUDES} = {};
-    $self->{NAMESPACES} = [ GLOBAL_NAMESPACE ];
-    $self->{MODULES} = {};
-    $self->{TYPES} = {};
+    $self->{ACTIVE_NAMESPACES} = [ GLOBAL_NAMESPACE ];
+    $self->{META} = {};
+    $self->{DEFAULT_META} = {
+        module => 'main',
+        auto_detect => 1
+    };
     if ( @_ ) {
         my $actions = shift;
         if ( ref $actions eq 'HASH' ) {
             $self->addActions($actions);
-        } else {
+        } elsif ( $actions && -e $actions ) {
             $self->setActionsFile($actions);
         }
     }
@@ -37,16 +40,17 @@ sub addActions {
     my ($self, $defs) = @_;
     my $include = delete $defs->{include};
     my $actions = $self->{ACTIONS};
+    if ( exists $defs->{_meta} && ref $defs->{_meta} eq 'HASH' ) {
+        for ( keys %{$defs->{_meta}} ) {
+            $self->{DEFAULT_META}{$_} = $defs->{_meta}{$_};
+        }
+        delete $defs->{_meta};
+    }
     foreach my $ns ( keys %$defs ) {
         if ( ref $defs->{$ns} eq 'HASH' ) {
-            if ( exists $defs->{$ns}{module} ) {
-                $self->{MODULES}{$ns} = delete $defs->{$ns}{module};
-            }
-            if ( exists $defs->{$ns}{types} ) {
-                my $types = delete $defs->{$ns}{types};
-                foreach ( keys %$types ) {
-                    $self->{TYPES}{$ns}{$_} = $types->{$_};
-                }
+            if ( exists $defs->{$ns}{_meta} ) {
+                $self->setMeta($ns, $defs->{$ns}{_meta});
+                delete $defs->{$ns}{_meta};
             }
             foreach ( keys %{$defs->{$ns}} ) {
                 $actions->{$ns}{$_} = $defs->{$ns}{$_};
@@ -75,8 +79,30 @@ sub addActions {
     }
 }
 
-sub getActionsFile {
-    return shift->{ACTIONS_FILE};
+sub setMeta{
+    my ($self, $namespace, $meta) = @_;
+    for ( qw/module auto_detect/ ) {
+        if ( exists $meta->{$_} ) {
+            $self->{META}{$namespace}{$_} = $meta->{$_};
+        }
+    }
+    if ( exists $meta->{types} ) {
+        my $types = $meta->{types};
+        foreach ( keys %$types ) {
+            $self->{META}{$namespace}{types}{$_} = $types->{$_};
+        }
+    }
+    return $self;
+}
+
+sub getMeta{
+    my ($self, $namespace, $name) = @_;
+    if ( exists $self->{META}{$namespace}{$name} ) {
+        return $self->{META}{$namespace}{$name};
+    }
+    elsif ( exists $self->{DEFAULT_META}{$name} ) {
+        return $self->{DEFAULT_META}{$name};
+    }
 }
 
 sub setActionsFile {
@@ -85,6 +111,10 @@ sub setActionsFile {
     $self->{ACTIONS_FILE} = $file;
     $self->loadFile($file);
     return $file;
+}
+
+sub getActionsFile {
+    return shift->{ACTIONS_FILE};
 }
 
 sub loadFile {
@@ -109,7 +139,7 @@ sub hasAction {
         $action_name = $action->getName();
     } else {
         if ( index($action, '.') == -1 ) { # action doesn't contain namespace
-            @ns = $namespace ? @$namespace : $self->getNamespaces();
+            @ns = $namespace ? @$namespace : $self->getActiveNamespaces();
             $action_name = $action;
         } else { 
             my @r = split /\./, $action, 2;
@@ -122,6 +152,15 @@ sub hasAction {
             return ($_, $action_name);
         }
     }
+    for ( @ns ) {
+        if ( $self->getMeta($_, 'auto_detect') ) {
+            my $module = $self->getMeta($_, 'module');
+            $self->loadModule($module);
+            if ( $module->can('ACTION_' . $action_name) ) {
+                return ($_, $action_name);
+            }
+        }
+    }
     return;
 }
 
@@ -132,63 +171,75 @@ sub getAction {
         if ( blessed($action) && $action->isa('Farsail::Action') ) {
             return $action;
         } else {
-            return $self->createAction($ns, $name);
+            return $self->{ACTIONS}{$ns}{$name} = new Farsail::Action(
+                actions => $self,
+                namespace => $ns,
+                name => $name,
+                action => $self->{ACTIONS}{$ns}{$name} || {}
+            );
         }
     } else {
         ERROR("Unknown action '$action'");
     }
 }
 
-sub createAction {
-    my ($self, $ns, $name) = @_;
-    my $action = $self->{ACTIONS}{$ns}{$name};
-    if ( !$action ) {
-        die("Unknown action '$ns.$name'");
-    }
-    if ( blessed($action) ) {
-        return $action;
-    }
-    return $self->{ACTIONS}{$ns}{$name} = new Farsail::Action(
-        actions => $self,
-        namespace => $ns,
-        name => $name,
-        action => $action
-    );
+sub getActiveNamespaces {
+    return @{shift->{ACTIVE_NAMESPACES}};
 }
 
-sub getNamespaces {
-    return @{shift->{NAMESPACES}};
-}
-
-sub addNamespace {
+sub addActiveNamespace {
     my $self = shift;
-    $self->{NAMESPACES} = [uniq( @_, @{$self->{NAMESPACES}})];
+    if ( @_ ) {
+        $self->{ACTIVE_NAMESPACES} = [uniq( @_, @{$self->{ACTIVE_NAMESPACES}})];
+    }
     return $self;
 }
 
-sub removeNamespace {
+sub removeActiveNamespace {
     my $self = shift;
-    my %remove = map {$_ =>1} @_;
-    $self->{NAMESPACES} = [ grep { !exists $remove{$_}} @{$self->{NAMESPACES}} ];
+    if ( @_ ) {
+        my %remove = map {$_ =>1} @_;
+        $self->{ACTIVE_NAMESPACES} = [ grep { !exists $remove{$_}} @{$self->{ACTIVE_NAMESPACES}} ];
+    }
     return $self;
-}
-
-sub getModule{
-    my ($self, $ns) = @_;
-    return $self->{MODULES}{$ns};
-}
-
-sub getTypes {
-    my ($self, $ns) = @_;
-    return $self->{TYPES}{$ns};
 }
 
 sub getIncludedFiles{
     return shift->{INCLUDES};
 }
 
-sub getActions {
-    return shift->{ACTIONS};
+sub getNamespaces {
+    my $self = shift;
+    return uniq(keys %{$self->{ACTIONS}}, GLOBAL_NAMESPACE);
+}
+
+sub getNamespaceActions {
+    my ($self, $namespace) = @_;
+    my @actions; 
+    if ( $self->getMeta($namespace, 'auto_detect') ) {
+        no strict 'refs';
+        my $module = $self->getMeta($namespace, 'module');
+        $self->loadModule($module);
+        my $globs = \%{$module. '::'};
+        for ( keys %$globs ) {
+            if ( /^ACTION_/ && $module->can($_) ) {
+                push @actions, $self->getAction(substr($_, 7), [$namespace]);
+            }
+        }
+    } elsif ( exists $self->{ACTIONS}{$namespace} ) {
+        @actions = keys %{$self->{ACTIONS}{$namespace}};
+    }
+    return \@actions;
+}
+
+sub loadModule {
+    my ($self, $module) = @_;
+    if ( !$module->can('can') ) { # package is not exists
+        eval("require $module");
+        if ( $@ ) {
+            confess "Require $module failed: $@\n";
+        }
+    }
 }
 
 1;

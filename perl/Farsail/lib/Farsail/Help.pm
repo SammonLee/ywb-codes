@@ -21,18 +21,18 @@ sub ACTION_help {
     my ($pkg, $farsail) = @_;
     my $args = $farsail->getActionArgs();
     my $actions = $farsail->getActions;
-    my $defs = $actions->getActions;
+    my %namespaces = map { $_ => 1 } $actions->getNamespaces;
     if ( @$args ) {
         for ( @$args ) {
             if ( (my $action = $actions->getAction($_)) ) {
                 $pkg->describeAction($action);
-            } elsif ( exists $defs->{$_} ) {
-                $pkg->describeNamespace($_, $defs);
+            } elsif ( exists $namespaces{$_} ) {
+                $pkg->describeNamespace($_, $actions);
             }
         }
     } else {
-        for ( keys %$defs ) {
-            $pkg->describeNamespace($_, $defs);
+        for ( keys %namespaces ) {
+            $pkg->describeNamespace($_, $actions);
         }
     }
 }
@@ -66,10 +66,10 @@ sub describeAction {
 }
 
 sub describeNamespace {
-    my ($pkg, $namespace, $defs) = @_;
+    my ($pkg, $namespace, $actions) = @_;
     print "$namespace:\n";
-    for ( sort keys %{$defs->{$namespace}} ) {
-        print "\t$_\n";
+    for ( @{$actions->getNamespaceActions($namespace)} ) {
+        print "\t", (ref $_ ? $_->getName() : $_),"\n";
     }
     print "\n";
 }

@@ -20,21 +20,30 @@ sub init {
         'farsail.beforeCallAction',
         sub {
             my $event = shift;
-            $logger->info($event->getSubject()->getFullName() . ' START');
+            my $action = $event->getSubject();
+            if ( $action->getName() ne 'help' ) {
+                $logger->info($action->getFullName() . ' START');
+            }
             return 1;
         });
     $dispatcher->connect(
         'farsail.afterCallAction',
         sub {
             my $event = shift;
-            $logger->info($event->getSubject()->getFullName() . ' END');
+            my $action = $event->getSubject();
+            if ( $action->getName() ne 'help' ) {
+                $logger->info($action->getFullName() . ' END');
+            }
             return 1;
         });
     $dispatcher->connect(
         'farsail.skipCallAction',
         sub {
             my $event = shift;
-            $logger->info($event->getSubject()->getFullName() . ' SKIPPED');
+            my $action = $event->getSubject();
+            if ( $action->getName() ne 'help' ) {
+                $logger->info($action->getFullName() . ' SKIPPED');
+            }
             return 1;
         });
 }

@@ -15,7 +15,6 @@ my $f = Farsail->createInstance(
     'plugins' => ['Farsail::Help'],
     'actions' => {
         'global' => {
-            module => 'main',
             hello => {},
         }
     },

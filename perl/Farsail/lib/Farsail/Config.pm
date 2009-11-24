@@ -21,11 +21,11 @@ sub new {
     $self->define('include=s@');
     bless $self, $class;
     $self->{STATE}{INCLUDES} = {};  # store included files
-    if ( @_ && $_[0] ) {
+    if ( @_ ) {
         my $conf = shift;
         if ( ref $conf eq 'HASH' ) {
             $self->setConfig($conf);
-        } else {
+        } elsif ( $conf && -e $conf ) {
             $self->setConfigFile($conf);
         }
     }

@@ -23,7 +23,7 @@ sub new {
          ->setArgs($opts{args});
     $self->loadPlugins($opts{plugins});
     if ( exists $opts{namespace} ) {
-        $self->{actions}->addNamespace( ref $opts{namespace} eq 'ARRAY' ? @{$opts{namespace}} : $opts{namespace});
+        $self->{actions}->addActiveNamespace( ref $opts{namespace} eq 'ARRAY' ? @{$opts{namespace}} : $opts{namespace});
     }
     return $self;
 }
@@ -147,6 +147,9 @@ sub initActionArgs {
         $args->define($name, $args_defs->{$name});
     }
     $args->getopt($self->{action_args});
+    if ( !(my $res = $args->checkRequires()) ) {
+        die "Missing required arguments: " . join(', ', @{$res->data}), "\n";
+    }
 }
 
 sub dispatch {
@@ -212,12 +215,7 @@ sub loadModule {
         return;
     }
     $self->{INC}{$module}++;
-    if ( !$module->can('can') ) { # module is loaded
-        eval("require $module");
-        if ( $@ ) {
-            confess "Require $module failed: $@\n";
-        }
-    }
+    $self->{actions}->loadModule($module);
     if ( $module->can('init') ) {
         $module->init($self);
     }
