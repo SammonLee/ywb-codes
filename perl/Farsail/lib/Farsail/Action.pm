@@ -2,7 +2,7 @@ package Farsail::Action;
 
 use strict; 
 use warnings;
-
+use Log::Log4perl qw(:easy);
 use Carp;
 
 sub new {
