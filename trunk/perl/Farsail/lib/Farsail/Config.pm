@@ -47,8 +47,20 @@ sub setConfigFile {
     return $self;
 }
 
+sub getConfigDir {
+    return shift->{CONFIG_FILE}->dir;
+}
+
 sub getConfigFile {
     return shift->{CONFIG_FILE};
+}
+
+sub getExpandFile {
+    my $self = shift;
+    my $file = $self->get(@_);
+    if ( $file ) {
+        return expand_file($file, $self->getConfigDir());
+    }
 }
 
 sub get {
