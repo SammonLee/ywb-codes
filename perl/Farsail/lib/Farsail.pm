@@ -8,6 +8,7 @@ use Farsail::EventDispatcher;
 use Farsail::Config;
 use Farsail::Args;
 use Farsail::ActionSet;
+use version 0.77; our $VERSION = qv("v2.0.0");
 
 use Carp;
 
@@ -22,9 +23,6 @@ sub new {
          ->setActions($opts{actions})
          ->setArgs($opts{args});
     $self->loadPlugins($opts{plugins});
-    if ( exists $opts{namespace} ) {
-        $self->{actions}->addActiveNamespace( ref $opts{namespace} eq 'ARRAY' ? @{$opts{namespace}} : $opts{namespace});
-    }
     return $self;
 }
 
@@ -54,6 +52,9 @@ sub setActions{
     my $self = shift;
     my $actions = shift;
     $self->{actions} = blessed($actions) ? $actions : new Farsail::ActionSet($actions || $self->{config}->get('actions'));
+    if ( $self->{config}->get('namespace') ) {
+        $self->{actions}->addActiveNamespace(split(/\s*,\s*/, $self->{config}->get('namespace')));
+    }
     return $self;
 }
 
@@ -222,16 +223,17 @@ sub loadModule {
 }
 
 sub addProperty {
-    my ($self, $name, $obj) = @_;
-    no strict 'refs';
-    my $class = ref $self || $self;
-    *{$class."::$name"} = sub {
-        my $self = shift;
-        if ( @_ ) {
-            $obj = shift;
+    my ($self, $name, $value) = @_;
+    $self->addMethod(
+        $name,
+        sub {
+            my $self = shift;
+            if ( @_ ) {
+                $value = shift;
+            }
+            return $value;
         }
-        return $obj;
-    };
+    );
 }
 
 sub addMethod {
@@ -255,23 +257,28 @@ Farsail - A lightweight flexible application framework
 
 =head1 SYNOPSIS
 
+  # demo.pl
   use Farsail;
   Farsail->createInstance(
-     actions => {
-        'demo' => {
-           'module' => 'Demo',
-        }
-     },
-     args => ['hello']
   )->dispatch();
 
-  package Demo;
   sub ACTION_hello {
      print "Hello, Farsail!\n";
   }
-  1;
 
+  # run
+  $ demo.pl hello
+ 
 =head1 DESCRIPTION
+
+Farsail is a lightweight flexible application framework. The original
+purpose of the framework is served as an ETL system for web log
+analysis. The key features are:
+ * Easy to extend and customize
+ * Jobs may have dependence
+ * Easy to test, deploy and run
+
+After 
 
 =head1 METHODS
 
@@ -333,6 +340,21 @@ get the action to dispatch.
 get current activate action.
 
 =back
+
+=head1 AUTHORS
+
+Ye Wenbin E<lt>wenbinye@gmail.comE<gt>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2009 by 
+Ye Wenbin E<lt>wenbinye@gmail.comE<gt>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.10.0 or,
+at your option, any later version of Perl 5 you may have available.
+
+See L<http://www.perl.com/perl/misc/Artistic.html>
 
 =cut
 
