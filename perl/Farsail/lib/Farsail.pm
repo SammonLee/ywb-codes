@@ -121,6 +121,7 @@ sub loadPlugins {
 sub getInstance {
     my $class = shift;
     return $class if ref $class;
+    no strict 'refs';
     my $instance = ${ $class.'::_instance' };
     if ( !defined($instance) ) {
         die("Instance is not initialized");
