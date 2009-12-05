@@ -12,22 +12,23 @@ use lib "$Bin/../lib";
 use Farsail;
 use Data::Dumper qw(Dumper);
 use Log::Log4perl qw/:easy/;
+use YAML;
+use Data::Dumper qw(Dumper);
 Log::Log4perl->easy_init();
 
-Farsail->createInstance(
-    'plugins' => ['Farsail::Help', 'Farsail::Log'],
-    'actions' => {
-        'global' => {
-            'hello' => {
-                'args' => {
-                    'name' => { type => 'string' }
-                }
-            }
-        }
-    }
-)->dispatch();
+my $f = Farsail->createInstance(%{YAML::Load(<<YML)});
+plugins: ['Farsail::Help', 'Farsail::Log']
+actions:
+  global:
+    hello:
+      args:
+        name: string
+config: { namespace: 'demo' }
+YML
+$f->dispatch();
 
 sub ACTION_hello {
     my ($self, $farsail) = @_;
     print "Hello, " . $farsail->getArgs()->get('name', 'Farsail'), "!\n";
 }
+1;
