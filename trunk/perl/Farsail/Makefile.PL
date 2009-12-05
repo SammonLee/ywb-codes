@@ -14,8 +14,6 @@ test_requires  'Test::More'  => '0.42';
 
 no_index       'directory'   => 't';
 
-install_script 'scripts/farsail_do';
-
 auto_install();
 
 WriteAll;

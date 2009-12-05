@@ -1,6 +1,6 @@
 -*- org -*-
 
-Farsail 应该是一个灵活可扩展的应用框架。
+* Farsail 应该是一个灵活可扩展的应用框架
 
 #+BEGIN_SRC perl
 use Farsail;
@@ -24,6 +24,8 @@ createInstance 可配置项：
 - config
 - plugins
 - namespace
+
+* 配置
 
 使用 action 配置文件：
 #+BEGIN_SRC perl
@@ -59,6 +61,7 @@ actions = actions.yml
 特殊的配置：
 - actions
 - arguments
+- namespace
 - include
 
 配置可以加上名字空间前缀，默认名字空间是 global。
@@ -86,7 +89,7 @@ module:
         arg2: { type: arg_type, default: default_value }
 #+END_SRC
 
-插件：
+* 插件
 1. 虚拟运行模式
 2. log
 
@@ -107,6 +110,18 @@ Farsail
   Depend
   Check
 
-dispatch 只能进行一次。
+dispatch 只能进行一次。由程序保证不会出现循环依赖
 
-a => b => c => a
+* 程序流程
+
+初始化流程：
+1. 安装事件分发器 event dispatcher, 
+2. 加载配置文件
+3. 加载 action 定义
+4. 加载命令行参数，如果配置中定义全局命令行选项，将解析这部分参数
+5. 加载插件
+
+dispatch 流程：
+1. 确定 action，如果未使用 setAction 设置过，则使用命令行第一个参数
+2. 解析命令行参数
+3. 调用

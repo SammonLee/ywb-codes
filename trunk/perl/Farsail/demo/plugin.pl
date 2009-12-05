@@ -20,5 +20,9 @@ my $f = Farsail->createInstance(
     },
 );
 $f->addProperty('dbh', 'dbh');
+print $f->dbh(), "\n";
+$f->dbh('dbh 2');
+print $f->dbh(), "\n";
+
 $f->addMethod('system', sub { print 'system called' });
 $f->system();
