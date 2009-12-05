@@ -223,14 +223,13 @@ sub getNamespaceActions {
         my $globs = \%{$module. '::'};
         for ( keys %$globs ) {
             if ( /^ACTION_/ && $module->can($_) ) {
-                push @actions, substr($_, 7);
+                push @actions, $self->getAction(substr($_, 7), [$namespace]);
             }
         }
+    } elsif ( exists $self->{ACTIONS}{$namespace} ) {
+        @actions = keys %{$self->{ACTIONS}{$namespace}};
     }
-    if ( exists $self->{ACTIONS}{$namespace} ) {
-        push @actions, keys %{$self->{ACTIONS}{$namespace}};
-    }
-    return uniq(@actions);
+    return \@actions;
 }
 
 sub loadModule {

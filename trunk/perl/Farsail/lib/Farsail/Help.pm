@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Carp;
+use Data::Dumper qw(Dumper);
 
 sub init {
     my ($pkg, $farsail) = @_;
@@ -66,14 +67,11 @@ sub describeAction {
 
 sub describeNamespace {
     my ($pkg, $namespace, $actions) = @_;
-    my @acts = $actions->getNamespaceActions($namespace);
-    if ( @acts ) {
-        print "$namespace:\n";
-        for ( @acts ) {
-            print "\t", (ref $_ ? $_->getName() : $_),"\n";
-        }
-        print "\n";
+    print "$namespace:\n";
+    for ( @{$actions->getNamespaceActions($namespace)} ) {
+        print "\t", (ref $_ ? $_->getName() : $_),"\n";
     }
+    print "\n";
 }
 
 1;
