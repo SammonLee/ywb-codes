@@ -16,6 +16,8 @@ use_ok("Farsail::Config");
 my $conf = {foo => 1, bar => [2]};
 my $config = new Farsail::Config($conf);
 
+SKIP: {
+skip(1);
 isa_ok($config, 'Farsail::Config');
 is($config->get('foo'), $conf->{foo});
 is($config->get('bar'), $conf->{bar});
@@ -32,3 +34,15 @@ is_deeply(
         file('fixtures/a.ini')->absolute => 1
     }
 );
+}
+
+my $res;
+$config = new Farsail::Config();
+# $config->define('url=s@');
+$config->setConfigFile('fixtures/complex.ini');
+is_deeply( $config->getSection('url', 1), ['a','b'] );
+is_deeply( $config->getSection('db'), { user=>'ywb', 'pass'=>'ywb'});
+is_deeply( $config->getSection('stores', 1),
+           [{name=>'a', 'url'=>'a.com'},
+            {name=>'b', 'url' => 'b.com'}]);
+

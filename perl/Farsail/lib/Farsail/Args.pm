@@ -1,6 +1,6 @@
 package Farsail::Args;
 
-use strict; 
+use strict;
 use warnings;
 
 use Carp;
@@ -14,7 +14,7 @@ our %ARGS_TYPE = (
     'bool' => { ARGCOUNT => ARGCOUNT_NONE },
     'date' => { ARGCOUNT => ARGCOUNT_ONE,
                 VALIDATE => sub { return check_date($_[1]) },
-                },
+            },
     'int' => { ARGCOUNT => ARGCOUNT_ONE,
                VALIDATE => '^\d+$' },
     'array' => { ARGCOUNT => ARGCOUNT_LIST },
@@ -30,7 +30,7 @@ sub new {
             confess sprintf("$format\n", @_);
         }
     });
-    $self->{STATE}{REQUIRES} = {};  # required argments
+    $self->{STATE}{REQUIRES} = {}; # required argments
     bless $self, $class;
     return $self;
 }
@@ -43,14 +43,17 @@ sub define {
         my $var = shift;
         my $cfg = ref($_[0]) eq 'HASH' ? shift : {};
         if ( exists $cfg->{type} ) { # predefine type
-            my $opt = $ARGS_TYPE{$cfg->{type}};
-            if ( $cfg->{default} ) {
-                $opt->{DEFAULT} = $cfg->{default};
+            if ( exists $ARGS_TYPE{$cfg->{type}} ) {
+                my $opt = $ARGS_TYPE{$cfg->{type}};
+                if ( $cfg->{default} ) {
+                    $opt->{DEFAULT} = $cfg->{default};
+                } elsif ( $cfg->{require} && $opt->{ARGCOUNT} != ARGCOUNT_NONE ) {
+                    $requires->{$var} = 1;
+                }
+                $cfg = $opt;
+            } else {
+                ERROR("undefined type $cfg->{type}");
             }
-            elsif ( $cfg->{require} && $opt->{ARGCOUNT} != ARGCOUNT_NONE ) {
-                $requires->{$var} = 1;
-            }
-            $cfg = $opt;
         }
         $self->SUPER::define($var, $cfg);
     }
