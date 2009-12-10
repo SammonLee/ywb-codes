@@ -71,6 +71,24 @@ sub get {
     return $def;
 }
 
+sub getSection {
+    my ($self, $section_name, $is_array) = @_;
+    my %vars = $self->varlist('^'.quotemeta($section_name.'.'), 1);
+    if ( $is_array ) {
+        my @vars;
+        foreach ( keys %vars ) {
+            my ($idx, $key) = split /\./, $_, 2;
+            if ( $key ) {
+                $vars[$idx]{$key} = $vars{$_};
+            } else {
+                $vars[$idx] = $vars{$_};
+            }
+        }
+        return \@vars;
+    }
+    return \%vars;
+}
+
 sub file {
     my ($self, $file) = @_;
     my $state = $self->{STATE};
