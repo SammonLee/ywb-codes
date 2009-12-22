@@ -70,6 +70,9 @@
 (defvar simpletest-php-extension ".php"
   "Extension for php file")
 
+(defvar simpletest-template-file "simpletest.tpl"
+  "Template file name for test file")
+
 (defun simpletest-class-ap ()
   "Get current class name"
   (save-excursion
@@ -90,6 +93,17 @@
         (goto-char (point-min))
         (if (re-search-forward simpletest-class-regexp nil t)
             (match-string-no-properties 1)))))
+
+(defun simpletest-file-functions ()
+  "Get all functions for current file"
+  (let (functions)
+    (save-excursion
+      (goto-char (point-min))
+      (while (and (not (eobp))
+                  (re-search-forward simpletest-function-regexp nil t))
+        (push (cons (match-string-no-properties 1) (match-string-no-properties 2))
+              functions)))
+    functions))
 
 (defun simpletest-find-test-class-suffix (class)
   "Add suffix 'Test' to get test class name"
@@ -173,6 +187,11 @@
       (make-local-variable 'simpletest-detect-file-type-function)
       (load simpletest-config-file t))))
 
+(defun simpletest-create-test-template (test-class test-file source-class source-file)
+  "create test code using `template-simple'"
+  (template-simple-expand-template
+   (locate-file simpletest-template-file template-directory-list)))
+
 (defun simpletest-create-test-simple (test-class test-file source-class source-file)
   "Create test code"
   (insert (format "<?php
@@ -187,7 +206,7 @@ class %s extends UnitTestCase
     }
 }
 "
-                  source-class (file-relative-name source-file (file-name-directory test-file)) test-class)))
+                  source-class test-file test-class)))
 
 (defun simpletest-create-test-1 (test-class test-file source-class source-file)
   (find-file test-file)
@@ -245,17 +264,17 @@ class %s extends UnitTestCase
                   (and function
                        (simpletest-goto-function (simpletest-find-test-function (cdr function)))))
               (when (y-or-n-p (format "Test class '%s' not exists, create file %s" test-class file))
-                (simpletest-create-test-1 test-class file class buffer-file-name)))))
+                (simpletest-create-test-1 test-class file class (file-relative-name buffer-file-name (file-name-directory file)))))))
       (message "No class found in current buffer"))))
 
 (defun simpletest-create-test (&optional all)
   "Create test method for current class.
 With prefix argument, create all test function in current class"
-  (interactive)
+  (interactive "P")
   (if (eq (simpletest-detect-file-type) 'source)
       (let ((class (simpletest-file-class))
             (source-file buffer-file-name)
-            functions class-end)
+            functions class-end pos)
         (dolist (function
                  (if all
                      (simpletest-file-functions)
@@ -279,10 +298,30 @@ With prefix argument, create all test function in current class"
                 (dolist (function functions)
                   (unless (simpletest-function-position function)
                     (goto-char class-end)
-                    (forward-line 0) ;; insert before last close brace of class
-                    (insert (format "\n    function %s()\n    {\n\n    }\n" function))))))
-          (message "No function to create test")))
+                    (backward-char 1)
+                    (delete-region (progn (skip-chars-backward " \n\t") (point)) (1- class-end))
+                    (insert (format "\n\n    function %s()\n    {\n        \n    }\n" function))
+                    (setq pos (- (point) 7))))))
+          (message "No function to create test"))
+        (if pos (goto-char pos)))
     (message "Not in source file")))
+
+(defun simpletest-run-test ()
+  "Run test for current function."
+  (interactive)
+  (let ((class (simpletest-file-class))
+        (function (simpletest-function-ap))
+        test-file test-function compile-command)
+    (if (and class function)
+        (progn
+          (if (eq (simpletest-detect-file-type) 'source)
+              (setq test-file (simpletest-find-test-file (simpletest-find-test-class class))
+                    test-function (simpletest-find-test-function (cdr function)))
+            (setq test-file buffer-file-name
+                  test-function (cdr function)))
+          (setq compile-command (format "php \"%s\" --test=%s" test-file test-function))
+          (call-interactively 'compile))
+      (message "No test found"))))
 
 (define-minor-mode simpletest-mode
   "Toggle simpletest mode."
@@ -290,8 +329,10 @@ With prefix argument, create all test function in current class"
   :keymap
   '(("\C-c\C-tb" . simpletest-switch)
     ("\C-c\C-tc" . simpletest-create-test)
+    ("\C-c\C-tr" . simpletest-run-test)
     ("\C-c\C-t\C-b" . simpletest-switch)
-    ("\C-c\C-t\C-c" . simpletest-create-test)))
+    ("\C-c\C-t\C-c" . simpletest-create-test)
+    ("\C-c\C-t\C-r" . simpletest-run-test)))
 
 (provide 'simpletest)
 ;;; simpletest.el ends here
