@@ -208,8 +208,8 @@ class %s extends UnitTestCase
 "
                   source-class test-file test-class)))
 
-(defun simpletest-create-test-1 (test-class test-file source-class source-file)
-  (find-file test-file)
+(defun simpletest-create-test-1 (test-class test-file source-class source-file &optional other-window)
+  (funcall (if other-window 'find-file-other-window 'find-file) test-file)
   (funcall simpletest-create-test-function test-class test-file source-class source-file)
   (save-buffer))
 
@@ -218,7 +218,7 @@ class %s extends UnitTestCase
   (let ((name (replace-regexp-in-string "^test" "" test-function)))
     (if (> (length name) 0)
         ;; downcase first letter
-        (concat (downcase (substring name 0)) (substring name 1))
+        (concat (downcase (substring name 0 1)) (substring name 1))
       name)))
 
 (defun simpletest-find-test-function (function)
@@ -239,12 +239,13 @@ class %s extends UnitTestCase
   (let ((pos (simpletest-function-position function)))
     (if pos (goto-char pos))))
 
-(defun simpletest-switch ()
+(defun simpletest-switch (&optional other-window)
   "Switch between test file and source file"
-  (interactive)
+  (interactive "P")
   (simpletest-load-config)
   (let ((function (simpletest-function-ap))
         (class (simpletest-file-class))
+        (find-file-function (if other-window 'find-file-other-window 'find-file))
         file)
     (if class
         (if (eq (simpletest-detect-file-type) 'test)
@@ -252,7 +253,7 @@ class %s extends UnitTestCase
               (setq file (simpletest-find-source-file (simpletest-find-source-class class)))
               (if (and file (file-exists-p file))
                   (progn
-                    (find-file file)
+                    (funcall find-file-function file)
                     (and function
                          (simpletest-goto-function (simpletest-find-source-function (cdr function)))))
                 (message "Can't locate source file for class '%s'" class)))
@@ -260,11 +261,13 @@ class %s extends UnitTestCase
             (setq file (simpletest-find-test-file test-class))
             (if (and file (file-exists-p file))
                 (progn
-                  (find-file file)
+                  (funcall find-file-function file)
                   (and function
                        (simpletest-goto-function (simpletest-find-test-function (cdr function)))))
               (when (y-or-n-p (format "Test class '%s' not exists, create file %s" test-class file))
-                (simpletest-create-test-1 test-class file class (file-relative-name buffer-file-name (file-name-directory file)))))))
+                (simpletest-create-test-1 test-class file
+                                          class (file-relative-name buffer-file-name (file-name-directory file))
+                                          other-window)))))
       (message "No class found in current buffer"))))
 
 (defun simpletest-create-test (&optional all)
