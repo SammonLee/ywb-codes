@@ -36,6 +36,16 @@ sub new {
     return $self;
 }
 
+sub addModuleActions {
+    my ($self, $module, $defs) = @_;
+    foreach my $actions( values %$defs ) {
+        foreach ( values %$actions ) {
+            $_->{'_meta'} = $module;
+        }
+    }
+    $self->addActions($defs);
+}
+
 sub addActions {
     my ($self, $defs) = @_;
     my $include = delete $defs->{include};
