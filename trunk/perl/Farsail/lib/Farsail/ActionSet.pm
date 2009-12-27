@@ -40,7 +40,7 @@ sub addModuleActions {
     my ($self, $module, $defs) = @_;
     foreach my $actions( values %$defs ) {
         foreach ( values %$actions ) {
-            $_->{'_meta'} = $module;
+            $_->{module} = $module;
         }
     }
     $self->addActions($defs);
