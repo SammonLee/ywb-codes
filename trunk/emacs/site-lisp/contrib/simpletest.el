@@ -44,16 +44,30 @@
   "^\\s-*\\(\\(?:\\(?:abstract\\|final\\|private\\|protected\\|public\\|static\\)\\s-+\\)*\\)function\\s-+\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*("
   "Regexp that match function declaration")
 
-(defvar simpletest-class-map-functions
-  '(simpletest-find-test-class-suffix . simpletest-find-source-class-suffix)
-  "Functions to convert between class and test class")
+(defvar simpletest-project-config
+  '(
+    (get-test-class-function   . simpletest-get-test-class-suffix)
+    (get-source-class-function . simpletest-get-source-class-suffix)
+    (get-source-file-function  . simpletest-get-source-file-annotated)
+    (get-test-file-function    . simpletest-get-test-file-simple)
+    (get-file-type-function    . simpletest-get-file-type-simple)
+    (source-directory      . "lib")
+    (test-directory        . "tests")
+    (source-file-extension . ".php")
+    (test-file-extension   . ".php")
+    )
+  "Project setting for misc operations.
 
-(defvar simpletest-find-file-functions
-  '(simpletest-find-source-file-annotated . simpletest-find-test-file-simple)
-  "Functions to find source file for given class")
-
-(defvar simpletest-detect-file-type-function 'simpletest-detect-file-type-simple
-  "Function to detect file type")
+ `get-test-class-function': get test class name from source class name
+ `get-source-class-function': get source class name from test class name
+ `get-source-file-function': get source file from source class name
+ `get-test-file-function': get test file from test class name
+ `get-file-type-function': detect whether current file is in source file or test file
+ `source-directory': source file directory, default is 'lib'
+ `test-directory': test file directory, default is 'tests'
+ `source-file-extension': file extension for source file
+ `test-file-extension': file extension for test file
+")
 
 (defvar simpletest-create-test-function 'simpletest-create-test-simple
   "Function to create test class code")
@@ -61,17 +75,11 @@
 (defvar simpletest-config-file ".simpletest-config"
   "Project configuration file name")
 
-(defvar simpletest-class-cache-file ".simpletest-classes"
-  "Cache file name for lookup class-file")
-
-(defvar simpletest-test-directory "tests"
-  "Directory name where all test class located")
-
-(defvar simpletest-php-extension ".php"
-  "Extension for php file")
-
 (defvar simpletest-template-file "simpletest.tpl"
   "Template file name for test file")
+
+(defvar simpletest-class-cache-file ".simpletest-classes"
+  "Cache file name for lookup class-file")
 
 (defun simpletest-class-ap ()
   "Get current class name"
@@ -105,21 +113,26 @@
               functions)))
     functions))
 
-(defun simpletest-find-test-class-suffix (class)
+(defun simpletest-project-config (entry)
+  (if (assoc entry simpletest-project-config)
+      (cdr (assoc entry simpletest-project-config))
+    (cdr (assoc entry (default-value 'simpletest-project-config)))))
+
+(defun simpletest-get-test-class-suffix (class)
   "Add suffix 'Test' to get test class name"
   (concat class "Test"))
 
-(defun simpletest-find-source-class-suffix (test-class)
+(defun simpletest-get-source-class-suffix (test-class)
   "Remove suffix 'Test' to get source class name"
   (replace-regexp-in-string "Test$" "" test-class))
 
-(defun simpletest-find-test-class (class)
+(defun simpletest-get-test-class (class)
   "Get test class name for `class'"
-  (funcall (car simpletest-class-map-functions) class))
+  (funcall (simpletest-project-config 'get-test-class-function) class))
 
-(defun simpletest-find-source-class (test-class)
+(defun simpletest-get-source-class (test-class)
   "Get source class name for `test-class'"
-  (funcall (cdr simpletest-class-map-functions) test-class))
+  (funcall (simpletest-project-config 'get-source-class-function) test-class))
 
 (defun simpletest-find-top-directory (file &optional dir)
   "Find `file' in all parent directories of `dir'(include `dir')"
@@ -132,65 +145,80 @@
           nil
         (simpletest-find-top-directory file pdir)))))
 
-(defun simpletest-find-file-cached (class)
-  "Find class name from cached file"
-  (let ((file (simpletest-find-top-directory simpletest-class-cache-file)))
-    (unless file
-      (let ((dir (read-directory-name "Project root directory: ")))
-        (simpletest-build-cache-file dir)))))
+;; (defun simpletest-find-file-cached (class)
+;;   "Find class name from cached file"
+;;   (let ((file (simpletest-find-top-directory simpletest-class-cache-file)))
+;;     (unless file
+;;       (let ((dir (read-directory-name "Project root directory: ")))
+;;         (simpletest-build-cache-file dir)))))
 
-(defun simpletest-find-source-file (class)
+(defun simpletest-get-source-file (class)
   "Get source file for `class'"
-  (funcall (car simpletest-find-file-functions) class))
+  (funcall (simpletest-project-config 'get-source-file-function) class))
 
-(defun simpletest-find-test-file (test-class)
+(defun simpletest-get-test-file (test-class)
   "Get test file for `test-class'"
-  (funcall (cdr simpletest-find-file-functions) test-class))
+  (funcall (simpletest-project-config 'get-test-file-function) test-class))
 
-(defun simpletest-find-test-file-simple (test-class)
-  "Get file in `simpletest-test-directory' test-class"
-  (let ((dir (simpletest-find-top-directory simpletest-test-directory)))
+(defun simpletest-get-test-file-simple (test-class)
+  "Get file in `test-directory'.
+The file name equals to test class name + `test-file-extension'."
+  (let ((dir (simpletest-find-top-directory (simpletest-project-config 'test-directory))))
     (if dir
-        (concat (file-name-as-directory dir) test-class simpletest-php-extension)
-      (message "Can't not find test directory '%s'" simpletest-test-directory))))
+        (concat (file-name-as-directory dir) test-class
+                (simpletest-project-config 'test-file-extension))
+      (message "Can't not find test directory '%s'" (simpletest-project-config 'test-directory)))))
 
-(defun simpletest-find-source-file-annotated (class)
+(defun simpletest-get-source-file-annotated (class)
   "Find source file from annotation in current buffer when edit test file"
   (save-excursion
     (goto-char (point-min))
     (if (re-search-forward "@source\\s-+\\([--:\\\\$+<>@-Z_a-z~*?\x100-\xffff]+\\)" nil t)
         (match-string 1))))
 
-(defun simpletest-detect-file-type ()
-  "Detect file whether is test class or source class"
-  (funcall simpletest-detect-file-type-function))
+(defun simpletest-get-test-file-pear (test-class)
+  "Find test file using pear class name rule"
+  (let ((dir (simpletest-find-top-directory (simpletest-project-config 'test-directory))))
+    (if dir
+        (concat (file-name-as-directory dir)
+                (replace-regexp-in-string "_" "/" test-class)
+                (simpletest-project-config 'test-file-extension))
+      (message "Can't not find test directory '%s'" (simpletest-project-config 'test-directory)))))
 
-(defun simpletest-detect-file-type-simple ()
-  "Detect php file type by suffix"
-  (if (string= (file-name-nondirectory (directory-file-name (file-name-directory buffer-file-name)))
-               simpletest-test-directory)
+(defun simpletest-get-source-file-pear (class)
+  "Find source file using pear class name rule"
+  (let ((dir (simpletest-find-top-directory (simpletest-project-config 'source-directory))))
+    (if dir
+        (concat (file-name-as-directory dir)
+                (replace-regexp-in-string "_" "/" class)
+                (simpletest-project-config 'source-file-extension))
+      (message "Can't not find test directory '%s'" (simpletest-project-config 'source-directory)))))
+
+(defun simpletest-get-file-type ()
+  "Detect file whether is test class or source class"
+  (funcall (simpletest-project-config 'get-file-type-function)))
+
+(defun simpletest-get-file-type-simple ()
+  "Detect php file type by check whether current class name end with 'Test'"
+  (if (string-match "Test$" (simpletest-file-class))
       'test
     'source))
 
 (defun simpletest-load-config (&optional reload)
   "Load simpletest config"
   (interactive "P")
-  (when (or (not (local-variable-p 'simpletest-config-file))
-            reload)
-    (set (make-local-variable 'simpletest-config-file)
-         (simpletest-find-top-directory (default-value 'simpletest-config-file)))
-    (when simpletest-config-file
-      (make-local-variable 'simpletest-class-map-functions)
-      (make-local-variable 'simpletest-find-file-functions)
-      (make-local-variable 'simpletest-test-directory)
-      (make-local-variable 'simpletest-php-extension)
-      (make-local-variable 'simpletest-detect-file-type-function)
-      (load simpletest-config-file t))))
+  (when (or (not (local-variable-p 'simpletest-project-config)) reload)
+    (make-local-variable 'simpletest-project-config)
+    (let ((file (simpletest-find-top-directory simpletest-config-file)))
+      (when file
+        (load file t)))))
 
 (defun simpletest-create-test-template (test-class test-file source-class source-file)
   "create test code using `template-simple'"
-  (template-simple-expand-template
-   (locate-file simpletest-template-file template-directory-list)))
+  (let ((file (locate-file simpletest-template-file template-directory-list)))
+    (if file
+        (template-simple-expand-template file)
+      (message "Template file '%s' is not exists" simpletest-template-file))))
 
 (defun simpletest-create-test-simple (test-class test-file source-class source-file)
   "Create test code"
@@ -202,7 +230,8 @@
 require_once('simpletest/autorun.php');
 class %s extends UnitTestCase
 {
-    function setUp() {
+    function setUp()
+    {
     }
 }
 "
@@ -213,7 +242,7 @@ class %s extends UnitTestCase
   (funcall simpletest-create-test-function test-class test-file source-class source-file)
   (save-buffer))
 
-(defun simpletest-find-source-function (test-function)
+(defun simpletest-get-source-function (test-function)
   "Get function name from `test-function'"
   (let ((name (replace-regexp-in-string "^test" "" test-function)))
     (if (> (length name) 0)
@@ -221,7 +250,7 @@ class %s extends UnitTestCase
         (concat (downcase (substring name 0 1)) (substring name 1))
       name)))
 
-(defun simpletest-find-test-function (function)
+(defun simpletest-get-test-function (function)
   "Get function name from `test-function'"
   (concat "test" (upcase-initials function)))
 
@@ -248,23 +277,25 @@ class %s extends UnitTestCase
         (find-file-function (if other-window 'find-file-other-window 'find-file))
         file)
     (if class
-        (if (eq (simpletest-detect-file-type) 'test)
+        (if (eq (simpletest-get-file-type) 'test)
             (progn
-              (setq file (simpletest-find-source-file (simpletest-find-source-class class)))
+              (setq file (simpletest-get-source-file (simpletest-get-source-class class)))
               (if (and file (file-exists-p file))
                   (progn
                     (funcall find-file-function file)
                     (and function
-                         (simpletest-goto-function (simpletest-find-source-function (cdr function)))))
+                         (simpletest-goto-function (simpletest-get-source-function (cdr function)))))
                 (message "Can't locate source file for class '%s'" class)))
-          (let ((test-class (simpletest-find-test-class class)))
-            (setq file (simpletest-find-test-file test-class))
+          (let ((test-class (simpletest-get-test-class class)))
+            (setq file (simpletest-get-test-file test-class))
             (if (and file (file-exists-p file))
                 (progn
                   (funcall find-file-function file)
                   (and function
-                       (simpletest-goto-function (simpletest-find-test-function (cdr function)))))
+                       (simpletest-goto-function (simpletest-get-test-function (cdr function)))))
               (when (y-or-n-p (format "Test class '%s' not exists, create file %s" test-class file))
+                (when (not (file-exists-p (file-name-directory file)))
+                  (make-directory (file-name-directory file) t))
                 (simpletest-create-test-1 test-class file
                                           class (file-relative-name buffer-file-name (file-name-directory file))
                                           other-window)))))
@@ -274,7 +305,7 @@ class %s extends UnitTestCase
   "Create test method for current class.
 With prefix argument, create all test function in current class"
   (interactive "P")
-  (if (eq (simpletest-detect-file-type) 'source)
+  (if (eq (simpletest-get-file-type) 'source)
       (let ((class (simpletest-file-class))
             (source-file buffer-file-name)
             functions class-end pos)
@@ -284,7 +315,7 @@ With prefix argument, create all test function in current class"
                    (list (simpletest-function-ap))))
           (when (and (consp function)
                      (not (string-match "protected\\|private" (car function))))
-            (push (simpletest-find-test-function (cdr function)) functions)))
+            (push (simpletest-get-test-function (cdr function)) functions)))
         (simpletest-switch)
         (if functions
             (save-excursion
@@ -292,7 +323,7 @@ With prefix argument, create all test function in current class"
               (when (not (re-search-forward simpletest-class-regexp nil t))
                 (save-excursion 
                   (funcall simpletest-create-test-function
-                           (simpletest-find-test-class class) buffer-file-name
+                           (simpletest-get-test-class class) buffer-file-name
                            class source-file))
                 (re-search-forward simpletest-class-regexp nil t))
               (when (re-search-forward "{" nil t)
@@ -317,9 +348,9 @@ With prefix argument, create all test function in current class"
         test-file test-function compile-command)
     (if (and class function)
         (progn
-          (if (eq (simpletest-detect-file-type) 'source)
-              (setq test-file (simpletest-find-test-file (simpletest-find-test-class class))
-                    test-function (simpletest-find-test-function (cdr function)))
+          (if (eq (simpletest-get-file-type) 'source)
+              (setq test-file (simpletest-get-test-file (simpletest-get-test-class class))
+                    test-function (simpletest-get-test-function (cdr function)))
             (setq test-file buffer-file-name
                   test-function (cdr function)))
           (setq compile-command (format "php \"%s\" --test=%s" test-file test-function))
