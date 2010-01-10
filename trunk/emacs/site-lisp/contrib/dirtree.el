@@ -75,7 +75,7 @@ See `windata-display-buffer' for setup the arguments."
   "Show `dirtree-buffer'. Create tree when no parent directory find."
   (interactive)
   (let ((buffer (get-buffer-create dirtree-buffer))
-        (dir default-directory)
+        (dir (expand-file-name default-directory))
         trees tree button path)
     (with-current-buffer buffer
       (setq trees tree-mode-list)
@@ -87,7 +87,7 @@ See `windata-display-buffer' for setup the arguments."
           (setq trees (cdr trees)))))
     (if tree
         (progn
-          (setq path (split-string (file-relative-name buffer-file-name (widget-get tree :file)) "/"))
+          (setq path (split-string (file-relative-name (or buffer-file-name dir) (widget-get tree :file)) "/"))
           (dirtree (widget-get tree :file) t)
           (setq button (tree-mode-find-node tree path))
           (if button
@@ -98,6 +98,7 @@ See `windata-display-buffer' for setup the arguments."
   "create tree of `root' directory
 With prefix arguement select `dirtree-buffer'"
   (interactive "DDirectory: \nP")
+  (setq root (expand-file-name root))
   (let ((buffer (get-buffer-create dirtree-buffer))
         tree win)
     (with-current-buffer buffer
