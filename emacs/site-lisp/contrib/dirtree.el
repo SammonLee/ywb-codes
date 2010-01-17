@@ -168,14 +168,17 @@ With prefix arguement select `dirtree-buffer'"
     (and file
          (find-file-other-window file))))
 
-(defun dirtree-display ()
+(defun dirtree-display (other-window)
   "Open file under point"
-  (interactive)
+  (interactive "P")
   (let ((widget (widget-at (1- (line-end-position))))
         file)
-    (if (setq file (widget-get widget :file))
-        (find-file-other-window file))))
+    (when (setq file (widget-get widget :file))
+      (if other-window
+          (find-file-other-window file)
+        (find-file file)))))
 
-(define-key dirtree-mode-map "\C-o" 'dirtree-display)
+(define-key dirtree-mode-map "\C-m" 'dirtree-display)
+(define-key dirtree-mode-map "\C-o" (lambda () (interactive) (dirtree-display t)))
 (provide 'dirtree)
 ;;; dirtree.el ends here

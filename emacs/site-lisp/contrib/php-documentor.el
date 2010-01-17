@@ -50,6 +50,11 @@
           "\\(?:\\s-+implements\\s-+\\([a-zA-Z0-9_ ,]+\\)\\)?")
   "")
 
+(defvar php-documentor-var-regexp (concat "^\\s-*\\(\\(?:"
+                                          (concat (regexp-opt '("private" "public" "protected" "static")) "\\s-+")
+                                          "\\)+\\)\\(\\$[a-zA-Z0-9_]+\\)")
+  "")
+
 (defvar php-documentor-package nil
   "")
 
@@ -61,6 +66,9 @@
 
 (defvar php-documentor-version nil
   "")
+
+(defun php-documentor-trim (str)
+  (replace-regexp-in-string "\\(^[[:space:]\\n]*\\|[[:space:]\\n]*$\\)" "" str))
 
 (defun php-documentor-dwim ()
   (interactive)
@@ -76,22 +84,25 @@
     (skip-syntax-forward "-b<>")
     (forward-line 0)
     (cond ((looking-at php-documentor-class-regexp) 'class)
-          ((looking-at php-documentor-func-regexp) 'function))))
+          ((looking-at php-documentor-func-regexp) 'function)
+          ((looking-at php-documentor-var-regexp) 'var))))
 
 (defun php-documentor-function ()
   (interactive)
   (when (eq (php-documentor-context) 'function)
     (let ((modifier (match-string 1))
-          (args (match-string 3))
+          (args (php-documentor-trim (match-string 3)))
           (tpl '(> "/**" n
                    "* " > p n
                    > "* " n)))
       (when (string-match php-documentor-scope-regexp modifier)
-        (setq tpl (append tpl `(> "* @access " ,(match-string 1 modifier) n))))
+        (unless (string= (match-string 1 modifier) "public")
+          (setq tpl (append tpl `(> "* @access " ,(match-string 1 modifier) n)))))
       (when (string-match php-documentor-modifier-regexp modifier)
-        (setq tpl (append tpl '(> "* @" ,(match-string 1 modifier) n))))
-      (dolist (arg (split-string args "\\s-*,\\s-*"))
-        (setq tpl (append tpl `(> "* @param " ,arg n))))
+        (setq tpl (append tpl `(> "* @" ,(match-string 1 modifier) n))))
+      (when (> (length args) 0)
+        (dolist (arg (split-string args "\\s-*,\\s-*"))
+          (setq tpl (append tpl `(> "* @param " ,arg n)))))
       (setq tpl (append tpl '(> "* @return void" n
                                 > "*/" n >)))
       (forward-line 0)
@@ -106,18 +117,36 @@
           (implements (match-string 5))
           uses tpl)
       (setq tpl `(> "/**" n
-                    "* " > ,class-name " " p n
+                    "* " > p n
                     > "* " n))
       (when (string-match php-documentor-modifier-regexp modifier)
         (setq tpl (append tpl `(> "* @" ,(match-string 1 modifier) n))))
       (when (or extends implements)
-        (setq tpl (append tpl `(> "* @uses " ,(mapconcat 'identity (cons extends (split-string implements "\\s-*,\\s-*")) " ") n))))
+        (setq tpl (append tpl `(> "* @uses " ,(mapconcat 'identity (cons extends (and implements (split-string implements "\\s-*,\\s-*"))) " ") n))))
       (setq tpl (append tpl `(> "* @package " ,php-documentor-package n
                                 > "* @copyright " ,php-documentor-copyright n
                                 > "* @author " ,user-full-name n
                                 > "* @license " ,php-documentor-licence n
                                 > "* @version " ,php-documentor-version n
                                 > "*/" n >)))
+      (when tpl
+        (forward-line 0)
+        (tempo-insert-template 'tpl nil)))))
+
+(defun php-documentor-var ()
+  (interactive)
+  (when (eq (php-documentor-context) 'var)
+    (let ((modifier (match-string 1))
+          (var-name (match-string 2))
+          tpl)
+      (setq tpl `(> "/**" n
+                    "* " > p n
+                    > "* " n))
+      (when (string-match php-documentor-modifier-regexp modifier)
+        (setq tpl (append tpl `(> "* @" ,(match-string 1 modifier) n))))
+      (when (string-match php-documentor-scope-regexp modifier)
+        (setq tpl (append tpl `(> "* @access " ,(match-string 1 modifier) n))))
+      (setq tpl (append tpl '(> "*/" n >)))
       (when tpl
         (forward-line 0)
         (tempo-insert-template 'tpl nil)))))
