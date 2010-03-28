@@ -223,6 +223,8 @@ See `windata-display-buffer' for setup the arguments."
 
 (defun php-doc-complete-function ()
   (interactive)
+  (unless php-doc-tree
+    (php-doc-build-tree))
   (let* ((end (point))
          (beg (save-excursion
                 (with-syntax-table c-mode-syntax-table
