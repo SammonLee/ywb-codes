@@ -157,7 +157,13 @@ See `windata-display-buffer' for setup the arguments."
 (defun php-doc (sym)
   "Display document of php function"
   (interactive
-   (list (intern (completing-read "PHP Function: " php-doc-obarray nil t) php-doc-obarray)))
+   (progn
+     (or php-doc-obarray (php-doc-build-tree))
+     (let ((def (current-word)))
+       (list (intern (completing-read (if def
+                                          (format "PHP Function(default %s): " def)
+                                        "PHP Function: ")
+                                      php-doc-obarray nil t nil nil def) php-doc-obarray)))))
   (let ((browse-url-browser-function php-doc-browser-function)
         (file (php-doc-function-file sym)))
     (if (file-exists-p file)
