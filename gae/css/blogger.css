@@ -1,0 +1,16 @@
+pre.example{background:#f4f4f4;color:#navy;border:#73afb7 1px solid;padding:0.5em 0.5em 0.5em 1em;margin-left:0px;margin-right:0px; }
+pre.src{background:#f4f4f4;color:#navy;border:#73afb7 1px solid;padding:0.5em 0.5em 0.5em 1em;margin-left:0px;margin-right:0px; }
+pre.src .comment{color:#cd0000;line-height:1.6;color:#cd0000;}
+pre.src .comment-delimiter{line-height:1.6;color:#cd0000;}
+pre.src .function-name{color:#0000ff;font-weight:bold;}
+pre.src .keyword{color:#a020f0;font-weight:bold;}
+pre.src .preprocessor{color:red;}
+pre.src .string{color:#bc8f8f;}
+pre.src .type{color:#000080;}
+pre.src .variable-name{color:#8b5a2b;}
+pre.src .doc{color:#f0a4a4;}
+pre.src .cperl-array{color:#0000ff;font-weight:bold;}
+pre.src .cperl-nonoverridable{color:#66cd00;}
+pre.src .makefile-shell{color:#5f9ea0;}
+pre.src .constant{color:#5f9ea0;}
+pre.src .makefile-targets{color:#0000ff;}
