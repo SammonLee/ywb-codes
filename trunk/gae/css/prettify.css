@@ -10,7 +10,7 @@
 .atv{color:#080}
 .dec{color:#606}
 pre.prettyprint{ padding:2px;border:1px solid #888; color: #aaa; }
-pre.prettyprint li { border-left: 1px solid #ccc; padding-left: 5px; }
+pre.prettyprint li { border-left: 1px solid #ccc; padding-left: 5px; margin: 0; }
 ol.linenums{margin-top:0;margin-bottom:0;}
 @media print{
 .str{color:#060}
