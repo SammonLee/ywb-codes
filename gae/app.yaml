@@ -1,5 +1,5 @@
 application: ookong001
-version: 5
+version: 8
 runtime: python
 api_version: 1
 
@@ -12,3 +12,16 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?.*\.bak$
+- Makefile
