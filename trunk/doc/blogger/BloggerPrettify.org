@@ -1,0 +1,67 @@
+#+TITLE: 在 blogger 上语法高亮代码
+
+以前代码都是用 htmlize 生成高亮，也没有什么太大问题，有一个缺点是如果用了一个新的模式，使用特别的 face，
+就需要加入新的 css。看到有挺多 js 实现的语法高亮库，觉得这是一个不错的选择，生成 html 会更简洁，所以折腾了一会 js 代码高亮库。
+
+开始选择的是 [[http://alexgorbatchev.com/SyntaxHighlighter/][Syntax Highlighter]]，因为[[http://www.webdesignbooth.com/9-useful-javascript-syntax-highlighting-scripts/][这篇文章]]第一个推荐的是它，但是配置 autoloader 太麻烦了。
+今天看到一个我觉得很酷的 js 代码高亮库──[[http://code.google.com/p/google-code-prettify/][prettify]]。它酷就酷在你根本不需要指定代码语言，自己能识别出语言类型，
+按适当的方式去高亮代码，很强大。
+
+使用方式也很简单，blogger 的模板很灵活，可以自己随意添加 css 和 js。我在自己的 [[http://appengine.google.com][GAE]] 上传了修改过的 prettify 文件。
+然后在模板里加入样式：
+#+BEGIN_SRC html
+<link href="http://ookong001.appspot.com/css/prettify.css" rel="stylesheet" type="text/css"/>
+#+END_SRC
+
+在模板结尾添加代码：
+#+BEGIN_SRC html
+<script src="http://ookong001.appspot.com/js/prettify/prettify.js" type="text/javascript"></script>
+<script>//<![CDATA[
+window.addEventListener("DOMContentLoaded", function() { prettyPrint() }, false);
+//]]></script>
+#+END_SRC
+
+现在就可以在 blogger 里加入代码了。
+
+还要解决的一个问题是用什么写 blogger？直接用 html 我是不会考虑的。
+以前一直都用 [[http://www.emacswiki.org/cgi-bin/wiki/EmacsMuse][Muse]] 发布 blogger，现在很少用 Muse 写文章了，一般用 [[http://orgmode.org/][org-mode]]，因为是标准配置，功能也比较强大。
+所以要改造一下 org-mode 让它能正确生成代码对应的 html。看了一下 org-exp 代码，我觉得 org 的可扩展性比 muse
+要差很多，也可能是设计得不那么灵活才让它的功能更突出，更容易实现吧。没有找到很好的切入点，只好用 advice：
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "org-exp"
+  '(progn
+     (defadvice org-export-format-source-code-or-example(around ywb-syntax-highlighter)
+       (if (and (eq (ad-get-arg 0) 'html) (not (member (ad-get-arg 1) '(nil "emacs-lisp"))))
+           (save-match-data
+             (let ((lang (ad-get-arg 1))
+                   (code (ad-get-arg 2))
+                   (opts (ad-get-arg 3))
+                   (classes "prettyprint"))
+               (if (string-match "-o" opts)
+                   ad-do-it
+                 (if (string-match "-n\\(:[0-9]\\)?" opts)
+                     (setq classes (concat classes " linenums" (match-string 1 opts))))
+                 (with-temp-buffer
+                   (insert code)
+                   (goto-char (point-min))
+                   (while (re-search-forward "[<>&]" nil t)
+                     (replace-match (cdr (assq (char-before)
+                                               '((?&."&amp;")(?<."&lt;")(?>."&gt;")))) t t))
+                   (setq code (buffer-string)))
+                 (setq ad-return-value
+                       (concat "\n#+BEGIN_HTML\n"
+                               (org-add-props (format "<pre class=\"%s\">%s</pre>" classes code) '(org-protected t))
+                               "\n#+END_HTML\n\n")))))
+         ad-do-it))
+     (ad-activate 'org-export-format-source-code-or-example)))
+#+END_SRC
+
+把这段代码加到 .emacs 里就可以生成需要的 html，完工。
+
+PS: 发现 emacs lisp 代码高亮很不给力，所以修改了一下，对 example, emacs-lisp 或者加上 -o 选项
+可以不使用 prettify，强制使用 htmlize，例如：
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC emacs-lisp -o
+'(ok)
+#+END_SRC
+#+END_EXAMPLE
