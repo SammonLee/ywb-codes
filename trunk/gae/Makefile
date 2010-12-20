@@ -17,6 +17,6 @@ manifest:
 upload:
 	perl -i -pne 's/^version: (\d+)/"version: ".($$1+1)/e' app.yaml
 	cp -f app.yaml build/
-	appcfg.py update build/
+	appcfg.py update build/ -e wenbinye@ookong.com
 
 .PHONY: clean manifest build
