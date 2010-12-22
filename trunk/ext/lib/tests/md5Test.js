@@ -1,4 +1,5 @@
 (function(S, undefined) {
+    // @import md5
     module("md5");
 
     test("md5", function() {

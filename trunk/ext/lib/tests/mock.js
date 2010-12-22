@@ -1,4 +1,6 @@
 (function(S, undefined) {
+    var console = S.console || { debug: function () {} };
+    
     S.file_contents_get = function(path, callback, type) {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", path, true);
@@ -22,16 +24,22 @@
     };
 
     var responses = [];
-    var ajax_mocked = false;
-    var mock_ajax = function () {
-        S.ajax.mock = function() {
-            if ( ajax_mocked ) {
-                return;
-            }
-            var original = S.ajax;
+    var original_ajax = S.ajax;
+    S.mockAjax = {
+        setResponse: function(response) {
+            this.setup();
+            responses = response instanceof Array ? response : [ response ];
+        },
+        
+        addResponse: function(response) {
+            responses = [];
+            S.ajax.setResponse(response);
+        },
+
+        setup: function() {
             S.ajax = function(settings) {
                 if ( responses.length ) {
-                    S.console && S.console.debug("GET: " + settings.url);
+                    console.debug("GET: " + settings.url);
                     var response = responses.shift();
                     var error_handler = settings.error || S.ajax.error_handler;
                     if ( typeof response.status == "undefined" ) {
@@ -70,28 +78,15 @@
                         response.callback(settings);
                     }
                 } else {
-                    return original(settings);
+                    return original_ajax.call(S, settings);
                 }
             };
-            S.extend(S.ajax, original);
-            ajax_mocked = true;
-        };
+        },
 
-        S.ajax.setResponse = function(response) {
-            S.ajax.mock();
-            responses = response instanceof Array ? response : [ response ];
+        teardown: function() {
+            S.ajax = original_ajax;
         }
-        
-        S.ajax.addResponse = function(response) {
-            responses = [];
-            S.ajax.setResponse(response);
-        };
     };
-    if ( typeof S.ajax == "undefined" ) {
-        KISSY.use("util", mock_ajax);
-    } else {
-        mock_ajax();
-    }
 
     var storage = {};
     S.mockStorage = {

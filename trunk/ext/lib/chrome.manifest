@@ -1,0 +1,3 @@
+content extlib ${extlib}/firefox/chrome/content/ contentaccessible=yes
+resource extlib ${extlib}/modules/
+

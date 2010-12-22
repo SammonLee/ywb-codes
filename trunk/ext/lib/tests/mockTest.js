@@ -59,17 +59,42 @@
         });
     });
 
-    asyncTest("ajax mock error", function() {
-        S.ajax.setResponse({ status: 404 });
+    asyncTest("notfound", 2, function() {
+        S.ajax.setResponse({
+            body: 'not found',
+            status: '404',
+            callback: function(settings) {
+                equal(settings.url, 'http://www.example.com');
+            }
+        });
         S.ajax({
-            url: "http://www.google.com",
-            success: function(data) {
-                ok(false, "something wrong");
-                start();
-            },
+            url: 'http://www.example.com',
             error: function(xhr, status, error) {
-                equal(status, 404, 'mock error');
+                equal(status, '404', 'status match');
                 start();
+            }
+        });
+    });
+
+    asyncTest("multiple_ajax", 2, function() {
+        S.ajax.setResponse([{
+            body: 'hello'
+        }, {
+            file: 'fixtures/simple.xml'
+        }]);
+        S.ajax({
+            url: 'http://www.example.com',
+            dataType: 'text',
+            success: function(responseText) {
+                equal(responseText, 'hello');
+                S.ajax({
+                    url: 'http://www.example.com',
+                    dataType: 'xml',
+                    success: function(responseXML) {
+                        ok(responseXML instanceof Document);
+                        start();
+                    }
+                });
             }
         });
     });
