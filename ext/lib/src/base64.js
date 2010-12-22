@@ -16,7 +16,7 @@ if ( !exports ) var exports = {};
 var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 function encode64(input) {
-	var output = new StringMaker();
+	var output = "";
 	var chr1, chr2, chr3;
 	var enc1, enc2, enc3, enc4;
 	var i = 0;
@@ -37,14 +37,14 @@ function encode64(input) {
 			enc4 = 64;
 		}
 
-		output.append(keyStr.charAt(enc1) + keyStr.charAt(enc2) + keyStr.charAt(enc3) + keyStr.charAt(enc4));
+		output += keyStr.charAt(enc1) + keyStr.charAt(enc2) + keyStr.charAt(enc3) + keyStr.charAt(enc4);
    }
 
-   return output.toString();
+   return output;
 }
 
 function decode64(input) {
-	var output = new StringMaker();
+	var output = "";
 	var chr1, chr2, chr3;
 	var enc1, enc2, enc3, enc4;
 	var i = 0;
@@ -62,17 +62,17 @@ function decode64(input) {
 		chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
 		chr3 = ((enc3 & 3) << 6) | enc4;
 
-		output.append(String.fromCharCode(chr1));
+		output += String.fromCharCode(chr1);
 
 		if (enc3 != 64) {
-			output.append(String.fromCharCode(chr2));
+			output += String.fromCharCode(chr2);
 		}
 		if (enc4 != 64) {
-			output.append(String.fromCharCode(chr3));
+			output += String.fromCharCode(chr3);
 		}
 	}
 
-	return output.toString();
+	return output;
 }
 
 S.base64 = {

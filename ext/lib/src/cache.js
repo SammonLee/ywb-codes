@@ -36,6 +36,7 @@ S.cache = function (options){
     if ( typeof options.count == "undefined" ) {
         var total = 0;
         this.storage.each(function() { total++ });
+        options.count = total;
     }
     this._count = options.count;
 };

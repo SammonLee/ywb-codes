@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<results found="yes">
+  <warehouse>
+    <name>WH3</name>
+    <phone>2-1121</phone>
+  </warehouse>
+  <items count="3">
+    <item id="E1120" bin="AA21">Desk</item>
+    <item id="E1121" bin="FG03">Chair</item>
+  </items>
+</results>

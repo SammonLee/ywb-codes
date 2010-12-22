@@ -141,7 +141,8 @@ if ( !exports ) var exports = {};
             if ( typeof tags == "string" ) tags = [tags];
             re = '<\\/?(' + tags.join('|') + ')[^>]*>';
         }
-        return str.replace(new RegExp(re, "g"), ' ').replace(/\s+/g, ' ').replace(/<!--[\s\S]+?-->/g, '');
+        return str.replace(new RegExp(re, "g"), '')
+            .replace(/<!--[\s\S]+?-->/g, '');
     };
 
     /**

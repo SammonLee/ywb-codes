@@ -327,6 +327,14 @@ function SHA256_Hash_Byte_Block(H, w) {
   SHA256_Hash_Word_Block(H, W);
 }
 
+    var array_to_string = function (ary) {
+        var str = '';
+        for ( var i=0; i<ary.length; i++ ) {
+            str += String.fromCharCode(ary[i]);
+        }
+        return str;
+    };
+
     S.sha256 = {
         string_to_array: string_to_array,
         array_to_hex_string: array_to_hex_string,
