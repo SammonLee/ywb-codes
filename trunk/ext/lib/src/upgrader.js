@@ -77,9 +77,11 @@ S.upgrader = {
         var console = S.console || { debug: function () {} };
         old_version = this.parse_version_string(old_version);
         new_version = this.parse_version_string(new_version);
-        if ( this.version_compare(old_version, 0) == 0 && typeof settings.install == "function") {
+        if ( this.version_compare(old_version, 0) == 0 ) {
             // install
-            settings.install(old_version, new_version);
+            if ( typeof settings.install == "function" ) {
+                settings.install(old_version, new_version);
+            }
         } else {
             for ( var ver in upgrades ) {
                 if ( upgrades.hasOwnProperty(ver) ) {
