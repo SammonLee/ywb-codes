@@ -35,9 +35,11 @@ if ( !unittest ) var unittest = {};
     
     unittest.init = function(options) {
         if ( !options ) options = {};
+        if ( options.lib_path ) unittest.lib_path = options.lib_path;
         unittest.tests_path = options.tests_path || getCurrentScript().replace(/^(.*\/tests\/).*$/i, '$1');
     };
-    
+
+    unittest.tests_path = '';
     unittest.lib_path = getCurrentScript().replace(/\w+\.js$/i, '');
 
     unittest.TestSuite = function(tests, loader_config) {
@@ -47,18 +49,19 @@ if ( !unittest ) var unittest = {};
 
     unittest.TestSuite.prototype.run = function() {
         var loader_config = this.loader_config || {};
-        if ( !loader_config.AllTests ) loader_config.AllTests = { requires: [] };
-        var valid_tests = loader_config.AllTests.requires;
+        if ( !loader_config.AllTestCases ) loader_config.AllTestCases = { requires: [] };
+        var valid_tests = loader_config.AllTestCases.requires;
         for ( var name in this.tests ) {
             if ( this.tests.hasOwnProperty(name) && validTest(name) ) {
+                var conf = this.tests[name] || {};
                 loader_config[name+'Test'] = {
-                    fullpath: unittest.tests_path + name + 'Test.js',
-                    requires: this.tests[name].requires || [name]
+                    fullpath: conf.fullpath || unittest.tests_path + name + 'Test.js',
+                    requires: conf.requires || [name]
                 };
                 valid_tests.push(name+'Test');
             }
         }
         KISSY.add(loader_config);
-        KISSY.use("AllTests");
+        KISSY.use("AllTestCases");
     };
 })(window);
