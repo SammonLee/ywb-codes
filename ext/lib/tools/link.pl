@@ -86,7 +86,7 @@ sub link_file {
     DEBUG("link '$file' to '".($outfile||'')."'");
     open(my $fh, "<", $file) or die "Can't open file $file: $!";
     my $out;
-    if ( $outfile ) {
+    if ( $outfile || ref $outfile eq 'SCALAR' ) {
         open($out, ">", $outfile) or die "Can't create file $outfile: $!";
     } else {
         $out = \*STDOUT;
@@ -99,7 +99,9 @@ sub link_file {
         if ( /\/\/ \@include\s+(\S+)/ && $1 !~ /^http:\/\// ) {
             my $file = get_include_file($1);
             if ( $file ) {
-                print {$out} slurp($file), "\n";
+                my $buffer = '';
+                link_file($file, \$buffer);
+                print {$out} $buffer, "\n";
             } else {
                 DEBUG("Failed to " . $_);
             }
@@ -192,13 +194,13 @@ link.pl - Browser extension development code generation util
 
 link.pl [options] [files]
 
-      -i --include      search @include files in these directories. Seperate multiple directories by colon(:)
-      -b --browser      extension browser type. support chrome, safari, firefox, opera
-      -o --output       output generated code to this file. '-' output to standard output.
-      -d --dir          output generated file to this directory.
-      -e --extension    file name extension
-      -r --resource     firefox resource alias
-      -f --force        force to generate file
+    -i --include      search @include files in these directories. Seperate multiple directories by colon(:)
+    -b --browser      extension browser type. support chrome, safari, firefox, opera
+    -o --output       output generated code to this file. '-' output to standard output.
+    -d --dir          output generated file to this directory.
+    -e --extension    file name extension
+    -r --resource     firefox resource alias
+    -f --force        force to generate file
 
 =head1 DESCRIPTION
 

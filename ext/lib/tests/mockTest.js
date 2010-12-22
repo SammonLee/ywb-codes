@@ -8,7 +8,7 @@
     });
 
     asyncTest("ajax mock json", function() {
-        S.ajax.setResponse({ body: '{"success": true}' });
+        S.mockAjax.setResponse({ body: '{"success": true}' });
         S.ajax({
             url: "http://www.google.com?json",
             success: function(data) {
@@ -23,7 +23,7 @@
     });
 
     asyncTest("ajax mock text", function() {
-        S.ajax.setResponse({
+        S.mockAjax.setResponse({
             body: 'hello',
             callback: function(o) {
                 equal(o.url, "http://www.google.com?text", "url matches");
@@ -44,7 +44,7 @@
     });
 
     asyncTest("ajax mock", function() {
-        S.ajax.setResponse({ file: unittest.fixtures_path + 'simple.xml' });
+        S.mockAjax.setResponse({ file: unittest.fixtures_path + 'simple.xml' });
         S.ajax({
             url: "http://www.google.com",
             success: function(data) {
@@ -60,7 +60,7 @@
     });
 
     asyncTest("notfound", 2, function() {
-        S.ajax.setResponse({
+        S.mockAjax.setResponse({
             body: 'not found',
             status: '404',
             callback: function(settings) {
@@ -77,7 +77,7 @@
     });
 
     asyncTest("multiple_ajax", 2, function() {
-        S.ajax.setResponse([{
+        S.mockAjax.setResponse([{
             body: 'hello'
         }, {
             file: 'fixtures/simple.xml'
