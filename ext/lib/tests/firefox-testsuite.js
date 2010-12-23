@@ -25,7 +25,9 @@ window.addEventListener("DOMContentLoaded", function() {
         pageAsyncCache: { requires: ['PageCache'] },
         ajax: { requires: [] },
         factory: { requires: [] },
-        mock: { requires: [] }
+        mock: { requires: [] },
+        sqliteStorage: { requires: [] },
+        firefoxBrowser: { requires: [] }
     };
     var suite = new unittest.TestSuite(tests, loader_config);
     suite.run()

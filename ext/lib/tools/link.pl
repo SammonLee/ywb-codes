@@ -80,7 +80,7 @@ sub file_newer {
 
 sub link_file {
     my ($file, $outfile) = @_;
-    if ( !$force && file_newer($outfile, $file) ) {
+    if ( !$force && ($outfile && !ref $outfile) && file_newer($outfile, $file) ) {
         return;
     }
     DEBUG("link '$file' to '".($outfile||'')."'");
