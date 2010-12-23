@@ -33,6 +33,7 @@
         resProt.setSubstitution(resource_name, aliasURI);
         
         Components.utils.import("resource://"+ resource_name +"/console.js", S); S.console = S.exports.console;
+        S.console.setLevel('DEBUG');
         Components.utils.import("resource://"+ resource_name +"/util.js", S); S.exports.extend(S, S.exports);
     })(exports);
 

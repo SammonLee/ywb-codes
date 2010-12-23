@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", function() {
         storage: { fullpath: unittest.lib_path + 'storage.js' },
         cache: { fullpath: unittest.lib_path + 'cache.js', requires: ['storage'] },
         mock: { fullpath: unittest.tests_path + 'mock.js', requires: ['util'] },
+        browser: { fullpath: unittest.lib_path + 'chrome/browser.js' },
         AllTests: { requires: ['mock'] }
     };
     var tests = {
@@ -33,6 +34,7 @@ window.addEventListener("DOMContentLoaded", function() {
         pageCache: { requires: ['PageCache'] },
         pageAsyncCache: { requires: ['PageCache'] },
         ajax: { requires: ['util'] },
+        browser: {},
         mock: {}
     };
     var suite = new unittest.TestSuite(tests, loader_config);
