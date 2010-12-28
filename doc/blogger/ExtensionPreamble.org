@@ -1,0 +1,18 @@
+#+TITLE: 插件开发系列
+
+这大半年主要精力花在浏览器插件开发上。从一点点摸索，也算积累了一些经验。
+说起来也比较惭愧，这大半年，我只开发了两个插件（[[https://chrome.google.com/extensions/detail/gjhnlaeccbboacjkdlopcndknlkjmapp][Ookong]] 和[[https://chrome.google.com/extensions/detail/keigpnkjljkelclbjbekcfnaomfodamj%3Fhl%3Dzh-cn][购物助手]]）。
+这两个插件可以运行在四个浏览器 chrome, firefox, safari, opera 中。
+为了减少维护成本，我花了很大精力寻找一种只编写一次代码，就可以在四个浏览器中都能运行的方案。
+现在基本上达到了这个目的。这一年快结束了，准备写一个系列文章，总结一下我开发过程中遇到的问题和解决办法，
+特别是如何让插件代码兼容这四个浏览器的经验。希望能和同行切磋交流一下。
+
+下面是我拟的一个目录：
+ - [[ExtensionNamespace][名字空间]]
+ - [[ExtensionLibrary][可重用的代码库]]
+ - [[ExtensionStorage][本地存储及缓存]]
+ - [[ExtensionUnitTest.org][单元测试]]
+ - [[ExtensionChromeAPI][在其它浏览器上实现 Chrome API]]
+ - [[ExtensionLink][代码生成工具 link.pl]]
+ - [[ExtensionMake][使用 Make 管理和发布代码]]
+ - 实战插件开发

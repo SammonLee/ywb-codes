@@ -1,0 +1,64 @@
+#+TITLE: 插件开发之代码生成工具 link.pl
+
+由于 firefox 使用 javascript code module 来编写代码库，使用时必须使用 =Components.utils.import= 函数加载模块。
+与此同时，chrome, safari, opera 是直接加载 js 文件，所以导致代码不同。
+据我所知，有的插件是通过在 chrome 等浏览器中将 =Components.utils.import= 函数定义为空来实现兼容的（参考 the search sidebar 的 [[https://chrome.google.com/extensions/detail/eknclehbgdplccmlalhfhdkcfmheodgj][chrome 插件]]和 [[https://addons.mozilla.org/zh-TW/firefox/addon/6416/][firefox 插件]]），
+这也不失为一种思路。但是我使用另一种方案，用代码生成来解决。在所有需要调用 =Components.utils.import= 的地方都用 =// @import module= 作记号，
+然后测试或发布 firefox 时再将这种记号替换成实际的代码。这样的好处是，其它浏览器代码根本不会有任何副作用，
+坏处是每作一点修改都要生成代码后才能测试生效。不过单元测试可以将这种影响减少一些，因为使用的是注释进行标记，
+所以单元测试可以使用源文件运行。经过单元测试之后，要反复调试的问题就不多了。
+通常情况下， =// @import module= 将替换成：
+  : Components.utils.import('resource://<alias>/module.js', S); S.module = S.exports.module;
+其中 =alias= 可以从命令行指定。
+
+如果 module 带有连字符，会自动将模块名用首字母形式连接起来，如 =// @import sqlite-storage= 将展开成：
+  : Components.utils.import('resource://<alias>/sqlite-storage.js', S); S.SqliteStorage = S.exports.SqliteStorage;
+
+对于 util 模块作了特别处理， =// @import util= 将展开成：
+  : Components.utils.import('resource://<alias>/util.js', S); S.exports.extend(S, S.exports);
+
+如果有必要，可以使用 =// @import(<code>)= 自定义展开的代码，例如：
+  : // @import(Components.utils.import('resource://myext/simplexml.js', S); S.extend(S, S.exports);)
+将替换成：
+  : Components.utils.import('resource://myext/simplexml.js', S); S.extend(S, S.exports);
+
+如果仅仅只是 js 代码这种替换也用不着专门写一个脚本了，一行 shell 命令也许就搞定了。这个工具还要实现我的其它需要。
+js 代码对浏览器还可以判断，html 代码中就很难区分出浏览器了。所以我需要在同一个页面在不同浏览器插件中生成不同的代码。
+为了代码简单，目前只支持 if 判断，不支持 else：
+#+BEGIN_EXAMPLE
+// @if firefox
+firefox code goes here
+// @endif
+// @if chrome,safari
+chrome and safari code goes here
+// @endif
+// @if opera
+opera code goes here
+// @endif
+#+END_EXAMPLE
+
+有了上面这个浏览器判断，大部分问题已经解决了，但是有时候我还是不想用这种判断，而是希望把相同的部分放在一个公共文件中，
+其它针对不同的浏览器插件都作一个页面，把公共文件插入到这个文件中，这就这个工具能完成的第三个功能：
+#+BEGIN_EXAMPLE
+// @include path/to/file
+#+END_EXAMPLE
+
+总结一下，[[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/tools/link.pl][link.pl]] 能处理这三个指令：
+ - @import :: 展开成 firefox 的 =Components.utils.import= 语句
+ - @if, @endif :: 针对浏览器生成代码
+ - @include :: 插入指定文件到这个位置
+
+link.pl 的使用方式如下：
+ : link.pl [options] args
+
+参数 args 可以是多个文件或目录。
+
+支持的选项如下：
+ - -include :: 设置 =@include= 文件查找路径，类似 php 的 include_path。可以用冒号分隔来设置多个目录。
+ - -browser :: 设置代码针对的浏览器。只有设置为 firefox 才会展开 =@import= 指令
+ - -output  :: 设置输出文件。可以设置为 - 表示打印到标准输出。
+ - -dir     :: 设置输出文件所在目录。输出文件名将与输入文件名相同。
+ - -extension :: 当命令行参数为目录时，将只处理目录下与此扩展名相同的文件。默认为 js。
+ - -resource :: 展开 =@import= 指令时，resource: URL 使用的 alias 名
+ - -force   :: 是否强制生成文件。默认情况下会比较输入文件与输出文件的时间戳，如果输出文件更新，不会执行操作。
+   当输入文件中包含 =@include= 指令时，这种比较会犯错误，所以需要这个选项强制执行操作。

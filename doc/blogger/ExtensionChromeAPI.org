@@ -1,0 +1,85 @@
+#+TITLE: 插件开发之在其它浏览器上实现 Chrome API
+
+chrome 插件 api 我认为是这四个浏览器中最优秀的，接口清晰统一，文档完备，所以开发插件 chrome 是比较愉快的事情。
+为了让代码能统一一些，我为其它浏览器以 chrome api 为标准，移植了一些接口。
+
+日志记录是开发调试时很重要的工具。通常我们会在开发时打开日志，而发布时就需要把日志关闭了。
+chrome 的 console 系列函数不能解决这个问题。所以需要包装一下 console 系列函数。
+在[[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/][我的代码目录]]中 chrome, firefox, opera 目录中都有一个 console.js 文件，safari 的接口与 chrome 相同，
+所以用同一个文件就可以了。 =exports.console= 的接口如下：
+ - setLevel(level) :: 设置日志记录等级，默认是 WARN。
+ - getLevel() :: 获得日志记录等级
+ - log(msg) :: 无视日志等级，直接记录日志
+ - trace(msg) :: 记录 TRACE 日志并输出调用堆栈信息
+ - debug(msg) :: 记录 DEBUG 日志
+ - info(msg) :: 记录 INFO 日志
+ - warn(msg) :: 记录 WARN 日志
+ - error(msg) :: 记录 ERROR 日志
+
+因为没有比 error 更高的等级，所以用 =exports.console.error()= 记录的日志一定会打印出来，所以 error 通常可以作为出错时使用，
+这样出错了还可以让用户看看日志中有什么内容，方便找出问题（当然有这能力的用户估计也不多，还是要想别的办法才好）。
+
+下面是我在所有浏览器实现的 browser 接口：
+#+BEGIN_EXAMPLE
+interface browser {
+    readonly attribute DOMString name;
+    void tabs.create(properties, callback);
+    void tabs.getCurrent(callback);
+    void tabs.sendRequest(tab, request, responseCallback);
+    DOMString extension.getURL(path);
+    void extension.onRequest.addListener(listener);
+    void extension.onRequest.removeListener(listener);
+}
+#+END_EXAMPLE
+
+browser.name 是用于表示浏览器类型的属性，在各自实现中设置成 chrome, firefox, safari, opera 这样的字符串。
+在其它方法无法实现时，可以通过判断 browser.name 来执行一些浏览器特异的代码。
+
+对于 chrome 实现 browser 接口，只是需要对相应的函数简单包装一个就可以了。
+
+firefox =extension.getURL= 需要设置插件 chrome 根目录路径，在初始化函数中需要加入：
+#+BEGIN_SRC js
+// @import browser
+S.browser.extension.baseURI = 'chrome://extlib/content/';
+#+END_SRC
+
+消息相关的接口与 content script 紧密相关。 =tabs.executeScript= 函数可以向当前页面嵌入 content script，例如：
+#+BEGIN_SRC js
+var appcontent = document.getElementById("appcontent");   // browser  
+if(appcontent) {
+    appcontent.addEventListener("DOMContentLoaded", function(event) {
+        var doc = event.originalTarget;
+        if ( doc.location && doc.location.href.indexOf('http://') == 0 ) {
+            var tabs = S.browser.tabs;
+            var ext = S.browser.extension;
+            tabs.executeScript(tabs.getTab(doc), {
+                file: ext.getURL('content-script.js')
+            });
+        }
+    }, true);
+}
+#+END_SRC
+
+在 content-script.js 中， =exports.browser.extension= 对象中实现了 =chrome.extension= 的以下接口：
+ - sendRequest(request, responseCallback)
+ - onRequest.addListener(listener)
+ - onRequest.removeListener(listener)
+
+所以现在 firefox 消息机制和 chrome 已经非常相似了。在普通的 chrome: 页面也可以用这种消息机制，只需要创建一个 =exports.browser.tabs.extension= 对象：
+#+BEGIN_SRC js
+Components.utils.import("resource://extlib/browser.js", S);
+S.browser = S.exports.browser;
+var extension = new S.browser.tabs.extension(document);
+extension.sendRequest({topic: 'msg'});
+#+END_SRC
+
+事实上，content script 中的 =exports.browser.extension= 对象也是这样生成的。
+这样 chrome: 页面中的 js 可以象 content script 一样去编写。
+
+safari 和 opera 在发送消息时没有回调函数，解决办法有点类似 jsonp，就是生成一个唯一的字符串 callback ID，
+将回调函数用这个 callback ID 存储在变量中，发送信息时同时将这个 callback ID 发送出去。
+消息接收方返回信息时同时将 callback ID 返回来，发送方得到响应后，用这个 callback ID 再找到回调函数调用它。
+
+原理就介绍到这里，说一下使用方法。在代码目录中的 chrome, opera, safari 子目录中都有 browser.js 和 extension.js 文件。
+background 页面加载 browser.js 文件，content script 加载 extension.js 文件，然后所有插件都可以用相同的方式来调用相关的接口。
+firefox 只有 browser.js 文件，content script 不需要加载文件。

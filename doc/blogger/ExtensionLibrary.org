@@ -1,0 +1,80 @@
+#+TITLE: 插件开发之可重用的库
+
+本来标题想叫框架的，但是这个词用的比较滥，而且也没有那么通用，所以思来想去，还是低调点，叫可重用的库。
+要想开发快，关键是不要花时间去发明轮子，尽量利用现成的代码。我把一些常用的函数放到 [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/util.js][util.js]]。
+文件中大部分函数也不是我写的，网上东拼西凑来，不过都是精华，感谢原作者。下面一一介绍一下它们入选的原因。
+ - extend(original, extended, overwrite, keys) :: 用 extended 对象扩展 original
+ - is_array(obj) :: 判断一个对象是否是数组
+ - trim(str) :: 去除字符串头尾的空白
+ - cut_string(str, len, tail) :: 截断字符串
+ - get_random_string() :: 生成随机字符串
+ - htmlspecialchars(str) :: 转义 html
+ - htmlspecialchars_decode(str) :: 反转义 html
+ - strip_tags(str, tags) :: 清除字符串中的 html 标签
+ - sprintf(format, ...) :: 格式化字符串
+ - http_build_query(formdata, numeric_prefix, arg_separator) :: 构造 URL query string
+ - parse_url(url, component) :: 解析 URL
+ - parse_query(str) :: 解析 URL query string
+ - ajax(settings) :: AJAX 请求
+ 
+extend 函数是我认为最有用的一个函数。这个函数是从 [[KISSY]] 中拿过来的，原函数叫 mix，我觉得还是用 jquery
+里的 extend 名字比较贴切。这个函数功能也比较简单，就是把 extended 对象中的属性复制到 original 对象中。
+overwrite 参数如果为真或未指定时，extended 中的属性会覆盖 original 中的属性。keys 参数可以是一个数组，
+用于将指定名字的属性复制到 original 对象中。
+
+extend 函数还可以有一些特别的用处。比如可以用于复制一个对象：
+#+BEGIN_SRC js
+var copy = exports.extend({}, obj);
+#+END_SRC
+注意，这个复制只是浅拷贝，修改属性值仍会影响到 obj 对象。
+
+extend 还可以提供默认值：
+#+BEGIN_SRC js
+function(options) {
+    options = exports.extend(options||{}, {
+        arg: 'default value'
+    }, false);
+}
+#+END_SRC
+
+#+HTML <a name="is_array"></a>
+is_array 看上去似乎是多余的，用 =instanceof Array= 不就行了。但是事情往往就是这么复杂，[[https://developer.mozilla.org/web-tech/2010/07/26/determining-with-absolute-accuracy-whether-or-not-a-javascript-object-is-an-array/][这篇文章]]给出详细的解释。
+简单的说，在 firefox 的 Javascript Code Module 里，代码是在不同的执行环境中，所以 Array 对象也是在不同的执行环境中生成的，
+所以在 Javascript Code Module 时生成的数组，或者传递到 Javascript Code Module 中的数组参数，
+用 =instanceof Array= 会返回 false。这个函数用的是特性检查(feature-detection)的方式来判断对象是否是一个数组，
+不能保证一定正确，但是基本上不会出错的，除非故意捣蛋。
+
+trim 函数是从 jquery 中拿过来的，在网络这种什么都不可信的环境下是必备的函数。
+
+get_random_string 是从 [[http://code.google.com/p/closure-library/source/browse/trunk/closure/goog/string/string.js][google closure-library]] 中拿来的，实现很巧妙。
+
+可以看到很多函数和 php 同名，也是受这一年多学 php 的影响。话说回来，这些函数还是很常用的。
+
+最后一个 ajax 函数是参考 [[http://api.jquery.com/jQuery.ajax/][jquery 的 ajax 函数]]写的，不过简化了很多，只保留几个常用的选项：
+ - url :: 请求 URL
+ - type :: 请求类型，GET 或 POST，默认 GET
+ - data :: 请求参数，可以是一个字符串或一个对象
+ - contentType :: content-type header 值
+ - dataType :: 返回值类型，可以是 json, xml, text。默认是 json
+ - success :: 请求成功的回调函数，函数参数为 data, status, xhr，data 类型取决于 dataType 参数，
+   status 是请求的 status code，xhr 是 XMLHttpRequest 对象。
+ - error :: 请求失败的回调函数，函数参数为 xhr, status, error，xhr 是 XMLHttpRequest 对象，
+   status 是请求的 status code，也可能为 null（请求超时或其它网络问题），error 是其它错误，
+   比如 JSON 解析失败等。
+
+除了 util.js 中的这些函数外，还有一些其它我收集或者自己写的库，包括：
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/base64.js][base64.js]] :: base64 解码及编码函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/data.js][date.js]] :: 格式化字符串函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/encode.js][encode.js]] :: gb2312 与 unicode 转换函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/md5.js][md5.js]] :: md5 及 hmac md5 函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/sha256.js][sha256.js]] :: sha256 及 hmac sha256 函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/simplexml.js][simplexml.js]] :: 用类似 [[http://php.net/manual/en/book.simplexml.php][SimpleXML]] 的方式解析 XML
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/set.js][set.js]] :: 集合并、交、差运算
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/upgrader.js][upgrader.js]] :: 根据版本号比较，运行升级函数
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/pager.js][pager.js]] :: 非常简单的页码计算类
+ - [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/src/page-cache.js][page-cache.js]] :: 页码转换器，这个应用场景是前端展示时使用每页 5 条记录，而后端远程调用时每次可以取回 10 条记录。
+  使用这个转换器可以自动转换这种页码关系。更有用的对于后端每次调用时获得记录数不是固定时，比如有时是 10，有时是 11 条
+  (这种情况不是不可能的，[[ShoppingAssistant][购物助手]]在解析卓越搜索页面时就遇到，搜索结果中有些记录不是商品，需要过滤掉)，
+  这个转换器也能处理，而且接口是完全一样的。
+
+这几个类都比较简单，就不作详细介绍了，有什么问题就自己看代码或[[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/tests/][单元测试]]，当然也可以私聊。

@@ -1,0 +1,170 @@
+#+TITLE: 插件开发之单元测试
+
+单元测试意义及重要性我就不多说了，在选择 js 单元测试框架上，我也花了一点时间，最终决定使用 [[http://docs.jquery.com/Qunit][QUnit]]，基于以下
+考虑：
+ 1. 接口非常清晰，简单，理解 module, test 两个概念就可以了。
+   而断言函数也很简单，基本上 is, equal, same 这三个就够用了。
+ 2. 用户界面很友好，在链接中可以对 module, test 过滤。在页面上双击测试项就可以单独运行某个模块或测试。
+ 3. 使用也很简单，一个 css 文件，一个 js 文件就搞定。在主流浏览器中都可以运行。
+
+直接使用 qunit，在测试文件变多时，每次运行测试都要加载全部测试文件和 js 库源文件太费时了。
+我想要达到的最终目的是在保留 QUnit 在 url 中使用 module, test 过滤的前提下，只加载需要的 js 文件。
+所以需要一个loader 用于管理 js 文件的加载。以前倒是接触过 YUI loader，觉得 YUI 有点复杂。
+前段时间看到一些文章介绍 [[KISSY]]，看了一下文档，觉得接口比较清晰，所以决定使用 KISSY 作为 loader。
+
+我设计的测试的目录结构如下：
+#+BEGIN_EXAMPLE
+ |-[-] src
+ |  |-  base64.js
+ |  |-  unittest.js
+ |  `-  util.js
+ |-[-] tests
+ |  |-[+] assets
+ |  |-  base64Test.js
+ |  |-  runTests.html
+ |  |-  testsuite.js
+ |  `-  utilTest.js
+ `-  manifest.json
+#+END_EXAMPLE
+
+ - src 目录下放 js 库文件
+ - tests 目录下是测试相关文件，其中：
+   - assets 目录下放 qunit 的 js 和 css 文件
+   - runTests.html 是测试运行文件
+   - testsuite.js 是 Test Suite 配置文件
+   - 其它以 fooTest.js 是 test case
+ - manifest.json 是 chrome 插件配置文件，因为测试时需要读取本地或远程文件，所以需要以插件方式来运行
+
+最理想的情况是可以自动发现 tests 目录中的测试文件，然后运行它。不过现在 chrome 不提供本地目录读取接口，
+而且测试需要配置依赖，所以还是要自己动手。最简单的 Test Suite 是这样的：
+#+BEGIN_SRC js
+(new unittest.TestSuite({
+    base64: {}
+}, {
+    base64: { fullpath: '../src/base64.js' }
+})).run();
+#+END_SRC
+
+TestSuite 构造函数的第一个参数 tests 用于设置需要运行的 test case。上面这个例子中表示只需要运行 base64Test.js 这个测试。
+它的 key 是 test case 的名字，value 是 KISSY loader 参数，如果忽略时相当于使用下面这样的默认值：
+#+BEGIN_SRC js
+{ fullpath: 'base64Test.js', requires: ['base64']}
+#+END_SRC
+
+第二个参数是其它 KISSY loader 参数，可选。你完全可以用下面的方式代替传入第二个参数：
+#+BEGIN_SRC js
+KISSY.add({ base64: { fullpath: '../src/base64.js' } });
+#+END_SRC
+
+在执行 run 函数时相当于运行这样的代码：
+#+BEGIN_SRC js
+KISSY.add({
+    base64: { fullpath: '../src/base64.js' },
+    base64Test: { fullpath: 'base64Test.js', requires: ['base64']},
+    AllTestCases: { requires: ['base64Test'] }
+});
+KISSY.use("AllTestCases");
+#+END_SRC
+
+实际上 run 函数并不只是简单的生成这个 KISSY loader 配置，更重要的是把 qunit 的测试过滤提前，
+这样才能只加载我们需要的测试文件。qunit 怎么进行测试过滤呢？有几个例子就明白了。比如有这样三个 test case：
+base64, base64Encode, base64Decode。如果用 =runTests.html= 运行当然是会所有的测试。
+而用 =runTests.html?base64Encode= 就可以运行 base64Encode。而你想单独运行 base64 这个 test case 就
+没有这么简单了，因为过滤时是按名字匹配，而不是相等进行的，所以用 =runTests.html?base64= 实际上是会运行所有测试。
+这时需要用 =runTests.html?base64&!base64Encode&!base64Decode= 排除其它测试。
+幸好这种情况也不是很多，基本上用名字匹配过滤就行了。
+
+好了，基础设施基本上完成，我们来谈谈怎么设置一些 test fixtures。在插件中一般输入来源是本地存储和远程调用。
+对于本地存储，如果使用我封装的[[ExtensionStorage][本地存储类]]，事情就简单了，只需要替换 factory.init 函数中的存储后端就可以了。
+我实现了一个使用 js 对象作为存储后端 [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/tests/mock.js#97][exports.mockStorage]]。所以测试中可以这样：
+#+BEGIN_SRC js
+S.factory.init({storage: S.mockStorage});
+module("mymodule", {
+    setup: function() {
+        S.mockStorage.clear();
+    }
+});
+#+END_SRC
+
+现在所有的数据都是保存是一个 js 对象中，每个测试运行时都会先清空这个对象。
+
+对于远程调用，需要将 ajax 这个函数替换了，这在 javascript 中真是小菜一碟，参考 [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/tests/mock.js#24][mock.js 中的实现]]。
+现在可以自由设置远程调用的响应，比如：
+#+BEGIN_SRC js
+module("mock");
+
+asyncTest("notfound", 2, function() {
+    S.mockAjax.setResponse({
+        body: 'not found',
+        status: '404',
+        callback: function(settings) {
+            equal(settings.url, 'http://www.example.com');
+        }
+    });
+    S.ajax({
+        url: 'http://www.example.com',
+        error: function(xhr, status, error) {
+            equal(status, '404', 'status match');
+            start();
+        }
+    });
+});
+#+END_SRC
+
+在 mockAjax.setResponse 中可以设置这样几个参数：
+ - body :: 响应内容
+ - file :: 响应文件，可以是任意的本地和远程文件。本地文件的话需要在 chrome 插件文件夹中。
+ - status :: 响应 HTTP status code
+
+mockAjax.setResponse 可以接受一个数组作为参数，这样可以同时设置多次 ajax 函数调用的响应。例如：
+#+BEGIN_SRC js
+asyncTest("multiple_ajax", 2, function() {
+    S.mockAjax.setResponse([{
+        body: 'hello'
+    }, {
+        file: 'fixtures/simple.xml'
+    }]);
+    S.ajax({
+        url: 'http://www.example.com',
+        dataType: 'text',
+        success: function(responseText) {
+            equal(responseText, 'hello');
+            S.ajax({
+                url: 'http://www.example.com',
+                dataType: 'xml',
+                success: function(responseXML) {
+                    ok(responseXML instanceof Document);
+                    start();
+                }
+            });
+        }
+    });
+});
+#+END_SRC
+ 
+好了，最后一个话题，如何在 firefox 中运行单元测试。firefox 插件开发一个最烦人的事情就是修改一下代码就重启一次，
+firefox 又巨慢，从响应重启到启动完成，我原来的破机器半分钟都不止，用一句话概括：不是在重启中，就是在启动中。
+如果是原来 chrome: 方式加载 js 库，那么和 chrome 插件的单元测试是完全一样的。
+现在用的是 Javascript Code Module，这东西和直接加载 js 文件还是有点不同的，比如我在[[ExtensionLibrary#is_array][可重用的库]]中提到的 Array 类型测试问题，
+只有在 Javascript Code Module 中才有。另外很容易忘记使用 =// @import= 加入依赖关系。所以还是进行一下单元测试保险一些。
+要注意的是 Javascript Code Module 只加载一次，不管这个文件是否后来被修改过了。
+看了[[https://developer.mozilla.org/en/Using_JavaScript_code_modules#Programmatically_adding_aliases][这个文章]]之后让我想到一个办法，Javascript Code Module 的加载缓存是用文件名来判断，所以如果每次我用不同的文件名，
+不就不用重启浏览器了。方法很简单，每次改完代码，就在 /tmp 目录里创建一个临时目录，当然这个目录每次都要不同。
+然后把代码复制到这个目录中。运行测试时动态创建这个 resource alias。这样虽然都是用一个 resource: 路径，
+但是指向的是在不同目录中的文件，所以会强制加载代码。当然这个过程不能手动操作，不然会烦死。
+我写了个 [[http://code.google.com/p/ywb-codes/source/browse/trunk/ext/lib/Makefile][Make 脚本]]来自动进行。脚本上关键是这一行：
+#+BEGIN_SRC makefile
+test.modules.dir := /tmp/modules-$(PROJECT).$(shell date | md5sum | cut -c 1-5)
+#+END_SRC
+
+test.modules.dir 的值每次运行时都会不同，特别注意不能用等号(=)赋值，因为用等号每次用到这个变量时都会重新执行 shell 命令。
+原来我不知道，有一次两条命令之间运行时间超过 1 秒了，然后就悲剧了。
+
+除了复制文件之外，firefox 的测试执行文件也需要修改。一方面是要加入这个临时文件夹配置及 resource alias 设置，
+另外 qunit 中 same 函数对于 firefox 测试也会失败，原因应该和 javascript code module 使用多个执行环境相关吧。
+testsuite.js 也要改，因为这时依赖关系已经在 js 文件中写上了，所以 loader 配置中要去除 js 模块的依赖配置。
+总之用 svn 下载我的代码运行一下就知道了：
+ : $ svn co https://ywb-codes.googlecode.com/svn/trunk/ext/lib extlib
+ : $ make firefox.reload
+
+目录中有 firefox 插件的安装需要的 chrome.manifest, install.rdf 文件。如果不知道怎么用，看[[https://developer.mozilla.org/en/XUL_School/The_Essentials_of_an_Extension][这篇文章]]。
