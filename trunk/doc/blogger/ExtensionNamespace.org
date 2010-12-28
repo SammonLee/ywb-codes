@@ -1,0 +1,138 @@
+#+TITLE: 插件开发之名字空间
+
+chrome, safari, opera 三个浏览器插件运行在不同的执行环境中，所以不需要关注名字空间。
+而要进行 firefox 插件开发，你首先需要注意的就是名字空间的问题。firefox 的所有插件都是在一个全局环境中执行，
+必须使用名字空间，隔离插件之间的干扰。
+
+在 XUL School 教程的 [[https://developer.mozilla.org/en/XUL_School/JavaScript_Object_Management][JavaScript Object Management]] 给出插件中名字空间管理的通常做法。
+简单的说就是把插件中定义的变量、函数全都放在一个名字空间中。例如：
+#+BEGIN_SRC js
+if ( !com ) var com = {};
+if ( !com.ookong ) com.ookong = {};
+com.ookong.extension = {};
+#+END_SRC
+
+如果只是把代码作这样的改造，似乎只是一个写法问题。但是 Firefox 插件的 Editor 还向我提出一个要求，
+因为我把代码分成很多个模块，也就是很多个文件，他说 firefox 启动时加载这么多文件影响性能，
+要我按 [[https://developer.mozilla.org/en/XUL_School/Appendix_A:_Add-on_Performance][XUL School 附录]]中提到的 [[https://developer.mozilla.org/en/JavaScript_code_modules][Javascript Code Module]] 改造代码。好吧，那只好再看看这个
+Javascript Code Module 是何方神圣。
+
+Javascript Code Module 是在不同的执行环境中运行，所以不会出现名字冲突，而且可以运行时加载，
+并且只加载一次。Javascript Code Module 编写与一般的 js 代码没有什么不同，只是需要在文件声明需要导出的符号名，
+例如：
+#+BEGIN_SRC js
+// modules/foo.js
+var EXPORTED_SYMBOLS = ["foo", "bar"];
+
+function foo() {
+  return "foo";
+}
+
+var bar = {
+  name : "bar",
+  size : 3
+};
+
+var dummy = "dummy";
+#+END_SRC
+
+这个全局的 EXPORTED_SYMBOLS 就是用来声明这个 module 中需要导出的符号名。
+在插件代码中可以这样使用这个 module:
+#+BEGIN_SRC js
+Components.utils.import("resource://app/foo.js");
+alert(foo());         // displays "foo"
+alert(bar.size + 3);  // displays "6"
+alert(dummy);         // displays "dummy is not defined" because 'dummy' was not exported from the module
+#+END_SRC
+
+注意 [[https://developer.mozilla.org/en/Components.utils.import][Components.utils.import()]] 函数中使用的 URI 是 resource://app/foo.js。
+这个 module 必须能用 file:, chrome:, resource: 这样的 URL 打开本地文件。通常都是用 resource: URL。
+在 [[https://developer.mozilla.org/en/Using_JavaScript_code_modules#Locating_the_code_module][Using JavaScript code modules]] 文章中给出详细解释。简单的说，如果你的插件目录是：
+#+BEGIN_EXAMPLE
+[-] /
+ |-[+] chrome
+ |-[-] modules
+ |  `-  foo.js
+ |-  chrome.manifest
+ `-  install.rdf
+#+END_EXAMPLE
+
+只需要在 chrome.manifest 中加入下面这一行就可以像之前给出的例子那样使用 module：
+#+BEGIN_EXAMPLE
+resource app modules/
+#+END_EXAMPLE
+
+当然你的插件可不要用 app 这样简单的名字。
+
+好了，背景知识就介绍到这里。实际应用中可是另一回事。比如 Components.utils.import 函数在实际使用时一般都不会缺省第二个参数，
+因为如果不用第二个参数，EXPORTED_SYMBOLS 中声明的变量就添加到 window 对象中，一样有名字冲突的问题。
+那我们来看看如果使用第二个参数，将 foo.js 中的变量添加到 com.ookong 中代码会是什么样：
+#+BEGIN_SRC js
+Components.utils.import("resource://app/foo.js", com.ookong);
+alert(com.ookong.foo());         // displays "foo"
+#+END_SRC
+
+但是在 chrome，safari, opera 中如果直接加载 foo.js 文件，代码是这样：
+#+BEGIN_SRC js
+alert(foo());         // displays "foo"
+#+END_SRC
+
+怎样才能让代码统一呢？我想到的一个解决办法是，大家都共用一个名字空间。
+在 foo.js 中，并不是直接导出所有的变量，而是这样：
+#+BEGIN_SRC js
+if ( !exports ) var exports = {};
+exports.foo = function() {
+    return "foo";
+}
+exports.bar = {
+    name : "bar",
+    size : 3
+};
+var EXPORTED_SYMBOLS = ["exports"];
+#+END_SRC
+
+在 firefox 中代码变成：
+#+BEGIN_SRC js -n
+if ( !com ) var com = {};
+if ( !com.ookong ) com.ookong = {};
+com.ookong.extension = {};
+
+(function (app) {
+    var exports = {};
+    Components.utils.import("resource://app/foo.js", exports);
+    exports.foo = exports.exports.foo;
+    alert(exports.foo());         // displays "foo"
+})(com.ookong.extension);
+#+END_SRC
+注意这个 exports 变量是在函数内声明的，所以不会造成任何冲突。第 8 行也是必须的，别忘了，在 foo.js 中我们导出的变量是 exports，
+在插件中只好变成 exports.exports.foo 这样的怪模样。不过这样的好处是，我们终于可以用相同的方式 exports.foo 来调用了。
+
+是不是很不爽呢？反正我是比较不爽，所以我写了[[ExtensionLink][一个 link 工具]]来自动生成第 7, 8 行代码，实际的代码是这样的：
+#+BEGIN_SRC js
+if ( !com ) var com = {};
+if ( !com.ookong ) com.ookong = {};
+com.ookong.extension = {};
+
+(function (app) {
+    var exports = {};
+    // @import foo
+    alert(exports.foo());         // displays "foo"
+})(com.ookong.extension);
+#+END_SRC
+
+看上去好多了。最后的疑问，为什么要用 exports 这个怪名字呢？答案是 exports 是 [[http://www.commonjs.org/specs/modules/1.0/][CommonJS]] 标准。
+firefox 将要推出插件 SDK [[https://jetpack.mozillalabs.com/][jetpack]]，它使用的是 CommonJS 标准。我没有用它，因为现在它还不是 firefox 的标准，
+这东西一个 hello world 插件就要 160k，整个目录结构都要改，api 也完全是自己一套，使用成本太高了。
+可能，也许，maybe，将来有一天会用上吧。
+
+顺便提一下，我的代码可以看上去是这样的：
+#+BEGIN_SRC js
+if ( !exports ) var exports = {};
+
+(function(S, undefined) {
+
+})(exports);
+var EXPORTED_SYMBOLS = ["exports"];
+#+END_SRC
+
+这匿名函数的写法是是从 [[KISSY]] 里借用的。S 可以少敲几个字，那个 undefined 参数是为了构造一个真正 undefined 值，参考[[http://stackoverflow.com/questions/2716069/how-does-this-javascript-jquery-syntax-work-function-window-undefined][这个解释]]。

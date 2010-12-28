@@ -1,0 +1,18 @@
+#+TITLE: 插件开发之使用 Make 管理和发布代码
+
+四种浏览器插件中不少文件是可以公用的，比如图片文件，js，css 文件。开始，我的管理方式是将这个公用文件放在顶层目录，
+然后为每个插件建子目录，用 [[http://i18n-zh.googlecode.com/svn/www/svnbook-1.4/svn.advanced.externals.html][svn:externals]] 将公用的文件链接进来。好处是随时可以同步修改，但是慢慢就出现问题了。
+开始时只做了三个浏览器插件，后来 chrome 插件分成了三个版本，普通版，超级用户版，定制版。
+如果要把这三个版本都移植到其它浏览器中，就变成 9 个目录。每个目录那时候设置了两个 svn:externals。
+购物助手插件更惨，因为用了 ookong 插件中的代码，多了一个 svn:externals。svn:externals 在更新时与主目录是用不同的连接，
+结果每次更新时都是漫长的等待。所以坚决的放弃了这个方案。
+
+最初的时候，还是用过 ant 作打包发布。那时候基本只是过滤不需要的文件，压缩就行了。但是使用代码生成工具之后，
+要运行大量的 shell 命令，用 ant 来写简直就是自虐。makefile 原来就有点基础，所以恶补一下之后决定使用 make 作代码打包发布。
+
+按目的可以把 make 目标分成三类：build, clean, dist。build 命令把公共目录和浏览器目录中的文件收集到 build 目录中，
+需要时用 link.pl 处理文件。clean 命令就是清除 build 目录下的文件夹。dist 命令压缩 build 目录，生成发布文件。
+
+所以开发调试时用 =make build.chrome= 生成 chrome 插件文件，调试完成可以发布了就使用 =make dist.chrome= 生成发布文件。
+偶尔使用 =make clean.chrome= 清除垃圾文件。大致就是这个流程。
+
